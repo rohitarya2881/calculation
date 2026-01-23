@@ -40,3 +40,18 @@
     font-size: 16px;
   }
 }
+@media (max-width: 650px){
+  body.running .controls,
+  body.running .actions,
+  body.running .tableSettings,
+  body.running .comboBox,
+  body.running .xpBox,
+  body.running .dailyBox{
+    display:none !important;
+  }
+
+  body.running .liveInfo{
+    justify-content: space-between;
+  }
+}
+
