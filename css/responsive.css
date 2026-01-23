@@ -1,0 +1,9 @@
+@media (max-width: 900px){
+  .grid{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 650px){
+  .controls{ grid-template-columns:1fr; }
+  .tableSettings{ grid-template-columns:1fr; }
+  .questionText{ font-size:24px; }
+}
