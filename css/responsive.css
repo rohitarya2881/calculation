@@ -54,4 +54,20 @@
     justify-content: space-between;
   }
 }
+@media (max-width: 650px){
+  body.running .questionBox{
+    position: relative;
+    min-height: 55vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+
+  body.running .answerRow{
+    position: sticky;
+    bottom: 0;
+    padding: 12px 0 0;
+  }
+}
+
 
