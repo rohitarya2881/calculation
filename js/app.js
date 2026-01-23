@@ -124,7 +124,6 @@ function newQuestion() {
   currentActualMode = q.actualMode;
 
   ui.answerInput.value = "";
-  ui.answerInput.focus();
   setMessage(ui.message, "");
 }
 
@@ -156,6 +155,10 @@ document.body.classList.add("running");
       stopQuiz(true);
     }
   }, 1000);
+  setTimeout(() => {
+  ui.answerInput.focus();
+}, 200);
+
 }
 function stopQuiz(auto = false) {
   if (!running) return;
