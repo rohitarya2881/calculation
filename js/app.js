@@ -125,6 +125,13 @@ function newQuestion() {
 
   ui.answerInput.value = "";
   setMessage(ui.message, "");
+  // ✅ Keep keyboard active while running
+if (running) {
+  setTimeout(() => {
+    ui.answerInput.focus();
+  }, 50);
+}
+
 }
 
 function startQuiz() {
@@ -146,6 +153,9 @@ document.body.classList.add("running");
 
   setRunningState(true);
   newQuestion();
+// ✅ Open keyboard immediately on Start (mobile chrome)
+ui.answerInput.focus();
+ui.answerInput.click();
 
   timer = setInterval(() => {
     secondsLeft--;
@@ -262,6 +272,8 @@ function stopQuiz(auto = false) {
 
 
 function submitAnswer() {
+  ui.answerInput.focus();
+
   if (!running) return;
 
   const val = ui.answerInput.value.trim();
