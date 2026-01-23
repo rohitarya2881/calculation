@@ -7,3 +7,36 @@
   .tableSettings{ grid-template-columns:1fr; }
   .questionText{ font-size:24px; }
 }
+
+/* ✅ Mobile: Make question box bigger during running */
+@media (max-width: 650px){
+  .questionBox{
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .questionText{
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .answerRow{
+    position: sticky;
+    bottom: 10px;
+    background: inherit;
+    padding-top: 10px;
+  }
+
+  .answerRow input{
+    width: 100%;
+    max-width: 320px;
+    font-size: 20px;
+    padding: 14px;
+  }
+
+  .answerRow .btn{
+    width: 48%;
+    padding: 14px 12px;
+    font-size: 16px;
+  }
+}
