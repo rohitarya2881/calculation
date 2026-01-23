@@ -143,6 +143,7 @@ function startQuiz() {
   sessionMinutes = Number(ui.minutesInput.value || 5);
   secondsLeft = sessionMinutes * 60;
   updateTimeUI();
+document.body.classList.add("running");
 
   setRunningState(true);
   newQuestion();
@@ -196,6 +197,7 @@ function stopQuiz(auto = false) {
         "green"
       );
     }
+    
   }
 
   // where to store session record
@@ -243,6 +245,8 @@ function stopQuiz(auto = false) {
   } else {
     setMessage(ui.message, "✅ Session Saved!", "green");
   }
+  document.body.classList.remove("running");
+
 }
 
 
