@@ -1,0 +1,510 @@
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+
+body{
+  background: linear-gradient(135deg,#f0f4ff,#fff);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.app{
+  width:100%;
+  max-width:1100px;
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  padding:18px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.header h1{ font-size:24px; color:#111; }
+
+.badge{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  color:#1e40af;
+  font-weight:bold;
+  font-size:14px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap:14px;
+}
+
+.card{
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 6px 14px rgba(0,0,0,0.06);
+  background:#fff;
+}
+
+.cardTitle{
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:10px;
+  color:#111;
+}
+
+.controls{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap:10px;
+}
+
+.control label{
+  font-size:13px;
+  color:#444;
+  font-weight:bold;
+  display:block;
+  margin-bottom:6px;
+}
+
+select,input{
+  width:100%;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:15px;
+}
+
+.tableSettings{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap:10px;
+  padding:10px;
+  border-radius:14px;
+  border:1px solid #e5e7eb;
+  background:#f9fafb;
+}
+.hidden{ display:none; }
+
+.hintText{
+  grid-column:1/-1;
+  font-size:13px;
+  color:#666;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  padding:10px 12px;
+  border-radius:12px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.2s;
+}
+.btn.primary{ background:#2563eb; color:#fff; }
+.btn.primary:hover{ background:#1e4ed8; }
+
+.btn.danger{ background:#ef4444; color:#fff; }
+.btn.danger:hover{ background:#dc2626; }
+
+.btn.dark{ background:#111827; color:#fff; }
+.btn.dark:hover{ background:#000; }
+
+.btn.ghost{
+  background:#f3f4f6;
+  color:#111;
+  border:1px solid #e5e7eb;
+}
+.btn.ghost:hover{
+  background:#e5e7eb;
+}
+
+.liveInfo{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:12px;
+  font-weight:bold;
+  color:#333;
+}
+
+.questionBox{
+  margin-top:14px;
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:14px;
+  text-align:center;
+}
+
+.questionText{
+  font-size:28px;
+  font-weight:bold;
+  color:#111;
+}
+
+.answerRow{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+
+.answerRow input{
+  width:180px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.message{
+  margin-top:10px;
+  min-height:22px;
+  font-weight:bold;
+}
+
+.recordGrid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:10px;
+}
+
+.recordBox{
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:10px;
+}
+
+.recordTitle{
+  font-weight:bold;
+  margin-bottom:6px;
+  color:#111;
+}
+
+.recordValue{
+  font-size:14px;
+  color:#333;
+  line-height:1.5;
+}
+
+.cardTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.note{
+  margin-top:10px;
+  font-size:13px;
+  color:#666;
+  text-align:center;
+}
+
+.footer{
+  margin-top:14px;
+  text-align:center;
+  font-size:13px;
+  color:#666;
+}
+.xpBox{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.xpTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+
+.xpTitle{
+  font-weight:bold;
+  color:#111;
+}
+
+.xpValue{
+  font-weight:bold;
+  color:#1e40af;
+}
+
+.xpBar{
+  width:100%;
+  height:12px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.xpFill{
+  height:100%;
+  width:0%;
+  background:#2563eb;
+  border-radius:999px;
+  transition: 0.25s;
+}
+
+.xpHint{
+  margin-top:8px;
+  font-size:13px;
+  color:#555;
+  font-weight:bold;
+}
+.comboBox{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #fff7ed;
+}
+
+.comboTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+
+.comboTitle{
+  font-weight:bold;
+  color:#7c2d12;
+}
+
+.comboValue{
+  font-weight:bold;
+  color:#ea580c;
+}
+
+.comboBar{
+  width:100%;
+  height:12px;
+  background:#fed7aa;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.comboFill{
+  height:100%;
+  width:0%;
+  background:#ea580c;
+  border-radius:999px;
+  transition: 0.25s;
+}
+
+.comboHint{
+  margin-top:8px;
+  font-size:13px;
+  color:#7c2d12;
+  font-weight:bold;
+}
+.dailyBox{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ecfdf5;
+}
+
+.dailyTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+
+.dailyTitle{
+  font-weight:bold;
+  color:#065f46;
+}
+
+.dailyStatus{
+  font-weight:bold;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#d1fae5;
+  border:1px solid #86efac;
+  color:#065f46;
+  font-size:13px;
+}
+
+.dailyText{
+  font-size:14px;
+  color:#064e3b;
+  font-weight:bold;
+  margin:6px 0;
+  line-height:1.4;
+}
+
+.dailyActions{
+  margin-top:8px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.dailyHint{
+  margin-top:8px;
+  font-size:13px;
+  color:#065f46;
+  font-weight:bold;
+}
+/* ===== DARK MODE DEFAULT ===== */
+body.dark{
+  background: linear-gradient(135deg,#0b1220,#111827);
+  color: #e5e7eb;
+}
+
+body.dark .app{
+  background:#0f172a;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+body.dark .card{
+  background:#111827;
+  border:1px solid #1f2937;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+}
+
+body.dark .cardTitle,
+body.dark .header h1{
+  color:#f9fafb;
+}
+
+body.dark label{
+  color:#cbd5e1;
+}
+
+body.dark select,
+body.dark input{
+  background:#0b1220;
+  color:#e5e7eb;
+  border:1px solid #334155;
+}
+
+body.dark .questionBox,
+body.dark .recordBox,
+body.dark .xpBox{
+  background:#0b1220;
+  border:1px solid #1f2937;
+}
+
+body.dark .liveInfo{
+  color:#e5e7eb;
+}
+
+body.dark .btn.ghost{
+  background:#0b1220;
+  color:#e5e7eb;
+  border:1px solid #334155;
+}
+
+body.dark .btn.ghost:hover{
+  background:#111827;
+}
+
+body.dark .badge{
+  background:#0b1220;
+  border:1px solid #334155;
+  color:#93c5fd;
+}
+
+body.dark .footer,
+body.dark .note{
+  color:#94a3b8;
+}
+/* ✅ Dark mode text fix (force all text to light) */
+body.dark,
+body.dark *{
+  color: #e5e7eb;
+}
+
+body.dark .recordTitle,
+body.dark .xpTitle,
+body.dark .xpValue,
+body.dark .comboTitle,
+body.dark .comboValue,
+body.dark .dailyTitle,
+body.dark .dailyText,
+body.dark .dailyHint,
+body.dark .recordValue,
+body.dark .questionText,
+body.dark .liveItem{
+  color:#e5e7eb !important;
+}
+
+/* message colors keep */
+body.dark .message{
+  color:#e5e7eb;
+}
+/* ✅ Dark mode override for Combo + Daily boxes */
+body.dark .comboBox{
+  background:#0b1220 !important;
+  border:1px solid #1f2937 !important;
+}
+
+body.dark .comboTitle,
+body.dark .comboValue,
+body.dark .comboHint{
+  color:#e5e7eb !important;
+}
+
+body.dark .comboBar{
+  background:#1f2937 !important;
+}
+
+body.dark .comboFill{
+  background:#f59e0b !important; /* orange highlight */
+}
+
+/* ✅ Daily Challenge dark mode */
+body.dark .dailyBox{
+  background:#0b1220 !important;
+  border:1px solid #1f2937 !important;
+}
+
+body.dark .dailyTitle,
+body.dark .dailyText,
+body.dark .dailyHint{
+  color:#e5e7eb !important;
+}
+
+body.dark .dailyStatus{
+  background:#111827 !important;
+  border:1px solid #334155 !important;
+  color:#93c5fd !important;
+}
+/* ✅ Table Practice settings box dark mode */
+body.dark .tableSettings{
+  background:#0b1220 !important;
+  border:1px solid #1f2937 !important;
+}
+
+body.dark .hintText{
+  color:#94a3b8 !important;
+}
