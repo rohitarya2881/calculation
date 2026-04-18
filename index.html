@@ -3,229 +3,277 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Math Practice</title>
+<title>CalcSpeed — SSC/Banking Prep</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0b0b0e;
-  --s1:#111115;
-  --s2:#17171c;
-  --s3:#1e1e25;
-  --s4:#26262f;
-  --br:#2c2c38;
-  --br2:#3a3a48;
-  --t1:#eeedf5;
-  --t2:#9a98ad;
-  --t3:#5a5870;
-  --accent:#8b7cf8;
-  --accent-dim:#6c5fe0;
-  --accent-glow:rgba(139,124,248,0.15);
-  --green:#34d399;
-  --green-dim:rgba(52,211,153,0.12);
-  --red:#f87171;
-  --red-dim:rgba(248,113,113,0.12);
-  --yellow:#fbbf24;
-  --r:14px;
-  --r2:10px;
-  --sans:'Outfit',sans-serif;
-  --mono:'JetBrains Mono',monospace;
+  --bg:#0b0b0e;--s1:#111115;--s2:#17171c;--s3:#1e1e25;--s4:#26262f;
+  --br:#2c2c38;--br2:#3a3a48;
+  --t1:#eeedf5;--t2:#9a98ad;--t3:#5a5870;
+  --accent:#8b7cf8;--accent-glow:rgba(139,124,248,0.15);
+  --green:#34d399;--green-dim:rgba(52,211,153,0.12);
+  --red:#f87171;--red-dim:rgba(248,113,113,0.12);
+  --yellow:#fbbf24;--yellow-dim:rgba(251,191,36,0.12);
+  --orange:#fb923c;--orange-dim:rgba(251,146,60,0.12);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.12);
+  --r:14px;--r2:10px;
+  --sans:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
 }
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--t1);font-family:var(--sans);display:flex;flex-direction:column}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);display:flex;flex-direction:column;font-size:14px}
 
-/* TOPBAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;background:var(--s1);border-bottom:1px solid var(--br);flex-shrink:0}
-.logo{font-family:var(--mono);font-size:.95rem;color:var(--t1)}
-.logo em{color:var(--accent);font-style:normal}
-.streak-badge{display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--t3);font-weight:500}
-.streak-badge b{color:var(--yellow);font-family:var(--mono)}
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;background:var(--s1);border-bottom:1px solid var(--br);flex-shrink:0;gap:10px}
+.logo{font-family:var(--mono);font-size:.9rem;white-space:nowrap}.logo em{color:var(--accent);font-style:normal}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge-pill{display:flex;align-items:center;gap:5px;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:4px 10px;font-size:.75rem;font-weight:500;color:var(--t3);white-space:nowrap}
+.badge-pill b{font-family:var(--mono);color:var(--yellow)}
+.level-pill b{color:var(--accent)}
+.exam-pill{cursor:pointer}.exam-pill b{color:var(--orange)}
 
-/* TABS */
-.tabs{display:flex;gap:4px;padding:10px 20px;background:var(--s1);border-bottom:1px solid var(--br);flex-shrink:0}
-.tab{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:8px;font-size:.83rem;font-weight:500;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--t3);transition:all .15s;font-family:var(--sans)}
+/* ── TABS ── */
+.tabs{display:flex;gap:3px;padding:8px 14px;background:var(--s1);border-bottom:1px solid var(--br);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:8px;font-size:.78rem;font-weight:500;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--t3);transition:all .15s;font-family:var(--sans);white-space:nowrap;flex-shrink:0}
 .tab:hover{background:var(--s3);color:var(--t2)}
 .tab.active{background:var(--accent-glow);color:var(--accent);border-color:rgba(139,124,248,.3)}
-.tab-icon{font-size:.95rem}
 
-/* PAGES */
-.page{display:none;flex:1;overflow-y:auto;padding:18px}
+/* ── PAGES ── */
+.page{display:none;flex:1;overflow-y:auto;padding:16px}
 .page.active{display:block}
-.inner{max-width:680px;margin:0 auto}
+.inner{max-width:720px;margin:0 auto}
+.page::-webkit-scrollbar{width:3px}
+.page::-webkit-scrollbar-thumb{background:var(--br);border-radius:99px}
 
-/* SECTION LABEL */
-.slabel{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
-
-/* CARD */
-.card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:18px;margin-bottom:14px}
-
-/* FIELDS */
+/* ── CARDS / LAYOUT ── */
+.card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.card-sm{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:12px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.g-full{grid-column:1/-1}
-.field label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
-.field select,.field input[type=number]{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:var(--r2);color:var(--t1);font-family:var(--sans);font-size:.88rem;padding:9px 12px;outline:none;transition:border .15s;-webkit-appearance:none;appearance:none}
-.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235a5870' d='M5 7L0 2h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gfull{grid-column:1/-1}
+.slabel{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.row-sb{display:flex;justify-content:space-between;align-items:center}
+.div{height:1px;background:var(--br);margin:12px 0}
+
+/* ── FIELDS ── */
+.field label{display:block;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.field select,.field input[type=number]{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:var(--r2);color:var(--t1);font-family:var(--sans);font-size:.85rem;padding:8px 11px;outline:none;transition:border .15s;-webkit-appearance:none;appearance:none}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235a5870' d='M5 7L0 2h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px;cursor:pointer}
 .field select:focus,.field input:focus{border-color:var(--accent)}
-
-/* EXTRA SETTINGS */
-.extra{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:14px;margin-bottom:14px;display:none}
+.extra{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:12px;margin-bottom:12px;display:none}
 .extra.show{display:block}
-.extra-hint{font-size:.72rem;color:var(--t3);margin-top:8px;font-style:italic}
+.extra-hint{font-size:.68rem;color:var(--t3);margin-top:6px;font-style:italic}
 
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:var(--r2);border:none;font-family:var(--sans);font-size:.88rem;font-weight:500;cursor:pointer;transition:all .15s}
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:9px 16px;border-radius:var(--r2);border:none;font-family:var(--sans);font-size:.83rem;font-weight:500;cursor:pointer;transition:all .15s}
 .btn:active{transform:scale(.97)}
-.btn-accent{background:var(--accent);color:#fff}
-.btn-accent:hover{background:#9d8ffb}
+.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:#9d8ffb}
 .btn-accent:disabled{background:var(--s4);color:var(--t3);cursor:not-allowed;transform:none}
-.btn-outline{background:transparent;border:1px solid var(--br);color:var(--t3)}
-.btn-outline:hover{border-color:var(--br2);color:var(--t2)}
+.btn-outline{background:transparent;border:1px solid var(--br);color:var(--t3)}.btn-outline:hover{border-color:var(--br2);color:var(--t2)}
 .btn-outline:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.btn-end{background:var(--red-dim);border:1px solid rgba(248,113,113,.25);color:var(--red)}
-.btn-end:hover{background:rgba(248,113,113,.2)}
-.strip{display:flex;gap:8px;margin-bottom:14px}
+.btn-red{background:var(--red-dim);border:1px solid rgba(248,113,113,.25);color:var(--red)}.btn-red:hover{background:rgba(248,113,113,.22)}
+.btn-red:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-green{background:var(--green-dim);border:1px solid rgba(52,211,153,.25);color:var(--green)}
+.btn-yellow{background:var(--yellow-dim);border:1px solid rgba(251,191,36,.25);color:var(--yellow)}
+.strip{display:flex;gap:8px;margin-bottom:12px}
 .strip .btn-accent{flex:1}
 
-/* LIVE CHIPS */
-.live-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.chip{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:10px 8px;text-align:center}
-.chip-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:3px}
-.chip-val{font-family:var(--mono);font-size:1.05rem;font-weight:600}
-#timeLeft{color:var(--accent)}
-#scoreVal{color:var(--green)}
-#wrongVal{color:var(--red)}
+/* ── CHIPS ── */
+.chips3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.chip{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:9px 8px;text-align:center}
+.chip-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:2px}
+.chip-val{font-family:var(--mono);font-size:1rem;font-weight:600}
+#timeLeft,#sdTimeLeft,#mockTimeLeft{color:var(--accent)}
+#scoreVal,#sdScore,#mockScore{color:var(--green)}
+#wrongVal,#sdWrong,#mockWrong{color:var(--red)}
 
-/* QUESTION AREA */
-.q-area{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:20px;margin-bottom:14px;transition:border-color .3s}
+/* ── QUESTION AREA ── */
+.q-area{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:18px;margin-bottom:12px;transition:border-color .3s}
 .q-area.live{border-color:rgba(139,124,248,.4)}
-#questionText{font-family:var(--mono);font-size:1.75rem;font-weight:700;text-align:center;color:var(--t1);margin-bottom:16px;min-height:2.4rem;line-height:1.2}
-
-/* FILL MODE */
+.q-area.live-speed{border-color:rgba(251,191,36,.4)}
+.q-area.live-mock{border-color:rgba(96,165,250,.4)}
+.q-text{font-family:var(--mono);font-size:1.65rem;font-weight:700;text-align:center;color:var(--t1);margin-bottom:14px;min-height:2.2rem;line-height:1.2}
 .fill-row{display:flex;gap:8px}
-.fill-row input{flex:1;background:var(--s1);border:1px solid var(--br);border-radius:var(--r2);color:var(--t1);font-family:var(--mono);font-size:1rem;padding:10px 14px;outline:none;transition:border .15s}
+.fill-row input{flex:1;background:var(--s1);border:1px solid var(--br);border-radius:var(--r2);color:var(--t1);font-family:var(--mono);font-size:.95rem;padding:9px 13px;outline:none;transition:border .15s}
 .fill-row input:focus{border-color:var(--accent)}
 .fill-row input:disabled{opacity:.35}
-
-/* MCQ */
-.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.mcq-opt{padding:14px;border-radius:var(--r2);border:1px solid var(--br);background:var(--s1);color:var(--t1);font-family:var(--mono);font-size:1rem;font-weight:600;cursor:pointer;transition:all .18s;text-align:center;width:100%}
+.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mcq-opt{padding:12px;border-radius:var(--r2);border:1px solid var(--br);background:var(--s1);color:var(--t1);font-family:var(--mono);font-size:.95rem;font-weight:600;cursor:pointer;transition:all .18s;text-align:center;width:100%}
 .mcq-opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-glow);color:var(--accent)}
 .mcq-opt.correct{background:var(--green-dim)!important;border-color:var(--green)!important;color:var(--green)!important;pointer-events:none}
 .mcq-opt.wrong{background:var(--red-dim)!important;border-color:var(--red)!important;color:var(--red)!important;pointer-events:none}
 .mcq-opt.show-correct{background:var(--green-dim)!important;border-color:var(--green)!important;color:var(--green)!important;pointer-events:none}
-.mcq-opt:disabled{pointer-events:none;opacity:.5}
+.mcq-opt:disabled{pointer-events:none;opacity:.45}
 .skip-row{display:flex;justify-content:flex-end;margin-top:8px}
+.msg{margin-top:8px;font-size:.82rem;font-weight:500;text-align:center;min-height:1.1rem}
+.msg-g{color:var(--green)}.msg-r{color:var(--red)}.msg-y{color:var(--yellow)}
 
-#message{margin-top:10px;font-size:.85rem;font-weight:500;text-align:center;min-height:1.2rem}
-.msg-g{color:var(--green)}.msg-r{color:var(--red)}
+/* ── PER-Q TIMER BAR ── */
+.qtimer-wrap{margin-bottom:10px}
+.qtimer-bar-bg{height:4px;background:var(--s4);border-radius:99px;overflow:hidden}
+.qtimer-bar-fill{height:100%;border-radius:99px;transition:width linear,background .5s}
+.qtimer-label{font-size:.68rem;color:var(--t3);text-align:right;margin-top:3px;font-family:var(--mono)}
 
-/* BARS */
-.bar-section{margin-bottom:11px}
-.bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
-.bar-left{font-size:.78rem;color:var(--t3)}
-.bar-left b{color:var(--accent);font-family:var(--mono)}
-.bar-right{font-family:var(--mono);font-size:.72rem;color:var(--t3)}
+/* ── BARS ── */
+.bar-sec{margin-bottom:10px}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.bar-left{font-size:.75rem;color:var(--t3)}.bar-left b{color:var(--accent);font-family:var(--mono)}
+.bar-right{font-family:var(--mono);font-size:.7rem;color:var(--t3)}
 .bar-bg{height:5px;background:var(--s4);border-radius:99px;overflow:hidden}
 .bar-fill{height:100%;border-radius:99px;transition:width .4s ease}
 .xp-bar{background:var(--accent)}
 .combo-bar{background:linear-gradient(90deg,var(--yellow),#f97316)}
-.bar-hint{font-size:.7rem;color:var(--t3);margin-top:4px}
-.div{height:1px;background:var(--br);margin:12px 0}
+.bar-hint{font-size:.68rem;color:var(--t3);margin-top:3px}
 
-/* DAILY PREVIEW */
-.daily-wrap{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:16px}
-.daily-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.daily-lbl{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
-.d-badge{font-size:.68rem;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--s4);color:var(--t3)}
+/* ── DAILY MINI ── */
+.daily-wrap{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:14px}
+.d-badge{font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--s4);color:var(--t3)}
 .d-badge.done{background:var(--green-dim);color:var(--green)}
-.daily-info{font-size:.85rem;color:var(--t2);margin-bottom:10px;line-height:1.5}
-.daily-hint-txt{font-size:.72rem;color:var(--t3);margin-top:8px}
+.d-hint{font-size:.68rem;color:var(--t3);margin-top:7px}
 
-/* RECORDS */
-.records-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.rec-box{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:14px}
-.rec-title{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:8px}
-.rec-val{font-size:.78rem;color:var(--t2);line-height:1.8}
-.rec-val b{color:var(--yellow);font-family:var(--mono);font-size:.72rem}
+/* ── RECORDS ── */
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.rec-box{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:12px}
+.rec-title{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:7px}
+.rec-val{font-size:.75rem;color:var(--t2);line-height:1.8}
+.rec-val b{color:var(--yellow);font-family:var(--mono);font-size:.7rem}
 .rec-val .na{color:var(--t3);font-style:italic}
 .motive-box{grid-column:1/-1;background:var(--accent-glow);border:1px solid rgba(139,124,248,.2);border-radius:var(--r);padding:14px}
-.motive-txt{font-size:.88rem;color:var(--accent);font-weight:500}
+.motive-txt{font-size:.85rem;color:var(--accent);font-weight:500}
 
-/* DAILY PAGE */
-.daily-hero{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:24px;margin-bottom:14px;text-align:center}
-.daily-hero-emoji{font-size:2.8rem;margin-bottom:8px}
-.daily-page-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:14px}
-.pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
-.pill{display:inline-flex;align-items:center;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:6px 14px;font-size:.85rem;font-family:var(--mono);color:var(--t2)}
-.bonus-txt{font-size:.85rem;color:var(--t2);margin-bottom:16px}
-.bonus-txt b{color:var(--yellow);font-family:var(--mono)}
+/* ── DIAGNOSTIC ── */
+.diag-intro{text-align:center;padding:20px 0}
+.diag-big{font-size:2.5rem;margin-bottom:8px}
+.diag-title{font-size:1.1rem;font-weight:600;color:var(--t1);margin-bottom:6px}
+.diag-sub{font-size:.83rem;color:var(--t2);line-height:1.6;margin-bottom:18px}
+.diag-progress{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.diag-prog-bar{flex:1;height:6px;background:var(--s4);border-radius:99px;overflow:hidden}
+.diag-prog-fill{height:100%;background:var(--blue);border-radius:99px;transition:width .4s ease}
+.diag-prog-txt{font-size:.72rem;font-family:var(--mono);color:var(--t3);white-space:nowrap}
+.level-result{text-align:center;padding:16px 0}
+.level-badge-big{font-size:3rem;margin-bottom:8px}
+.level-name{font-size:1.3rem;font-weight:700;color:var(--t1);margin-bottom:4px}
+.level-desc{font-size:.83rem;color:var(--t2);line-height:1.6;margin-bottom:16px}
+.topic-scores{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.topic-score-box{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:10px}
+.ts-name{font-size:.7rem;color:var(--t3);margin-bottom:4px}
+.ts-bar{height:5px;background:var(--s4);border-radius:99px;overflow:hidden;margin-bottom:3px}
+.ts-fill{height:100%;border-radius:99px}
+.ts-val{font-size:.68rem;font-family:var(--mono);color:var(--t2)}
 
-/* RESULT OVERLAY */
-.result-card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:28px;margin-bottom:14px;text-align:center}
-.result-emoji{font-size:2.5rem;margin-bottom:10px}
-.result-score{font-family:var(--mono);font-size:1.5rem;color:var(--t1);margin-bottom:6px}
-.result-sub{font-size:.85rem;color:var(--t2)}
+/* ── MOCK TEST ── */
+.mock-q-num{font-size:.68rem;color:var(--t3);text-align:center;margin-bottom:10px;font-family:var(--mono)}
+.neg-badge{display:inline-flex;align-items:center;gap:4px;background:var(--red-dim);border:1px solid rgba(248,113,113,.2);border-radius:6px;padding:3px 8px;font-size:.68rem;color:var(--red);font-weight:600}
+.mock-result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.mock-stat{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:10px;text-align:center}
+.mock-stat-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:3px}
+.mock-stat-val{font-family:var(--mono);font-size:1.1rem;font-weight:700}
 
-/* SCROLLBAR */
-.page::-webkit-scrollbar{width:4px}
-.page::-webkit-scrollbar-track{background:transparent}
-.page::-webkit-scrollbar-thumb{background:var(--br);border-radius:99px}
+/* ── SPEED DRILL ── */
+.sd-timer-ring{display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.sd-ring-wrap{position:relative;width:70px;height:70px}
+.sd-ring-wrap svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+.sd-ring-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--yellow)}
+.sd-avg{font-size:.72rem;color:var(--t3);text-align:center;margin-bottom:10px;font-family:var(--mono)}
 
-/* FOOTER */
-.foot{text-align:center;font-size:.68rem;color:var(--t3);padding:10px;border-top:1px solid var(--br);flex-shrink:0}
+/* ── TRICKS LIBRARY ── */
+.tricks-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.trick-cat-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--br);background:var(--s2);color:var(--t3);font-size:.75rem;cursor:pointer;transition:all .15s}
+.trick-cat-btn.active{background:var(--accent-glow);color:var(--accent);border-color:rgba(139,124,248,.3)}
+.trick-card{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.trick-title{font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:4px}
+.trick-formula{font-family:var(--mono);font-size:.82rem;color:var(--accent);background:var(--s3);border-radius:6px;padding:6px 10px;margin:8px 0}
+.trick-example{font-size:.78rem;color:var(--t2);line-height:1.6;margin-bottom:8px}
+.trick-tag{font-size:.62rem;font-weight:600;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:var(--yellow-dim);color:var(--yellow);display:inline-block;margin-bottom:6px}
 
-/* MOBILE */
+/* ── HEATMAP ── */
+.heatmap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.hmap-cell{background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s}
+.hmap-cell:hover{border-color:var(--br2)}
+.hmap-name{font-size:.68rem;color:var(--t3);margin-bottom:4px}
+.hmap-pct{font-family:var(--mono);font-size:.95rem;font-weight:700}
+.hmap-bar{height:3px;border-radius:99px;margin-top:5px}
+
+/* ── DAILY PAGE ── */
+.daily-hero{text-align:center;padding:20px 0 14px}
+.daily-hero-emoji{font-size:2.5rem;margin-bottom:6px}
+.d-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+.d-pill{background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:5px 12px;font-size:.8rem;font-family:var(--mono);color:var(--t2)}
+
+/* ── TARGET / COUNTDOWN ── */
+.target-card{background:linear-gradient(135deg,rgba(139,124,248,.12),rgba(251,146,60,.08));border:1px solid rgba(139,124,248,.25);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.target-days{font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--accent);line-height:1}
+.target-sub{font-size:.75rem;color:var(--t2);margin-top:4px}
+.target-progress-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.tprog-box{background:rgba(0,0,0,.2);border-radius:8px;padding:8px;text-align:center}
+.tprog-val{font-family:var(--mono);font-size:.95rem;font-weight:600;color:var(--t1)}
+.tprog-lbl{font-size:.62rem;color:var(--t3);margin-top:2px}
+
+/* ── RESULT ── */
+.result-card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:24px;margin-bottom:12px;text-align:center}
+.result-emoji{font-size:2.2rem;margin-bottom:8px}
+.result-score-big{font-family:var(--mono);font-size:1.4rem;color:var(--t1);margin-bottom:5px}
+.result-sub-txt{font-size:.8rem;color:var(--t2)}
+
+/* ── BADGES ── */
+.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.badge-box{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:12px 8px;text-align:center}
+.badge-icon{font-size:1.5rem;margin-bottom:5px}
+.badge-name{font-size:.65rem;font-weight:600;color:var(--t2);margin-bottom:2px}
+.badge-cond{font-size:.6rem;color:var(--t3);line-height:1.4}
+.badge-box.earned{border-color:rgba(251,191,36,.4);background:var(--yellow-dim)}
+.badge-box.earned .badge-name{color:var(--yellow)}
+
+/* ── MISC ── */
+.foot{text-align:center;font-size:.65rem;color:var(--t3);padding:8px;border-top:1px solid var(--br);flex-shrink:0}
 @media(max-width:600px){
-  .topbar{padding:10px 14px}
-  .tabs{padding:8px 12px;gap:3px}
-  .tab{padding:7px 10px;font-size:.78rem}
+  .topbar{padding:8px 12px}.tabs{padding:6px 10px}
+  .page{padding:12px}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}
+  .g4{grid-template-columns:1fr 1fr}.q-text{font-size:1.3rem}
+  .rec-grid{grid-template-columns:1fr}.heatmap-grid{grid-template-columns:repeat(2,1fr)}
+  .badges-grid{grid-template-columns:repeat(3,1fr)}.mock-result-grid{grid-template-columns:1fr 1fr}
+  .topic-scores{grid-template-columns:1fr}.target-progress-row{grid-template-columns:1fr 1fr}
   .tab .tab-txt{display:none}
-  .page{padding:12px}
-  #questionText{font-size:1.35rem}
-  .g2{grid-template-columns:1fr}
-  .mcq-grid{grid-template-columns:1fr 1fr}
-  .rec-grid{grid-template-columns:1fr}
-  .g3{grid-template-columns:1fr 1fr 1fr}
 }
-@media(max-width:360px){
-  .mcq-grid{grid-template-columns:1fr}
-}
+@media(max-width:360px){.mcq-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <!-- TOPBAR -->
 <header class="topbar">
-  <div class="logo">🧠 <em>math</em>practice</div>
-  <div class="streak-badge">🔥 <b id="streakCount">0</b>&nbsp;day streak</div>
+  <div class="logo">⚡ <em>calc</em>speed</div>
+  <div class="topbar-right">
+    <div class="badge-pill level-pill">Lv <b id="topLevel">1</b></div>
+    <div class="badge-pill">🔥 <b id="streakCount">0</b>d</div>
+    <div class="badge-pill exam-pill" id="examCountdownPill" title="Days to exam">📅 <b id="daysLeft">—</b>d left</div>
+  </div>
 </header>
 
 <!-- TABS -->
 <nav class="tabs">
-  <button class="tab active" data-page="practice">
-    <span class="tab-icon">⚡</span><span class="tab-txt">Practice</span>
-  </button>
-  <button class="tab" data-page="records">
-    <span class="tab-icon">📊</span><span class="tab-txt">Records</span>
-  </button>
-  <button class="tab" data-page="daily">
-    <span class="tab-icon">📅</span><span class="tab-txt">Daily</span>
-  </button>
+  <button class="tab active" data-page="practice"><span>⚡</span><span class="tab-txt">Practice</span></button>
+  <button class="tab" data-page="speed"><span>⏱️</span><span class="tab-txt">Speed Drill</span></button>
+  <button class="tab" data-page="mock"><span>📝</span><span class="tab-txt">Mock Test</span></button>
+  <button class="tab" data-page="diag"><span>🎯</span><span class="tab-txt">Diagnostic</span></button>
+  <button class="tab" data-page="tricks"><span>💡</span><span class="tab-txt">Tricks</span></button>
+  <button class="tab" data-page="records"><span>📊</span><span class="tab-txt">Records</span></button>
+  <button class="tab" data-page="daily"><span>📅</span><span class="tab-txt">Daily</span></button>
 </nav>
 
-<!-- ═══════════ PRACTICE PAGE ═══════════ -->
+<!-- ════════════════════════════════════
+     PAGE: PRACTICE
+════════════════════════════════════ -->
 <div class="page active" id="page-practice">
 <div class="inner">
 
-  <!-- SETUP -->
-  <div id="setupSection">
+  <div id="practiceSetup">
     <div class="card">
       <p class="slabel">Quiz Setup</p>
       <div class="g2" style="margin-bottom:10px">
-        <div class="field">
-          <label>Mode</label>
+        <div class="field"><label>Mode</label>
           <select id="modeSelect">
             <option value="addition">Addition (+)</option>
             <option value="subtraction">Subtraction (−)</option>
@@ -234,31 +282,26 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);display:flex;f
             <option value="table">Table Practice</option>
             <option value="square">Squares (n²)</option>
             <option value="cube">Cubes (n³)</option>
+            <option value="percentage">Percentage (%)</option>
+            <option value="simplification">Simplification</option>
             <option value="mixed">Mixed 🔥</option>
           </select>
         </div>
-        <div class="field">
-          <label>Level</label>
+        <div class="field"><label>Level</label>
           <select id="levelSelect">
             <option value="easy">Easy</option>
             <option value="medium" selected>Medium</option>
             <option value="hard">Hard</option>
           </select>
         </div>
-        <div class="field">
-          <label>Minutes</label>
-          <input id="minutesInput" type="number" min="1" max="60" value="5"/>
-        </div>
-        <div class="field">
-          <label>Answer Style</label>
+        <div class="field"><label>Minutes</label><input id="minutesInput" type="number" min="1" max="60" value="5"/></div>
+        <div class="field"><label>Answer Style</label>
           <select id="answerModeSelect">
             <option value="fill">✏️ Type answer</option>
             <option value="mcq">🔘 Choose option</option>
           </select>
         </div>
       </div>
-
-      <!-- TABLE SETTINGS -->
       <div id="tableSettings" class="extra">
         <p class="slabel">Table Settings</p>
         <div class="g3">
@@ -266,207 +309,435 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);display:flex;f
           <div class="field"><label>From</label><input id="tableFrom" type="number" min="1" max="100" value="1"/></div>
           <div class="field"><label>To</label><input id="tableTo" type="number" min="1" max="200" value="20"/></div>
         </div>
-        <p class="extra-hint">e.g. 11 × 7 = ? (random pick)</p>
       </div>
-
-      <!-- POWER SETTINGS -->
       <div id="powerSettings" class="extra">
         <p class="slabel">Range Settings</p>
         <div class="g2">
           <div class="field"><label>From</label><input id="powerFrom" type="number" min="1" max="500" value="1"/></div>
           <div class="field"><label>To</label><input id="powerTo" type="number" min="1" max="500" value="30"/></div>
         </div>
-        <p class="extra-hint">e.g. 12² = ? or 5³ = ?</p>
       </div>
-
-      <div class="strip">
-        <button id="startBtn" class="btn btn-accent">▶&nbsp; Start Quiz</button>
-      </div>
+      <div class="strip"><button id="startBtn" class="btn btn-accent">▶ Start Quiz</button></div>
     </div>
-
-    <!-- IDLE XP -->
     <div class="card">
-      <div class="bar-section">
-        <div class="bar-top">
-          <div class="bar-left">Level&nbsp;<b id="idleLv">1</b></div>
-          <div class="bar-right"><span id="idleXp">0</span> XP</div>
-        </div>
+      <div class="bar-sec">
+        <div class="bar-top"><div class="bar-left">Level <b id="idleLv">1</b></div><div class="bar-right"><span id="idleXp">0</span> XP</div></div>
         <div class="bar-bg"><div id="idleXpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
         <div class="bar-hint" id="idleXpHint">Next level in 200 XP</div>
       </div>
     </div>
-
-    <!-- DAILY PREVIEW -->
     <div class="daily-wrap">
-      <div class="daily-top">
-        <div class="daily-lbl">📅 Daily Challenge</div>
+      <div class="row-sb" style="margin-bottom:8px">
+        <span class="slabel" style="margin:0">📅 Daily Challenge</span>
         <div class="d-badge" id="dBadge">Not Done</div>
       </div>
-      <div class="daily-info" id="dText">Loading...</div>
+      <div style="font-size:.82rem;color:var(--t2);margin-bottom:10px" id="dText">Loading...</div>
       <button id="startDailyBtn" class="btn btn-accent" style="width:100%">Start Challenge</button>
-      <div class="daily-hint-txt" id="dHint">Complete to earn bonus XP 🔥</div>
+      <div class="d-hint" id="dHint">Complete to earn bonus XP 🔥</div>
     </div>
-  </div><!-- /setupSection -->
+  </div>
 
-  <!-- QUIZ ACTIVE -->
-  <div id="quizSection" style="display:none">
-    <div class="live-row">
+  <div id="practiceQuiz" style="display:none">
+    <div class="chips3">
       <div class="chip"><div class="chip-lbl">Time</div><div class="chip-val" id="timeLeft">00:00</div></div>
       <div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="scoreVal">0</div></div>
       <div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="wrongVal">0</div></div>
     </div>
-
-    <div class="q-area live" id="qArea">
-      <div id="questionText">—</div>
-
-      <!-- FILL -->
-      <div id="fillMode">
-        <div class="fill-row">
-          <input id="answerInput" type="number" placeholder="Type your answer…"/>
-          <button id="submitBtn" class="btn btn-accent">Submit</button>
-          <button id="skipBtn" class="btn btn-outline">Skip</button>
-        </div>
-      </div>
-
-      <!-- MCQ -->
-      <div id="mcqMode" style="display:none">
-        <div class="mcq-grid" id="mcqGrid"></div>
-        <div class="skip-row"><button id="skipMcq" class="btn btn-outline">Skip</button></div>
-      </div>
-
-      <div id="message"></div>
+    <div class="q-area live" id="pQArea">
+      <div class="q-text" id="questionText">—</div>
+      <div id="pFillMode"><div class="fill-row"><input id="answerInput" type="number" placeholder="Type answer…"/><button id="submitBtn" class="btn btn-accent">Submit</button><button id="skipBtn" class="btn btn-outline">Skip</button></div></div>
+      <div id="pMcqMode" style="display:none"><div class="mcq-grid" id="pMcqGrid"></div><div class="skip-row"><button id="skipMcqBtn" class="btn btn-outline">Skip</button></div></div>
+      <div class="msg" id="pMsg"></div>
     </div>
-
-    <div class="strip">
-      <button id="endBtn" class="btn btn-end" style="flex:1">■&nbsp; End Quiz</button>
-    </div>
-
+    <div class="strip"><button id="endBtn" class="btn btn-red" style="flex:1">■ End Quiz</button></div>
     <div class="card">
-      <div class="bar-section">
-        <div class="bar-top">
-          <div class="bar-left">Level&nbsp;<b id="lv">1</b></div>
-          <div class="bar-right"><span id="xpVal">0</span> XP</div>
-        </div>
-        <div class="bar-bg"><div id="xpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
-        <div class="bar-hint" id="xpHint">Next level in 200 XP</div>
+      <div class="bar-sec">
+        <div class="bar-top"><div class="bar-left">Level <b id="qLv">1</b></div><div class="bar-right"><span id="qXp">0</span> XP</div></div>
+        <div class="bar-bg"><div id="qXpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
+        <div class="bar-hint" id="qXpHint">Next level in 200 XP</div>
       </div>
       <div class="div"></div>
-      <div class="bar-section" style="margin-bottom:0">
-        <div class="bar-top">
-          <div class="bar-left">🔥 Combo</div>
-          <div class="bar-right"><span id="comboVal">0</span>x</div>
-        </div>
+      <div class="bar-sec" style="margin:0">
+        <div class="bar-top"><div class="bar-left">🔥 Combo</div><div class="bar-right"><span id="comboVal">0</span>x</div></div>
         <div class="bar-bg"><div id="comboFill" class="bar-fill combo-bar" style="width:0%"></div></div>
-        <div class="bar-hint" id="comboHint">Get 3 correct in a row to boost XP!</div>
+        <div class="bar-hint" id="comboHint">Get 3 correct to boost XP!</div>
       </div>
     </div>
-  </div><!-- /quizSection -->
+  </div>
 
-  <!-- RESULT -->
-  <div id="resultSection" style="display:none">
+  <div id="practiceResult" style="display:none">
     <div class="result-card">
-      <div class="result-emoji" id="resultEmoji">✅</div>
-      <div class="result-score" id="resultScore">—</div>
-      <div class="result-sub" id="resultSub">—</div>
-      <button id="backBtn" class="btn btn-accent" style="margin-top:18px;width:100%">← Back to Setup</button>
+      <div class="result-emoji" id="pResEmoji">✅</div>
+      <div class="result-score-big" id="pResScore">—</div>
+      <div class="result-sub-txt" id="pResSub">—</div>
+      <button id="pBackBtn" class="btn btn-accent" style="margin-top:16px;width:100%">← Back to Setup</button>
     </div>
     <div class="card">
-      <div class="bar-section" style="margin-bottom:0">
-        <div class="bar-top">
-          <div class="bar-left">Level&nbsp;<b id="resLv">1</b></div>
-          <div class="bar-right"><span id="resXp">0</span> XP</div>
-        </div>
+      <div class="bar-sec" style="margin:0">
+        <div class="bar-top"><div class="bar-left">Level <b id="resLv">1</b></div><div class="bar-right"><span id="resXp">0</span> XP</div></div>
         <div class="bar-bg"><div id="resXpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
-        <div class="bar-hint" id="resXpHint">Next level in 200 XP</div>
+        <div class="bar-hint" id="resXpHint">—</div>
       </div>
     </div>
   </div>
-
 </div>
-</div><!-- /practice page -->
+</div>
 
-<!-- ═══════════ RECORDS PAGE ═══════════ -->
+<!-- ════════════════════════════════════
+     PAGE: SPEED DRILL
+════════════════════════════════════ -->
+<div class="page" id="page-speed">
+<div class="inner">
+  <div id="sdSetup">
+    <div class="card">
+      <p class="slabel">Speed Drill Setup</p>
+      <p style="font-size:.8rem;color:var(--t2);margin-bottom:12px;line-height:1.6">Each question has a countdown timer. If time runs out — marked wrong. Train your brain to answer fast! 🧠⚡</p>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field"><label>Mode</label>
+          <select id="sdMode">
+            <option value="multiplication">Multiplication (×)</option>
+            <option value="addition">Addition (+)</option>
+            <option value="division">Division (÷)</option>
+            <option value="table">Table Practice</option>
+            <option value="percentage">Percentage (%)</option>
+            <option value="mixed">Mixed 🔥</option>
+          </select>
+        </div>
+        <div class="field"><label>Level</label>
+          <select id="sdLevel"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select>
+        </div>
+        <div class="field"><label>Seconds per Q</label>
+          <select id="sdTimerSec">
+            <option value="5">5 seconds (hard)</option>
+            <option value="8">8 seconds</option>
+            <option value="10" selected>10 seconds</option>
+            <option value="15">15 seconds (easy)</option>
+          </select>
+        </div>
+        <div class="field"><label>Total Questions</label>
+          <select id="sdTotal">
+            <option value="10">10 questions</option>
+            <option value="20" selected>20 questions</option>
+            <option value="30">30 questions</option>
+            <option value="50">50 questions</option>
+          </select>
+        </div>
+      </div>
+      <div class="strip"><button id="sdStartBtn" class="btn btn-yellow" style="flex:1">⚡ Start Speed Drill</button></div>
+    </div>
+    <div class="card-sm" style="margin-bottom:12px">
+      <p class="slabel">Your best times</p>
+      <div id="sdBestTimes" style="font-size:.78rem;color:var(--t2);line-height:2">No drill completed yet.</div>
+    </div>
+  </div>
+
+  <div id="sdQuiz" style="display:none">
+    <div class="chips3">
+      <div class="chip"><div class="chip-lbl">Question</div><div class="chip-val" id="sdQNum">1/20</div></div>
+      <div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="sdScore">0</div></div>
+      <div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="sdWrong">0</div></div>
+    </div>
+    <div class="qtimer-wrap">
+      <div class="qtimer-bar-bg"><div id="sdTimerFill" class="qtimer-bar-fill" style="width:100%;background:var(--green)"></div></div>
+      <div class="qtimer-label"><span id="sdTimerNum">10</span>s remaining</div>
+    </div>
+    <div class="q-area live-speed">
+      <div class="q-text" id="sdQText">—</div>
+      <div class="sd-avg">Avg time this session: <span id="sdAvgTime">—</span></div>
+      <div class="fill-row">
+        <input id="sdAnswerInput" type="number" placeholder="Type answer fast!"/>
+        <button id="sdSubmitBtn" class="btn btn-yellow">Submit</button>
+      </div>
+      <div class="msg" id="sdMsg"></div>
+    </div>
+    <div class="strip"><button id="sdEndBtn" class="btn btn-red" style="flex:1">■ End Drill</button></div>
+  </div>
+
+  <div id="sdResult" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji">⚡</div>
+      <div class="result-score-big" id="sdResScore">—</div>
+      <div class="result-sub-txt" id="sdResSub">—</div>
+      <div style="margin-top:10px;font-family:var(--mono);font-size:.85rem;color:var(--yellow)" id="sdResAvg">—</div>
+      <button id="sdBackBtn" class="btn btn-accent" style="margin-top:16px;width:100%">← Back to Setup</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: MOCK TEST
+════════════════════════════════════ -->
+<div class="page" id="page-mock">
+<div class="inner">
+  <div id="mockSetup">
+    <div class="card">
+      <p class="slabel">Mock Test — SSC / IBPS Pattern</p>
+      <p style="font-size:.8rem;color:var(--t2);margin-bottom:12px;line-height:1.6">Timed test with optional negative marking. Exam-pattern questions from all topics.</p>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field"><label>Total Questions</label>
+          <select id="mockTotal"><option value="10">10 Q (quick)</option><option value="25" selected>25 Q (standard)</option><option value="50">50 Q (full)</option></select>
+        </div>
+        <div class="field"><label>Time Limit</label>
+          <select id="mockTime"><option value="10">10 min</option><option value="20" selected>20 min</option><option value="30">30 min</option><option value="45">45 min</option></select>
+        </div>
+        <div class="field"><label>Level</label>
+          <select id="mockLevel"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select>
+        </div>
+        <div class="field"><label>Negative Marking</label>
+          <select id="mockNeg"><option value="0">None</option><option value="0.25">−0.25</option><option value="0.5" selected>−0.5</option><option value="1">−1</option></select>
+        </div>
+      </div>
+      <div class="strip"><button id="mockStartBtn" class="btn btn-accent" style="background:var(--blue);flex:1">📝 Start Mock Test</button></div>
+    </div>
+    <div class="card-sm">
+      <p class="slabel">Previous mock results</p>
+      <div id="mockHistory" style="font-size:.78rem;color:var(--t2);line-height:2">No mocks completed yet.</div>
+    </div>
+  </div>
+
+  <div id="mockQuiz" style="display:none">
+    <div class="chips3">
+      <div class="chip"><div class="chip-lbl">Time Left</div><div class="chip-val" id="mockTimeLeft">20:00</div></div>
+      <div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="mockScore">0</div></div>
+      <div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="mockWrong">0</div></div>
+    </div>
+    <div class="row-sb" style="margin-bottom:10px">
+      <div class="mock-q-num" style="margin:0" id="mockQNum">Question 1 of 25</div>
+      <div class="neg-badge" id="mockNegBadge">−0.5 per wrong</div>
+    </div>
+    <div class="q-area live-mock">
+      <div class="q-text" id="mockQText">—</div>
+      <div class="mcq-grid" id="mockMcqGrid"></div>
+      <div class="msg" id="mockMsg"></div>
+    </div>
+    <div class="strip">
+      <button id="mockSkipBtn" class="btn btn-outline">Skip</button>
+      <button id="mockSubmitBtn" class="btn btn-accent" style="flex:1;background:var(--blue)">Next →</button>
+    </div>
+    <div style="font-size:.72rem;color:var(--t3);text-align:center">Answered: <span id="mockAnswered">0</span> / <span id="mockTotalDisp">25</span> · Skipped: <span id="mockSkipped">0</span></div>
+  </div>
+
+  <div id="mockResult" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="mockResEmoji">📝</div>
+      <div class="result-score-big" id="mockResScore">—</div>
+      <div class="result-sub-txt" id="mockResSub">—</div>
+    </div>
+    <div class="mock-result-grid" id="mockResGrid"></div>
+    <button id="mockBackBtn" class="btn btn-accent" style="width:100%">← New Mock Test</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: DIAGNOSTIC
+════════════════════════════════════ -->
+<div class="page" id="page-diag">
+<div class="inner">
+  <div id="diagIntro">
+    <div class="card">
+      <div class="diag-intro">
+        <div class="diag-big">🎯</div>
+        <div class="diag-title">Diagnostic Test</div>
+        <div class="diag-sub">20 questions across all topics. We'll detect your weak areas and set your level automatically. Takes about 5 minutes.</div>
+        <button id="diagStartBtn" class="btn btn-accent" style="width:100%">Start Diagnostic Test</button>
+      </div>
+    </div>
+    <div class="card-sm" id="diagPrevResult" style="display:none">
+      <p class="slabel">Last diagnostic result</p>
+      <div id="diagPrevContent" style="font-size:.8rem;color:var(--t2);line-height:1.8"></div>
+    </div>
+  </div>
+
+  <div id="diagQuiz" style="display:none">
+    <div class="diag-progress">
+      <div class="diag-prog-bar"><div id="diagProgFill" class="diag-prog-fill" style="width:0%"></div></div>
+      <div class="diag-prog-txt"><span id="diagQNum">1</span>/20</div>
+    </div>
+    <div class="q-area" style="border-color:rgba(96,165,250,.3)">
+      <div style="font-size:.65rem;color:var(--blue);text-align:center;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em" id="diagTopicLbl">Topic</div>
+      <div class="q-text" id="diagQText">—</div>
+      <div class="mcq-grid" id="diagMcqGrid"></div>
+      <div class="msg" id="diagMsg"></div>
+    </div>
+  </div>
+
+  <div id="diagResult" style="display:none">
+    <div class="card">
+      <div class="level-result">
+        <div class="level-badge-big" id="diagLevelEmoji">🥈</div>
+        <div class="level-name" id="diagLevelName">Intermediate</div>
+        <div class="level-desc" id="diagLevelDesc">Good base! Focus on speed and accuracy in weak areas.</div>
+      </div>
+      <div class="topic-scores" id="diagTopicScores"></div>
+      <div class="div"></div>
+      <p class="slabel">Weak areas to focus on</p>
+      <div id="diagWeakList" style="font-size:.8rem;color:var(--red);line-height:2"></div>
+      <button id="diagRetakeBtn" class="btn btn-outline" style="width:100%;margin-top:12px">Retake Diagnostic</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: TRICKS LIBRARY
+════════════════════════════════════ -->
+<div class="page" id="page-tricks">
+<div class="inner">
+  <div class="card" style="padding-bottom:10px">
+    <p class="slabel">Shortcut Library — SSC/Banking</p>
+    <div class="tricks-cats" id="tricksCats"></div>
+  </div>
+  <div id="tricksContent"></div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: RECORDS
+════════════════════════════════════ -->
 <div class="page" id="page-records">
 <div class="inner">
-  <div class="records-head">
-    <p class="slabel" style="margin:0">All Records</p>
-    <button id="clearDataBtn" class="btn btn-outline" style="padding:7px 14px;font-size:.8rem">🗑 Clear All</button>
+  <!-- TARGET TRACKER -->
+  <div class="target-card">
+    <div class="row-sb" style="margin-bottom:10px">
+      <div>
+        <div class="target-days" id="targetDays">—</div>
+        <div class="target-sub" id="targetSub">Set your exam date below</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.68rem;color:var(--t3);margin-bottom:4px">Exam Date</div>
+        <input type="date" id="examDateInput" style="background:rgba(0,0,0,.3);border:1px solid var(--br);border-radius:6px;color:var(--t1);font-size:.75rem;padding:4px 8px;outline:none"/>
+      </div>
+    </div>
+    <div class="target-progress-row">
+      <div class="tprog-box"><div class="tprog-val" id="tpTotalQ">0</div><div class="tprog-lbl">Total Qs</div></div>
+      <div class="tprog-box"><div class="tprog-val" id="tpAvgAcc">—</div><div class="tprog-lbl">Avg Accuracy</div></div>
+      <div class="tprog-box"><div class="tprog-val" id="tpBestSpeed">—</div><div class="tprog-lbl">Best Speed</div></div>
+    </div>
   </div>
-  <div class="rec-grid">
-    <div class="rec-box"><div class="rec-title">➕ Addition</div><div id="addStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
-    <div class="rec-box"><div class="rec-title">➖ Subtraction</div><div id="subStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
-    <div class="rec-box"><div class="rec-title">✖️ Multiplication</div><div id="mulStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
-    <div class="rec-box"><div class="rec-title">➗ Division</div><div id="divStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
-    <div class="rec-box"><div class="rec-title">📌 Tables</div><div id="tableStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
-    <div class="rec-box"><div class="rec-title">🟦 Squares</div><div id="squareStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
-    <div class="rec-box"><div class="rec-title">🟪 Cubes</div><div id="cubeStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
-    <div class="motive-box"><div class="motive-txt" id="streakMsg">Start today bhai 💪 Streak bana!</div></div>
+
+  <!-- WEAKNESS HEATMAP -->
+  <div class="card">
+    <div class="row-sb" style="margin-bottom:10px">
+      <p class="slabel" style="margin:0">Weakness Heatmap</p>
+      <span style="font-size:.68rem;color:var(--t3)">tap to drill</span>
+    </div>
+    <div class="heatmap-grid" id="heatmapGrid"></div>
+    <div style="display:flex;gap:12px;font-size:.65rem;color:var(--t3)">
+      <span>🔴 &lt;50% weak</span><span>🟡 50-75%</span><span>🟢 75%+ strong</span>
+    </div>
   </div>
+
+  <!-- RECORDS PER MODE -->
+  <div class="row-sb" style="margin-bottom:10px">
+    <p class="slabel" style="margin:0">Mode Records</p>
+    <button id="clearDataBtn" class="btn btn-outline" style="padding:5px 12px;font-size:.75rem">🗑 Clear All</button>
+  </div>
+  <div class="rec-grid" id="recordGrid"></div>
+  <div class="motive-box" style="margin-bottom:12px"><div class="motive-txt" id="streakMsg">Start today bhai 💪 Streak bana!</div></div>
+
+  <!-- BADGES -->
+  <p class="slabel">Achievements</p>
+  <div class="badges-grid" id="badgesGrid"></div>
 </div>
 </div>
 
-<!-- ═══════════ DAILY PAGE ═══════════ -->
+<!-- ════════════════════════════════════
+     PAGE: DAILY
+════════════════════════════════════ -->
 <div class="page" id="page-daily">
 <div class="inner">
-  <div class="daily-hero">
-    <div class="daily-hero-emoji" id="dPageEmoji">📅</div>
-    <p class="daily-page-label">Today's Challenge</p>
-    <div class="pills" id="dPagePills">—</div>
-    <p class="bonus-txt">Bonus reward: <b>+50 XP</b></p>
-    <button id="startDailyBtn2" class="btn btn-accent" style="width:100%">Start Challenge</button>
-    <p class="daily-hint-txt" style="margin-top:10px" id="dPageHint">Complete it to earn bonus XP 🔥</p>
+  <div class="card">
+    <div class="daily-hero">
+      <div class="daily-hero-emoji" id="dPageEmoji">📅</div>
+      <p style="font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:10px">Today's Challenge</p>
+      <div class="d-pills" id="dPagePills">—</div>
+      <p style="font-size:.82rem;color:var(--t2);margin-bottom:14px">Bonus: <b style="color:var(--yellow);font-family:var(--mono)">+50 XP</b></p>
+      <button id="startDailyBtn2" class="btn btn-accent" style="width:100%">Start Challenge</button>
+      <p class="d-hint" style="text-align:center;margin-top:10px" id="dPageHint">Complete it to get bonus XP 🔥</p>
+    </div>
+  </div>
+  <div class="card">
+    <p class="slabel">Trick of the Day 💡</p>
+    <div id="trickOfDay"></div>
   </div>
   <div class="card">
     <p class="slabel">How it works</p>
-    <p style="font-size:.85rem;color:var(--t2);line-height:1.75">
-      Every day a fresh challenge is generated — a specific mode, level, and duration.
-      Finish it to earn <b style="color:var(--yellow)">+50 bonus XP</b> on top of normal XP gains.
-      Resets at midnight. Come back daily to keep your streak alive 🔥
-    </p>
+    <p style="font-size:.82rem;color:var(--t2);line-height:1.75">Every day a fresh challenge is generated — a specific mode, level, and duration. Finish it to earn <b style="color:var(--yellow)">+50 bonus XP</b>. Resets at midnight. Come back daily to keep your streak alive 🔥</p>
   </div>
 </div>
 </div>
 
-<footer class="foot">Made with ❤️ by Rohit</footer>
+<footer class="foot">CalcSpeed — SSC/Banking Prep · Made with ❤️ by Rohit</footer>
 
 <script>
-/* ══════ UTILS ══════ */
-function pad(n){return n.toString().padStart(2,"0")}
-function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function todayStr(){const d=new Date();return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
-function ydayStr(){const d=new Date();d.setDate(d.getDate()-1);return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
+/* ══════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════ */
+const pad=n=>n.toString().padStart(2,"0");
+const randInt=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
+const todayStr=()=>{const d=new Date();return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+const ydayStr=()=>{const d=new Date();d.setDate(d.getDate()-1);return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+const $=id=>document.getElementById(id);
 
-/* ══════ STORAGE ══════ */
-const KEY="math_app_v2";
-function defaultData(){return{streak:0,lastPracticeDate:null,xp:0,level:1,modeStreaks:{addition:{streak:0,lastDate:null},subtraction:{streak:0,lastDate:null},multiplication:{streak:0,lastDate:null},division:{streak:0,lastDate:null},table:{streak:0,lastDate:null},mixed:{streak:0,lastDate:null},square:{streak:0,lastDate:null},cube:{streak:0,lastDate:null}},daily:{date:null,completed:false,challenge:null},addition:{sessions:[]},subtraction:{sessions:[]},multiplication:{sessions:[]},division:{sessions:[]},table:{sessions:[]},mixed:{sessions:[]},square:{sessions:[]},cube:{sessions:[]}}}
-function loadData(){const r=localStorage.getItem(KEY);if(!r)return defaultData();try{return JSON.parse(r)}catch{return defaultData()}}
-function saveData(d){localStorage.setItem(KEY,JSON.stringify(d))}
-function clearAllData(){localStorage.removeItem(KEY)}
-function updateStreak(data){const t=todayStr(),l=data.lastPracticeDate;if(!l){data.streak=1;data.lastPracticeDate=t;return}if(l===t)return;data.streak=(l===ydayStr())?(data.streak||0)+1:1;data.lastPracticeDate=t}
-function updateModeStreak(data,mode){const t=todayStr();if(!data.modeStreaks)data.modeStreaks={};if(!data.modeStreaks[mode])data.modeStreaks[mode]={streak:0,lastDate:null};const l=data.modeStreaks[mode].lastDate;if(l===t)return;data.modeStreaks[mode].streak=!l?1:(l===ydayStr()?data.modeStreaks[mode].streak+1:1);data.modeStreaks[mode].lastDate=t}
+/* ══════════════════════════════════════════
+   STORAGE
+══════════════════════════════════════════ */
+const KEY="calcspeed_v1";
+function defaultData(){
+  return{streak:0,lastPracticeDate:null,xp:0,level:1,examDate:null,
+    modeStreaks:{addition:{streak:0,lastDate:null},subtraction:{streak:0,lastDate:null},multiplication:{streak:0,lastDate:null},division:{streak:0,lastDate:null},table:{streak:0,lastDate:null},mixed:{streak:0,lastDate:null},square:{streak:0,lastDate:null},cube:{streak:0,lastDate:null},percentage:{streak:0,lastDate:null},simplification:{streak:0,lastDate:null}},
+    daily:{date:null,completed:false,challenge:null},
+    diagResult:null,
+    badges:[],
+    addition:{sessions:[]},subtraction:{sessions:[]},multiplication:{sessions:[]},division:{sessions:[]},
+    table:{sessions:[]},mixed:{sessions:[]},square:{sessions:[]},cube:{sessions:[]},
+    percentage:{sessions:[]},simplification:{sessions:[]},mock:{sessions:[]},speed:{sessions:[]}
+  };
+}
+const loadData=()=>{const r=localStorage.getItem(KEY);if(!r)return defaultData();try{const d=JSON.parse(r);['addition','subtraction','multiplication','division','table','mixed','square','cube','percentage','simplification','mock','speed'].forEach(k=>{if(!d[k])d[k]={sessions:[]};});if(!d.modeStreaks)d.modeStreaks={};['addition','subtraction','multiplication','division','table','mixed','square','cube','percentage','simplification'].forEach(k=>{if(!d.modeStreaks[k])d.modeStreaks[k]={streak:0,lastDate:null};});return d;}catch{return defaultData()}};
+const saveData=d=>localStorage.setItem(KEY,JSON.stringify(d));
+const clearAllData=()=>localStorage.removeItem(KEY);
 
-/* ══════ XP ══════ */
+function updateStreak(data){const t=todayStr(),l=data.lastPracticeDate;if(!l){data.streak=1;data.lastPracticeDate=t;return}if(l===t)return;data.streak=(l===ydayStr())?(data.streak||0)+1:1;data.lastPracticeDate=t;}
+function updateModeStreak(data,mode){const t=todayStr();if(!data.modeStreaks[mode])data.modeStreaks[mode]={streak:0,lastDate:null};const l=data.modeStreaks[mode].lastDate;if(l===t)return;data.modeStreaks[mode].streak=!l?1:(l===ydayStr()?data.modeStreaks[mode].streak+1:1);data.modeStreaks[mode].lastDate=t;}
+
+/* ══════════════════════════════════════════
+   XP / LEVEL
+══════════════════════════════════════════ */
 function getLv(xp){let lv=1,tot=0;while(true){const need=200+(lv-1)*100;if(xp<tot+need)break;tot+=need;lv++}return{level:lv,totalRequired:tot}}
 function getProgress(xp){const{level,totalRequired}=getLv(xp);const need=200+(level-1)*100,cur=xp-totalRequired;return{level,pct:Math.min(100,(cur/need)*100),left:Math.max(0,need-cur)}}
 function xpBase(lv){return lv==="easy"?8:lv==="medium"?10:12}
 
-/* ══════ COMBO ══════ */
+/* ══════════════════════════════════════════
+   COMBO
+══════════════════════════════════════════ */
 function comboMult(c){return c>=10?2.0:c>=5?1.5:c>=3?1.2:1.0}
 function comboPct(c){return(Math.min(10,c)/10)*100}
-function comboMsg(c){const m=comboMult(c);if(c===0)return"Get 3 correct in a row to boost XP!";if(c<3)return`Nice! ${3-c} more for boost 🚀`;if(m===1.2)return"🔥 Combo! XP ×1.2";if(m===1.5)return"🚀 Super Combo! XP ×1.5";return"👑 GOD MODE! XP ×2.0"}
+function comboMsg(c){const m=comboMult(c);if(c===0)return"Get 3 correct in a row to boost XP!";if(c<3)return`${3-c} more for boost 🚀`;if(m===1.2)return"🔥 Combo! XP ×1.2";if(m===1.5)return"🚀 Super Combo! XP ×1.5";return"👑 GOD MODE! XP ×2.0"}
 
-/* ══════ DAILY ══════ */
-function pickChallenge(seed){const modes=["addition","subtraction","multiplication","division","table","mixed"],levels=["easy","medium","hard"],mins=[3,5,7];return{mode:modes[seed%modes.length],level:levels[(seed*7)%levels.length],minutes:mins[(seed*11)%mins.length],bonusXP:50}}
-function getOrCreateDaily(data){const t=todayStr();if(data.daily&&data.daily.date===t&&data.daily.challenge)return data.daily.challenge;const seed=Number(t.replaceAll("-",""));const ch=pickChallenge(seed);data.daily={date:t,completed:false,challenge:ch};return ch}
+/* ══════════════════════════════════════════
+   DAILY
+══════════════════════════════════════════ */
+function pickChallenge(seed){
+  const modes=["multiplication","addition","division","table","percentage","mixed"];
+  const levels=["easy","medium","hard"];const mins=[3,5,7];
+  return{mode:modes[seed%modes.length],level:levels[(seed*7)%levels.length],minutes:mins[(seed*11)%mins.length],bonusXP:50};
+}
+function getOrCreateDaily(data){const t=todayStr();if(data.daily&&data.daily.date===t&&data.daily.challenge)return data.daily.challenge;const seed=Number(t.replaceAll("-",""));const ch=pickChallenge(seed);data.daily={date:t,completed:false,challenge:ch};return ch;}
 function isDailyDone(data){const t=todayStr();return data.daily?.date===t&&data.daily?.completed===true}
-function markDailyDone(data){const t=todayStr();if(!data.daily)data.daily={};data.daily.date=t;data.daily.completed=true}
+function markDailyDone(data){const t=todayStr();if(!data.daily)data.daily={};data.daily.date=t;data.daily.completed=true;}
 
-/* ══════ QUIZ ENGINE ══════ */
+/* ══════════════════════════════════════════
+   QUIZ ENGINE
+══════════════════════════════════════════ */
 function getRangeLv(lv){return lv==="easy"?{min:1,max:50}:lv==="medium"?{min:10,max:200}:{min:50,max:999}}
 function getDigitsLv(lv){return lv==="easy"?{a:[2,2],b:[1,2]}:lv==="medium"?{a:[2,3],b:[2,2]}:{a:[3,4],b:[2,3]}}
 function nDigit(mn,mx){const d=randInt(mn,mx);return randInt(Math.pow(10,d-1),Math.pow(10,d)-1)}
-function generateQ(mode,level,cfg){
-  if(mode==="mixed"){const p=["addition","subtraction","multiplication","division"];mode=p[randInt(0,p.length-1)]}
+
+function generateQ(mode,level,cfg={}){
+  if(mode==="mixed"){const p=["addition","subtraction","multiplication","division","percentage","simplification"];mode=p[randInt(0,p.length-1)]}
   if(mode==="addition"){const c=level==="easy"?randInt(3,4):randInt(4,5),r=getRangeLv(level),ns=Array.from({length:c},()=>randInt(r.min,r.max));return{text:ns.join(" + ")+" = ?",answer:ns.reduce((a,b)=>a+b,0),actualMode:"addition"}}
   if(mode==="subtraction"){const c=level==="easy"?2:randInt(2,3),r=getRangeLv(level);let ns=Array.from({length:c},()=>randInt(r.min,r.max));ns.sort((a,b)=>b-a);return{text:ns.join(" − ")+" = ?",answer:ns.reduce((a,b)=>a-b),actualMode:"subtraction"}}
   if(mode==="multiplication"){const d=getDigitsLv(level),a=nDigit(d.a[0],d.a[1]),b=nDigit(d.b[0],d.b[1]);return{text:`${a} × ${b} = ?`,answer:a*b,actualMode:"multiplication"}}
@@ -474,264 +745,567 @@ function generateQ(mode,level,cfg){
   if(mode==="table"){const tn=Number(cfg.number||11),fr=Number(cfg.from||1),to=Number(cfg.to||20),k=randInt(Math.min(fr,to),Math.max(fr,to));return{text:`${tn} × ${k} = ?`,answer:tn*k,actualMode:"table"}}
   if(mode==="square"){const fr=Number(cfg.powerFrom||1),to=Number(cfg.powerTo||30),n=randInt(Math.min(fr,to),Math.max(fr,to));return{text:`${n}² = ?`,answer:n*n,actualMode:"square"}}
   if(mode==="cube"){const fr=Number(cfg.powerFrom||1),to=Number(cfg.powerTo||20),n=randInt(Math.min(fr,to),Math.max(fr,to));return{text:`${n}³ = ?`,answer:n*n*n,actualMode:"cube"}}
-  return{text:"—",answer:0,actualMode:mode}
-}
-function makeMcqOpts(correct){
-  const opts=new Set([correct]);let tries=0;
-  while(opts.size<4&&tries<60){const off=randInt(1,Math.max(5,Math.abs(Math.round(correct*.3))||10)),sign=Math.random()<.5?1:-1,v=correct+sign*off;if(v!==correct&&v>=0)opts.add(v);tries++}
-  return Array.from(opts).sort(()=>Math.random()-.5)
+  if(mode==="percentage"){
+    const types=["ofWhat","whatOf","increase","decrease"];const t=types[randInt(0,3)];
+    if(t==="ofWhat"){const pct=level==="easy"?[10,20,25,50][randInt(0,3)]:randInt(5,75),base=level==="easy"?randInt(2,20)*10:randInt(10,200);return{text:`${pct}% of ${base} = ?`,answer:Math.round(pct*base/100),actualMode:"percentage"}}
+    if(t==="whatOf"){const part=randInt(5,50),whole=part*randInt(2,10);return{text:`${part} is what % of ${whole}?`,answer:Math.round(part/whole*100),actualMode:"percentage"}}
+    const base2=level==="easy"?randInt(2,20)*10:randInt(50,500),pct2=level==="easy"?[10,20,25][randInt(0,2)]:randInt(5,50);
+    if(t==="increase"){return{text:`${base2} increased by ${pct2}% = ?`,answer:Math.round(base2*(1+pct2/100)),actualMode:"percentage"}}
+    return{text:`${base2} decreased by ${pct2}% = ?`,answer:Math.round(base2*(1-pct2/100)),actualMode:"percentage"};
+  }
+  if(mode==="simplification"){
+    const a=randInt(10,99),b=randInt(10,99),c=randInt(2,20),d2=randInt(2,20);
+    const ans=a+b*c-d2;return{text:`${a} + ${b} × ${c} − ${d2} = ?`,answer:ans,actualMode:"simplification"};
+  }
+  return{text:"—",answer:0,actualMode:mode};
 }
 
-/* ══════ STATS ══════ */
+function makeMcqOpts(correct){
+  const opts=new Set([correct]);let tries=0;
+  const spread=Math.max(5,Math.abs(Math.round(correct*.25))||10);
+  while(opts.size<4&&tries<80){const off=randInt(1,spread),sign=Math.random()<.5?1:-1,v=correct+sign*off;if(v!==correct&&v>=0)opts.add(v);tries++}
+  return Array.from(opts).sort(()=>Math.random()-.5);
+}
+
+/* ══════════════════════════════════════════
+   STATS
+══════════════════════════════════════════ */
 function calcSummary(sessions){
   if(!sessions||!sessions.length)return null;
   let bs=0,ba=0,bsp=0,ss=0,sa=0,ssp=0;
   sessions.forEach(s=>{ss+=s.score;sa+=s.accuracy;ssp+=s.speed;bs=Math.max(bs,s.score);ba=Math.max(ba,s.accuracy);bsp=Math.max(bsp,s.speed)});
   const n=sessions.length,l=sessions[n-1];
-  return{totalSessions:n,bestScore:bs,bestAcc:ba,bestSpeed:bsp,avgAcc:sa/n,avgSpeed:ssp/n,last:l}
+  return{totalSessions:n,bestScore:bs,bestAcc:ba,bestSpeed:bsp,avgAcc:sa/n,avgSpeed:ssp/n,last:l};
 }
 function fmtSummary(s,streak){
   if(!s)return`<span class="na">No sessions yet</span>`;
   const l=s.last;
-  return`Sessions: ${s.totalSessions}<br>Last: ${l.score} ✓ | Acc: ${l.accuracy.toFixed(1)}%<br>Speed: ${l.speed.toFixed(2)} Q/min<br>Best: ${s.bestScore} | Best Acc: ${s.bestAcc.toFixed(1)}%<br><b>🔥 Streak: ${streak} days</b>`
+  return`Sessions: ${s.totalSessions} | Last: ${l.score}✓<br>Acc: ${l.accuracy.toFixed(1)}% | Speed: ${l.speed.toFixed(1)} Q/m<br>Best: ${s.bestScore} | Best Acc: ${s.bestAcc.toFixed(1)}%<br><b>🔥 Streak: ${streak}d</b>`;
 }
 
-/* ══════ DOM ══════ */
-const $=id=>document.getElementById(id);
-const E={
-  modeSelect:$("modeSelect"),levelSelect:$("levelSelect"),minutesInput:$("minutesInput"),
-  answerModeSelect:$("answerModeSelect"),
-  tableSettings:$("tableSettings"),tableNumber:$("tableNumber"),tableFrom:$("tableFrom"),tableTo:$("tableTo"),
-  powerSettings:$("powerSettings"),powerFrom:$("powerFrom"),powerTo:$("powerTo"),
-  startBtn:$("startBtn"),endBtn:$("endBtn"),
-  submitBtn:$("submitBtn"),skipBtn:$("skipBtn"),skipMcq:$("skipMcq"),
-  answerInput:$("answerInput"),
-  questionText:$("questionText"),message:$("message"),
-  timeLeft:$("timeLeft"),scoreVal:$("scoreVal"),wrongVal:$("wrongVal"),
-  streakCount:$("streakCount"),
-  addStats:$("addStats"),subStats:$("subStats"),mulStats:$("mulStats"),
-  divStats:$("divStats"),tableStats:$("tableStats"),squareStats:$("squareStats"),cubeStats:$("cubeStats"),
-  streakMsg:$("streakMsg"),clearDataBtn:$("clearDataBtn"),
-  // XP (quiz active)
-  lv:$("lv"),xpVal:$("xpVal"),xpFill:$("xpFill"),xpHint:$("xpHint"),
-  // XP (idle)
-  idleLv:$("idleLv"),idleXp:$("idleXp"),idleXpFill:$("idleXpFill"),idleXpHint:$("idleXpHint"),
-  // XP (result)
-  resLv:$("resLv"),resXp:$("resXp"),resXpFill:$("resXpFill"),resXpHint:$("resXpHint"),
-  // Combo
-  comboVal:$("comboVal"),comboFill:$("comboFill"),comboHint:$("comboHint"),
-  // Daily (practice tab)
-  dBadge:$("dBadge"),dText:$("dText"),startDailyBtn:$("startDailyBtn"),dHint:$("dHint"),
-  // Daily (daily tab)
-  dPageEmoji:$("dPageEmoji"),dPagePills:$("dPagePills"),startDailyBtn2:$("startDailyBtn2"),dPageHint:$("dPageHint"),
-  // Sections
-  setupSection:$("setupSection"),quizSection:$("quizSection"),resultSection:$("resultSection"),
-  fillMode:$("fillMode"),mcqMode:$("mcqMode"),mcqGrid:$("mcqGrid"),
-  resultEmoji:$("resultEmoji"),resultScore:$("resultScore"),resultSub:$("resultSub"),backBtn:$("backBtn"),
+/* ══════════════════════════════════════════
+   BADGES
+══════════════════════════════════════════ */
+const ALL_BADGES=[
+  {id:"first_correct",name:"First Blood",icon:"🎯",cond:"Get your first correct answer"},
+  {id:"streak3",name:"3-Day Warrior",icon:"🔥",cond:"3 days streak"},
+  {id:"streak7",name:"Week Champion",icon:"⚔️",cond:"7 days streak"},
+  {id:"streak30",name:"Monthly Legend",icon:"👑",cond:"30 days streak"},
+  {id:"combo10",name:"Combo King",icon:"💥",cond:"10x combo in practice"},
+  {id:"speed_ace",name:"Speed Ace",icon:"⚡",cond:"Complete a speed drill"},
+  {id:"mock_pass",name:"Mock Topper",icon:"🏆",cond:"Score 80%+ in a mock"},
+  {id:"diag_done",name:"Self-Aware",icon:"🎯",cond:"Complete diagnostic test"},
+  {id:"xp100",name:"XP Rookie",icon:"⭐",cond:"Earn 100 XP"},
+  {id:"xp1000",name:"XP Hunter",icon:"🌟",cond:"Earn 1000 XP"},
+  {id:"trick_fan",name:"Trick Master",icon:"💡",cond:"Visit Tricks library"},
+  {id:"daily_done",name:"Daily Grinder",icon:"📅",cond:"Complete daily challenge"},
+];
+function checkAndAwardBadges(data){
+  if(!data.badges)data.badges=[];
+  const earned=new Set(data.badges);
+  const allSessions=[...Object.keys(data).filter(k=>data[k]&&data[k].sessions).flatMap(k=>data[k].sessions)];
+  const totalCorrect=allSessions.reduce((s,x)=>s+(x.score||0),0);
+  if(totalCorrect>0)earned.add("first_correct");
+  if((data.streak||0)>=3)earned.add("streak3");
+  if((data.streak||0)>=7)earned.add("streak7");
+  if((data.streak||0)>=30)earned.add("streak30");
+  if((data.xp||0)>=100)earned.add("xp100");
+  if((data.xp||0)>=1000)earned.add("xp1000");
+  if(data.diagResult)earned.add("diag_done");
+  if(isDailyDone(data))earned.add("daily_done");
+  if(data.speed&&data.speed.sessions&&data.speed.sessions.length>0)earned.add("speed_ace");
+  if(data.mock&&data.mock.sessions&&data.mock.sessions.some(s=>s.accuracy>=80))earned.add("mock_pass");
+  data.badges=Array.from(earned);
+}
+function awardBadge(data,id){if(!data.badges)data.badges=[];if(!data.badges.includes(id))data.badges.push(id);}
+
+/* ══════════════════════════════════════════
+   TRICKS DATA
+══════════════════════════════════════════ */
+const TRICKS={
+  multiplication:[
+    {title:"Multiply by 11",formula:"AB × 11 = A(A+B)B",example:"35 × 11 → 3, (3+5)=8, 5 → 385\n63 × 11 → 6, (6+3)=9, 3 → 693",tag:"Vedic Math"},
+    {title:"Multiply near 100",formula:"(100−a)(100−b) = 10000 − (a+b)×100 + ab",example:"97 × 96 = 100×96 − 3×96 = 9600−288 = 9312\nTrick: 97×96 → diff: 3,4 → 93|12 = 9312",tag:"Base Method"},
+    {title:"Square ending in 5",formula:"(n5)² = n×(n+1) | 25",example:"65² = 6×7 | 25 = 4225\n85² = 8×9 | 25 = 7225",tag:"Speed Trick"},
+    {title:"Multiply by 9",formula:"n × 9 = n×10 − n",example:"47 × 9 = 470 − 47 = 423\n128 × 9 = 1280 − 128 = 1152",tag:"Simple"},
+  ],
+  percentage:[
+    {title:"x% of y = y% of x",formula:"x% of y ≡ y% of x",example:"8% of 75 = 75% of 8 = 6 (easier!)\n4% of 125 = 125% of 4 = 5",tag:"Gold Trick"},
+    {title:"Percentage increase shortcut",formula:"New = Old × (1 + r/100)",example:"500 increased by 20% = 500 × 1.2 = 600\n800 decreased by 25% = 800 × 0.75 = 600",tag:"Formula"},
+    {title:"Find % quickly",formula:"Part/Whole × 100",example:"36 out of 48 = 36/48 × 100 = 75%\nSimplify fraction first: 36/48 = 3/4 = 75%",tag:"Basic"},
+    {title:"Successive percentage",formula:"Net = (a + b + ab/100)%",example:"10% then 20% = 10+20+(10×20/100) = 32%\nNot 30% — always calculate combined!",tag:"Exam Trick"},
+  ],
+  division:[
+    {title:"Divisibility by 3",formula:"Sum of digits divisible by 3",example:"123: 1+2+3=6 ✓ divisible by 3\n457: 4+5+7=16 ✗ not divisible by 3",tag:"Rule"},
+    {title:"Divisibility by 9",formula:"Sum of digits divisible by 9",example:"729: 7+2+9=18 ✓\n654: 6+5+4=15 ✗",tag:"Rule"},
+    {title:"Divisibility by 11",formula:"Alt digits diff divisible by 11",example:"121: (1+1)−2=0 ✓\n1331: (1+3)−(3+1)=0 ✓",tag:"Rule"},
+    {title:"Quick division by 5",formula:"n ÷ 5 = n×2 ÷ 10",example:"345 ÷ 5 = 690 ÷ 10 = 69\n1235 ÷ 5 = 2470 ÷ 10 = 247",tag:"Speed Trick"},
+  ],
+  squares:[
+    {title:"Square of numbers 1−30",formula:"Memorize: 1²=1 to 30²=900",example:"13²=169, 17²=289, 19²=361, 23²=529\n24²=576, 27²=729, 28²=784, 29²=841",tag:"Must Memorize"},
+    {title:"(a+b)² expansion",formula:"(a+b)² = a² + 2ab + b²",example:"102² = (100+2)² = 10000+400+4 = 10404\n98² = (100−2)² = 10000−400+4 = 9604",tag:"Algebraic"},
+    {title:"Difference of squares",formula:"a² − b² = (a+b)(a−b)",example:"83²−17² = (83+17)(83−17) = 100×66 = 6600\nSSC loves this pattern!",tag:"Exam Trick"},
+  ],
+  simplification:[
+    {title:"BODMAS strictly",formula:"B → O → D → M → A → S",example:"6 + 2×3 − 4÷2 = 6+6−2 = 10\nAlways multiplication/division before addition/subtraction",tag:"Fundamental"},
+    {title:"Approximation technique",formula:"Round to nearest 10/100 then adjust",example:"497 × 21 ≈ 500×21 − 3×21 = 10500−63 = 10437\nUsed in SSC when options are far apart",tag:"SSC Trick"},
+    {title:"LCM shortcut for fractions",formula:"Find LCM of denominators",example:"1/3 + 1/4 + 1/6 → LCM=12 → 4/12+3/12+2/12 = 9/12 = 3/4",tag:"Formula"},
+  ],
+  miscellaneous:[
+    {title:"Average shortcut",formula:"Avg = Sum / Count. Change in avg = change/count",example:"5 numbers avg=10, add 15: new avg = (50+15)/6 = 10.83\nAvg change = +5/6 ≈ 0.83",tag:"Concept"},
+    {title:"Ratio — direct calculation",formula:"If a:b = m:n, then a=mk, b=nk",example:"Ratio 3:5, total=40 → k=5 → a=15, b=25\nSSC favorite topic!",tag:"Exam Trick"},
+    {title:"Speed-Distance-Time",formula:"S = D/T, D = S×T, T = D/S",example:"60 km/h for 2.5 hrs = 150 km\n90 km at 45 km/h = 2 hours",tag:"Formula"},
+  ],
 };
 
-/* ══════ STATE ══════ */
-let timer=null,secondsLeft=0,running=false;
-let currentAnswer=0,currentActualMode="addition";
-let score=0,wrong=0,attempted=0,sessionMinutes=5,combo=0;
+/* ══════════════════════════════════════════
+   RENDER HELPERS
+══════════════════════════════════════════ */
+function setMsg(elId,t,type){const el=$(elId);if(!el)return;el.innerHTML=t;el.className="msg"+(type==="g"?" msg-g":type==="r"?" msg-r":type==="y"?" msg-y":"");}
 
-/* ══════ RENDER ══════ */
-function setMsg(t,type){E.message.innerHTML=t;E.message.className=type==="g"?"msg-g":type==="r"?"msg-r":""}
-
-function renderXP(){
-  const data=loadData(),p=getProgress(data.xp||0);
-  const xp=data.xp||0;
-  // all three xp displays
-  [[E.lv,E.xpVal,E.xpFill,E.xpHint],[E.idleLv,E.idleXp,E.idleXpFill,E.idleXpHint],[E.resLv,E.resXp,E.resXpFill,E.resXpHint]].forEach(([lv,xpE,fill,hint])=>{
-    lv.textContent=p.level;xpE.textContent=xp;fill.style.width=`${p.pct.toFixed(0)}%`;hint.textContent=`Next level in ${p.left} XP`;
+function renderXPAll(){
+  const data=loadData(),p=getProgress(data.xp||0),xp=data.xp||0;
+  [["idleLv","idleXp","idleXpFill","idleXpHint"],["qLv","qXp","qXpFill","qXpHint"],["resLv","resXp","resXpFill","resXpHint"]].forEach(([lv,x,f,h])=>{
+    if($(lv))$(lv).textContent=p.level;if($(x))$(x).textContent=xp;
+    if($(f))$(f).style.width=`${p.pct.toFixed(0)}%`;if($(h))$(h).textContent=`Next level in ${p.left} XP`;
   });
+  $("topLevel").textContent=p.level;
 }
 function renderComboUI(c){
-  E.comboVal.textContent=c;E.comboFill.style.width=`${comboPct(c).toFixed(0)}%`;
-  E.comboHint.textContent=`${comboMsg(c)} (×${comboMult(c)})`;
+  $("comboVal").textContent=c;$("comboFill").style.width=`${comboPct(c).toFixed(0)}%`;
+  $("comboHint").textContent=`${comboMsg(c)} (×${comboMult(c)})`;
 }
+
+function renderDailyAll(){
+  const data=loadData();const ch=getOrCreateDaily(data);saveData(data);
+  const done=isDailyDone(data);const info=`${ch.mode.toUpperCase()} · ${ch.level.toUpperCase()} · ${ch.minutes} min`;
+  $("dText").textContent=info+` · +${ch.bonusXP} XP`;
+  $("dBadge").textContent=done?"✅ Done":"Not Done";$("dBadge").className="d-badge"+(done?" done":"");
+  $("startDailyBtn").disabled=done;$("dHint").textContent=done?"Done ✅ kal naya aayega":"Complete to earn bonus XP 🔥";
+  $("dPageEmoji").textContent=done?"✅":"📅";
+  $("dPagePills").innerHTML=`<span class="d-pill">${ch.mode}</span><span class="d-pill">${ch.level}</span><span class="d-pill">${ch.minutes} min</span>`;
+  $("startDailyBtn2").disabled=done;$("dPageHint").textContent=done?"Done for today! Come back tomorrow 😄":"Start and complete it to earn +50 XP 🔥";
+}
+
 function renderRecords(){
   const data=loadData();
   const ms=m=>data.modeStreaks?.[m]?.streak||0;
-  E.streakCount.textContent=data.streak||0;
-  E.addStats.innerHTML=fmtSummary(calcSummary(data.addition?.sessions),ms("addition"));
-  E.subStats.innerHTML=fmtSummary(calcSummary(data.subtraction?.sessions),ms("subtraction"));
-  E.mulStats.innerHTML=fmtSummary(calcSummary(data.multiplication?.sessions),ms("multiplication"));
-  E.divStats.innerHTML=fmtSummary(calcSummary(data.division?.sessions),ms("division"));
-  E.tableStats.innerHTML=fmtSummary(calcSummary(data.table?.sessions),ms("table"));
-  E.squareStats.innerHTML=fmtSummary(calcSummary(data.square?.sessions),ms("square"));
-  E.cubeStats.innerHTML=fmtSummary(calcSummary(data.cube?.sessions),ms("cube"));
+  $("streakCount").textContent=data.streak||0;
+  const modes=[{key:"addition",lbl:"➕ Addition"},{key:"subtraction",lbl:"➖ Subtraction"},{key:"multiplication",lbl:"✖️ Multiplication"},{key:"division",lbl:"➗ Division"},{key:"table",lbl:"📌 Tables"},{key:"square",lbl:"🟦 Squares"},{key:"cube",lbl:"🟪 Cubes"},{key:"percentage",lbl:"💯 Percentage"},{key:"simplification",lbl:"🔢 Simplification"}];
+  const rg=$("recordGrid");rg.innerHTML="";
+  modes.forEach(({key,lbl})=>{
+    const b=document.createElement("div");b.className="rec-box";
+    b.innerHTML=`<div class="rec-title">${lbl}</div><div class="rec-val">${fmtSummary(calcSummary(data[key]?.sessions),ms(key))}</div>`;
+    rg.appendChild(b);
+  });
   const st=data.streak||0;
-  E.streakMsg.textContent=st===0?"Start today bhai 💪 Streak bana!":st<3?`${st} days streak ✅ good going!`:st<7?`🔥 ${st} days! mast consistency!`:st<15?`🚀 Legend mode ON! ${st} days streak!`:`👑 Rohit bhai itne din lagatar! 😍🔥`;
-}
-function renderDailyAll(){
-  const data=loadData();const ch=getOrCreateDaily(data);saveData(data);
-  const done=isDailyDone(data);
-  const info=`${ch.mode.toUpperCase()} · ${ch.level.toUpperCase()} · ${ch.minutes} min`;
-  // practice tab
-  E.dText.textContent=info+` · +${ch.bonusXP} XP`;
-  E.dBadge.textContent=done?"✅ Done":"Not Done";E.dBadge.className="d-badge"+(done?" done":"");
-  E.startDailyBtn.disabled=done;E.dHint.textContent=done?"Done ✅ kal naya aayega 😄":"Complete to earn bonus XP 🔥";
-  // daily tab
-  E.dPageEmoji.textContent=done?"✅":"📅";
-  E.dPagePills.innerHTML=`<span class="pill">${ch.mode}</span><span class="pill">${ch.level}</span><span class="pill">${ch.minutes} min</span>`;
-  E.startDailyBtn2.disabled=done;E.dPageHint.textContent=done?"Done for today! Come back tomorrow 😄":"Start and complete it to earn +50 XP 🔥";
-}
-function toggleExtraSettings(){
-  const m=E.modeSelect.value;
-  E.tableSettings.classList.toggle("show",m==="table");
-  E.powerSettings.classList.toggle("show",m==="square"||m==="cube");
-}
-function showSection(name){
-  E.setupSection.style.display=name==="setup"?"block":"none";
-  E.quizSection.style.display=name==="quiz"?"block":"none";
-  E.resultSection.style.display=name==="result"?"block":"none";
+  $("streakMsg").textContent=st===0?"Start today bhai 💪 Streak bana!":st<3?`${st} days streak ✅ good going!`:st<7?`🔥 ${st} days! mast consistency!`:st<15?`🚀 Legend mode ON! ${st} days streak!`:`👑 Rohit bhai itne din lagatar! 😍🔥`;
+  renderHeatmap(data);renderBadges(data);renderTargetTracker(data);renderSpeedBests(data);renderMockHistory(data);
 }
 
-/* ══════ QUIZ ══════ */
-function getMode(){return E.answerModeSelect.value}
-
-function newQuestion(){
-  if(!running)return;
-  const cfg={number:E.tableNumber.value,from:E.tableFrom.value,to:E.tableTo.value,powerFrom:E.powerFrom.value,powerTo:E.powerTo.value};
-  const q=generateQ(E.modeSelect.value,E.levelSelect.value,cfg);
-  E.questionText.textContent=q.text;currentAnswer=q.answer;currentActualMode=q.actualMode;
-  setMsg("","");
-  if(getMode()==="fill"){
-    E.fillMode.style.display="block";E.mcqMode.style.display="none";
-    E.answerInput.value="";setTimeout(()=>E.answerInput.focus(),50);
-  }else{
-    E.fillMode.style.display="none";E.mcqMode.style.display="block";
-    buildMcqGrid(q.answer);
-  }
-}
-
-function buildMcqGrid(correct){
-  const opts=makeMcqOpts(correct);
-  E.mcqGrid.innerHTML="";
-  opts.forEach(opt=>{
-    const btn=document.createElement("button");
-    btn.className="mcq-opt";btn.textContent=opt;
-    btn.addEventListener("click",()=>{
-      if(!running)return;
-      E.mcqGrid.querySelectorAll(".mcq-opt").forEach(b=>{b.disabled=true});
-      attempted++;
-      if(opt===correct){
-        btn.classList.add("correct");score++;E.scoreVal.textContent=score;
-        combo++;renderComboUI(combo);
-        const mult=comboMult(combo),gained=Math.floor(xpBase(E.levelSelect.value)*mult);
-        const data=loadData();data.xp=(data.xp||0)+gained;data.level=getProgress(data.xp).level;saveData(data);renderXP();
-        setMsg(`✅ Correct! +${gained} XP`,"g");setTimeout(newQuestion,650);
-      }else{
-        btn.classList.add("wrong");
-        E.mcqGrid.querySelectorAll(".mcq-opt").forEach(b=>{if(Number(b.textContent)===correct)b.classList.add("show-correct")});
-        wrong++;E.wrongVal.textContent=wrong;combo=0;renderComboUI(0);
-        setMsg(`❌ Wrong! Correct: ${correct}`,"r");setTimeout(newQuestion,950);
-      }
-    });
-    E.mcqGrid.appendChild(btn);
+function renderHeatmap(data){
+  const modes=["addition","subtraction","multiplication","division","percentage","simplification","table","square"];
+  const hg=$("heatmapGrid");hg.innerHTML="";
+  modes.forEach(mode=>{
+    const s=calcSummary(data[mode]?.sessions);
+    const acc=s?Math.round(s.avgAcc):null;
+    const color=acc===null?"var(--t3)":acc<50?"var(--red)":acc<75?"var(--yellow)":"var(--green)";
+    const bg=acc===null?"var(--s2)":acc<50?"var(--red-dim)":acc<75?"var(--yellow-dim)":"var(--green-dim)";
+    const cell=document.createElement("div");cell.className="hmap-cell";cell.style.background=bg;cell.style.borderColor=acc===null?"var(--br)":color;
+    cell.innerHTML=`<div class="hmap-name">${mode}</div><div class="hmap-pct" style="color:${color}">${acc!==null?acc+"%":"—"}</div><div class="hmap-bar" style="background:var(--s4)"><div style="height:100%;border-radius:99px;width:${acc||0}%;background:${color}"></div></div>`;
+    cell.onclick=()=>{if(acc===null)return;$("modeSelect").value=mode;switchTab("practice");};
+    hg.appendChild(cell);
   });
 }
 
-function submitFill(){
-  if(!running)return;
-  const val=E.answerInput.value.trim();
-  if(!val){setMsg("⚠️ Answer likho bhai!","r");return}
-  attempted++;
-  const num=Number(val);
-  if(num===currentAnswer){
-    score++;E.scoreVal.textContent=score;combo++;renderComboUI(combo);
-    const mult=comboMult(combo),gained=Math.floor(xpBase(E.levelSelect.value)*mult);
-    const data=loadData();data.xp=(data.xp||0)+gained;data.level=getProgress(data.xp).level;saveData(data);renderXP();
-    setMsg(`✅ Correct! +${gained} XP`,"g");setTimeout(newQuestion,250);
+function renderBadges(data){
+  const bg=$("badgesGrid");bg.innerHTML="";
+  const earned=new Set(data.badges||[]);
+  ALL_BADGES.forEach(b=>{
+    const el=document.createElement("div");el.className="badge-box"+(earned.has(b.id)?" earned":"");
+    el.style.opacity=earned.has(b.id)?"1":"0.45";
+    el.innerHTML=`<div class="badge-icon">${b.icon}</div><div class="badge-name">${b.name}</div><div class="badge-cond">${b.cond}</div>`;
+    bg.appendChild(el);
+  });
+}
+
+function renderTargetTracker(data){
+  const exam=data.examDate;
+  if(exam){
+    const days=Math.ceil((new Date(exam)-new Date())/(1000*60*60*24));
+    const txt=days>0?`${days} days to exam`:"Exam day!";
+    $("targetDays").textContent=days>0?days:"🎯";$("targetSub").textContent=txt;
+    $("daysLeft").textContent=days>0?days:"0";
+  }else{$("targetDays").textContent="—";$("targetSub").textContent="Set your exam date below";$("daysLeft").textContent="—";}
+  const allSess=["addition","subtraction","multiplication","division","table","square","cube","percentage","simplification","mixed"].flatMap(k=>data[k]?.sessions||[]);
+  $("tpTotalQ").textContent=allSess.reduce((s,x)=>s+(x.attempted||0),0);
+  if(allSess.length){$("tpAvgAcc").textContent=Math.round(allSess.reduce((s,x)=>s+x.accuracy,0)/allSess.length)+"%";$("tpBestSpeed").textContent=Math.max(...allSess.map(x=>x.speed)).toFixed(1)+"Q/m";}
+  else{$("tpAvgAcc").textContent="—";$("tpBestSpeed").textContent="—";}
+}
+
+function renderSpeedBests(data){
+  const sess=data.speed?.sessions||[];
+  if(!sess.length){$("sdBestTimes").innerHTML="No drill completed yet.";return;}
+  const last5=sess.slice(-5).reverse();
+  $("sdBestTimes").innerHTML=last5.map(s=>`<span style="color:var(--t1)">${s.mode}</span> · ${s.score}/${s.total}✓ · avg <span style="color:var(--yellow);font-family:var(--mono)">${s.avgTime.toFixed(1)}s</span>`).join("<br>");
+}
+
+function renderMockHistory(data){
+  const sess=data.mock?.sessions||[];
+  if(!sess.length){$("mockHistory").innerHTML="No mocks completed yet.";return;}
+  const last5=sess.slice(-5).reverse();
+  $("mockHistory").innerHTML=last5.map(s=>`<span style="color:var(--t1)">${s.total}Q</span> · Score: <span style="color:${s.accuracy>=60?"var(--green)":"var(--red)"}; font-family:var(--mono)">${s.netScore.toFixed(1)}</span> · Acc: ${s.accuracy.toFixed(1)}% · ${new Date(s.date).toLocaleDateString()}`).join("<br>");
+}
+
+function renderTricks(){
+  const cats=Object.keys(TRICKS);
+  const catsEl=$("tricksCats");catsEl.innerHTML="";
+  cats.forEach((cat,i)=>{
+    const btn=document.createElement("button");btn.className="trick-cat-btn"+(i===0?" active":"");
+    btn.textContent=cat.charAt(0).toUpperCase()+cat.slice(1);
+    btn.onclick=()=>{catsEl.querySelectorAll(".trick-cat-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderTricksList(cat);};
+    catsEl.appendChild(btn);
+  });
+  renderTricksList(cats[0]);
+}
+function renderTricksList(cat){
+  const tc=$("tricksContent");tc.innerHTML="";
+  (TRICKS[cat]||[]).forEach(t=>{
+    const div=document.createElement("div");div.className="trick-card";
+    div.innerHTML=`<div class="trick-tag">${t.tag}</div><div class="trick-title">${t.title}</div><div class="trick-formula">${t.formula}</div><div class="trick-example" style="white-space:pre-line">${t.example}</div>`;
+    tc.appendChild(div);
+  });
+  // award badge
+  const data=loadData();awardBadge(data,"trick_fan");saveData(data);
+}
+
+function renderTrickOfDay(){
+  const allTricks=Object.values(TRICKS).flat();
+  const seed=Number(todayStr().replaceAll("-",""));
+  const t=allTricks[seed%allTricks.length];
+  $("trickOfDay").innerHTML=`<div class="trick-tag">${t.tag}</div><div class="trick-title">${t.title}</div><div class="trick-formula">${t.formula}</div><div class="trick-example" style="white-space:pre-line;font-size:.75rem;color:var(--t2)">${t.example}</div>`;
+}
+
+function toggleExtraSettings(){
+  const m=$("modeSelect").value;
+  $("tableSettings").classList.toggle("show",m==="table");
+  $("powerSettings").classList.toggle("show",m==="square"||m==="cube");
+}
+
+function showPracticeSection(name){
+  $("practiceSetup").style.display=name==="setup"?"block":"none";
+  $("practiceQuiz").style.display=name==="quiz"?"block":"none";
+  $("practiceResult").style.display=name==="result"?"block":"none";
+}
+
+/* ══════════════════════════════════════════
+   PRACTICE QUIZ STATE
+══════════════════════════════════════════ */
+let pTimer=null,pSecondsLeft=0,pRunning=false;
+let pAnswer=0,pActualMode="addition",pScore=0,pWrong=0,pAttempted=0,pMinutes=5,pCombo=0;
+
+function pNewQ(){
+  if(!pRunning)return;
+  const cfg={number:$("tableNumber")?.value,from:$("tableFrom")?.value,to:$("tableTo")?.value,powerFrom:$("powerFrom")?.value,powerTo:$("powerTo")?.value};
+  const q=generateQ($("modeSelect").value,$("levelSelect").value,cfg);
+  $("questionText").textContent=q.text;pAnswer=q.answer;pActualMode=q.actualMode;
+  setMsg("pMsg","","");
+  if($("answerModeSelect").value==="fill"){
+    $("pFillMode").style.display="block";$("pMcqMode").style.display="none";
+    $("answerInput").value="";setTimeout(()=>$("answerInput").focus(),50);
   }else{
-    wrong++;E.wrongVal.textContent=wrong;combo=0;renderComboUI(0);
-    setMsg(`❌ Wrong! Correct: ${currentAnswer}`,"r");setTimeout(newQuestion,450);
+    $("pFillMode").style.display="none";$("pMcqMode").style.display="block";
+    buildMcqGrid("pMcqGrid",q.answer,pHandleMcq);
   }
-  E.answerInput.focus();
 }
-
-function startQuiz(){
-  if(running)return;
-  score=0;wrong=0;attempted=0;combo=0;
-  E.scoreVal.textContent=0;E.wrongVal.textContent=0;
-  renderComboUI(0);renderXP();
-  sessionMinutes=Number(E.minutesInput.value||5);
-  secondsLeft=sessionMinutes*60;updateTimeUI();
-  running=true;
-  showSection("quiz");
-  newQuestion();
-  timer=setInterval(()=>{secondsLeft--;updateTimeUI();if(secondsLeft<=0)stopQuiz(true)},1000);
+function pHandleMcq(chosen,correct,btn){
+  if(!pRunning)return;
+  $("pMcqGrid").querySelectorAll(".mcq-opt").forEach(b=>b.disabled=true);pAttempted++;
+  if(chosen===correct){btn.classList.add("correct");pScore++;$("scoreVal").textContent=pScore;pCombo++;renderComboUI(pCombo);gainXP(true,$("levelSelect").value,pCombo);setMsg("pMsg","✅ Correct! XP gained","g");setTimeout(pNewQ,650);}
+  else{btn.classList.add("wrong");$("pMcqGrid").querySelectorAll(".mcq-opt").forEach(b=>{if(Number(b.textContent)===correct)b.classList.add("show-correct")});pWrong++;$("wrongVal").textContent=pWrong;pCombo=0;renderComboUI(0);setMsg("pMsg","❌ Wrong! Ans: "+correct,"r");setTimeout(pNewQ,950);}
 }
-
-function stopQuiz(auto=false){
-  if(!running)return;
-  clearInterval(timer);timer=null;running=false;
-  const total=score+wrong,accuracy=total>0?(score/total)*100:0,speed=sessionMinutes>0?attempted/sessionMinutes:0;
+function gainXP(correct,lv,combo){
+  if(!correct)return;const mult=comboMult(combo);const gained=Math.floor(xpBase(lv)*mult);
+  const data=loadData();data.xp=(data.xp||0)+gained;data.level=getProgress(data.xp).level;
+  checkAndAwardBadges(data);saveData(data);renderXPAll();
+}
+function pSubmitFill(){
+  if(!pRunning)return;const val=$("answerInput").value.trim();if(!val){setMsg("pMsg","⚠️ Answer likho!","r");return;}
+  pAttempted++;const num=Number(val);
+  if(num===pAnswer){pScore++;$("scoreVal").textContent=pScore;pCombo++;renderComboUI(pCombo);gainXP(true,$("levelSelect").value,pCombo);setMsg("pMsg","✅ Correct! +XP","g");setTimeout(pNewQ,250);}
+  else{pWrong++;$("wrongVal").textContent=pWrong;pCombo=0;renderComboUI(0);setMsg("pMsg","❌ Wrong! Ans: "+pAnswer,"r");setTimeout(pNewQ,450);}
+  $("answerInput").focus();
+}
+function startPractice(){
+  if(pRunning)return;pScore=0;pWrong=0;pAttempted=0;pCombo=0;$("scoreVal").textContent=0;$("wrongVal").textContent=0;renderComboUI(0);
+  pMinutes=Number($("minutesInput").value||5);pSecondsLeft=pMinutes*60;updatePTimeUI();pRunning=true;showPracticeSection("quiz");pNewQ();
+  pTimer=setInterval(()=>{pSecondsLeft--;updatePTimeUI();if(pSecondsLeft<=0)stopPractice(true);},1000);
+}
+function stopPractice(auto=false){
+  if(!pRunning)return;clearInterval(pTimer);pTimer=null;pRunning=false;
+  const total=pScore+pWrong,acc=total>0?(pScore/total)*100:0,speed=pMinutes>0?pAttempted/pMinutes:0;
   const data=loadData();
   const ch=getOrCreateDaily(data);
-  if(!isDailyDone(data)&&E.modeSelect.value===ch.mode&&E.levelSelect.value===ch.level&&sessionMinutes===ch.minutes){
-    markDailyDone(data);data.xp=(data.xp||0)+ch.bonusXP;data.level=getProgress(data.xp).level;
-  }
-  const bucket=E.modeSelect.value==="mixed"?"mixed":currentActualMode;
+  if(!isDailyDone(data)&&$("modeSelect").value===ch.mode&&$("levelSelect").value===ch.level&&pMinutes===ch.minutes){markDailyDone(data);data.xp=(data.xp||0)+ch.bonusXP;data.level=getProgress(data.xp).level;awardBadge(data,"daily_done");}
+  const bucket=$("modeSelect").value==="mixed"?"mixed":pActualMode;
   if(!data[bucket])data[bucket]={sessions:[]};
-  data[bucket].sessions.push({date:new Date().toISOString(),mode:E.modeSelect.value,level:E.levelSelect.value,minutes:sessionMinutes,score,wrong,attempted,accuracy,speed});
+  data[bucket].sessions.push({date:new Date().toISOString(),mode:$("modeSelect").value,level:$("levelSelect").value,minutes:pMinutes,score:pScore,wrong:pWrong,attempted:pAttempted,accuracy:acc,speed});
   if(data[bucket].sessions.length>100)data[bucket].sessions.shift();
-  updateModeStreak(data,bucket);updateStreak(data);saveData(data);
-  renderRecords();renderXP();renderDailyAll();
-  // show result
-  E.resultEmoji.textContent=auto?"⏰":"✅";
-  E.resultScore.textContent=`${score} correct, ${wrong} wrong`;
-  E.resultSub.textContent=`Speed: ${speed.toFixed(2)} Q/min · Accuracy: ${accuracy.toFixed(1)}%`;
-  showSection("result");
+  updateModeStreak(data,bucket);updateStreak(data);checkAndAwardBadges(data);saveData(data);
+  $("pResEmoji").textContent=auto?"⏰":"✅";$("pResScore").textContent=`${pScore} correct, ${pWrong} wrong`;$("pResSub").textContent=`Speed: ${speed.toFixed(2)} Q/min · Accuracy: ${acc.toFixed(1)}%`;
+  showPracticeSection("result");renderXPAll();renderDailyAll();pCombo=0;renderComboUI(0);
+}
+function updatePTimeUI(){const m=Math.floor(pSecondsLeft/60),s=pSecondsLeft%60;$("timeLeft").textContent=`${pad(m)}:${pad(s)}`;}
+
+/* ══════════════════════════════════════════
+   BUILD MCQ GRID (shared)
+══════════════════════════════════════════ */
+function buildMcqGrid(gridId,correct,handler){
+  const opts=makeMcqOpts(correct);$(gridId).innerHTML="";
+  opts.forEach(opt=>{
+    const btn=document.createElement("button");btn.className="mcq-opt";btn.textContent=opt;
+    btn.addEventListener("click",()=>handler(opt,correct,btn));
+    $(gridId).appendChild(btn);
+  });
 }
 
-function updateTimeUI(){const m=Math.floor(secondsLeft/60),s=secondsLeft%60;E.timeLeft.textContent=`${pad(m)}:${pad(s)}`}
+/* ══════════════════════════════════════════
+   SPEED DRILL STATE
+══════════════════════════════════════════ */
+let sdRunning=false,sdQTimer=null,sdQLeft=0,sdTotal=20,sdCurrent=0,sdScore=0,sdWrong=0;
+let sdAnswer=0,sdTimeSec=10,sdTimes=[];
 
-/* ══════ EVENTS ══════ */
-E.modeSelect.addEventListener("change",toggleExtraSettings);
-E.startBtn.addEventListener("click",startQuiz);
-E.endBtn.addEventListener("click",()=>stopQuiz(false));
-E.submitBtn.addEventListener("click",submitFill);
-E.answerInput.addEventListener("keydown",e=>{if(e.key==="Enter")submitFill()});
-E.skipBtn.addEventListener("click",()=>{if(!running)return;setMsg("⏭️ Skipped!","r");setTimeout(newQuestion,200)});
-E.skipMcq.addEventListener("click",()=>{if(!running)return;setMsg("⏭️ Skipped!","r");setTimeout(newQuestion,200)});
-E.backBtn.addEventListener("click",()=>{showSection("setup")});
-E.clearDataBtn.addEventListener("click",()=>{
-  if(!confirm("Sure bhai? Saara record reset ho jayega!"))return;
-  clearAllData();renderRecords();renderXP();renderDailyAll();
+function sdStart(){
+  sdTotal=Number($("sdTotal").value);sdTimeSec=Number($("sdTimerSec").value);
+  sdCurrent=0;sdScore=0;sdWrong=0;sdTimes=[];
+  $("sdScore").textContent=0;$("sdWrong").textContent=0;sdRunning=true;
+  $("sdSetup").style.display="none";$("sdResult").style.display="none";$("sdQuiz").style.display="block";
+  sdNewQ();
+}
+function sdNewQ(){
+  if(!sdRunning)return;
+  if(sdCurrent>=sdTotal){sdStop();return;}
+  const q=generateQ($("sdMode").value,$("sdLevel").value);
+  $("sdQText").textContent=q.text;sdAnswer=q.answer;
+  $("sdQNum").textContent=`${sdCurrent+1}/${sdTotal}`;
+  $("sdAnswerInput").value="";setMsg("sdMsg","","");
+  const avgTxt=sdTimes.length?`${(sdTimes.reduce((a,b)=>a+b,0)/sdTimes.length).toFixed(1)}s`:"—";
+  $("sdAvgTime").textContent=avgTxt;
+  sdQLeft=sdTimeSec;clearInterval(sdQTimer);
+  updateSdBar();
+  sdQTimer=setInterval(()=>{sdQLeft--;updateSdBar();if(sdQLeft<=0){clearInterval(sdQTimer);sdTimes.push(sdTimeSec);sdWrong++;$("sdWrong").textContent=sdWrong;setMsg("sdMsg","⏰ Time up! Ans: "+sdAnswer,"r");sdCurrent++;setTimeout(sdNewQ,600);}},1000);
+  setTimeout(()=>$("sdAnswerInput").focus(),50);
+}
+function updateSdBar(){
+  $("sdTimerNum").textContent=sdQLeft;const pct=(sdQLeft/sdTimeSec)*100;
+  const fill=$("sdTimerFill");fill.style.width=pct+"%";fill.style.background=pct>60?"var(--green)":pct>30?"var(--yellow)":"var(--red)";
+}
+function sdSubmit(){
+  if(!sdRunning)return;const val=$("sdAnswerInput").value.trim();if(!val)return;
+  const elapsed=sdTimeSec-sdQLeft;clearInterval(sdQTimer);sdTimes.push(elapsed);
+  if(Number(val)===sdAnswer){sdScore++;$("sdScore").textContent=sdScore;setMsg("sdMsg","✅ Correct!","g");}
+  else{sdWrong++;$("sdWrong").textContent=sdWrong;setMsg("sdMsg","❌ Ans: "+sdAnswer,"r");}
+  sdCurrent++;setTimeout(sdNewQ,400);
+}
+function sdStop(){
+  clearInterval(sdQTimer);sdRunning=false;$("sdQuiz").style.display="none";
+  const avg=sdTimes.length?(sdTimes.reduce((a,b)=>a+b,0)/sdTimes.length).toFixed(1):"—";
+  const acc=sdTotal>0?Math.round(sdScore/sdTotal*100):0;
+  $("sdResScore").textContent=`${sdScore}/${sdTotal} correct`;
+  $("sdResSub").textContent=`Accuracy: ${acc}% · Wrong: ${sdWrong}`;
+  $("sdResAvg").textContent=`⚡ Avg response time: ${avg}s`;
+  $("sdResult").style.display="block";
+  const data=loadData();if(!data.speed)data.speed={sessions:[]};
+  data.speed.sessions.push({date:new Date().toISOString(),mode:$("sdMode").value,level:$("sdLevel").value,total:sdTotal,score:sdScore,wrong:sdWrong,accuracy:acc,avgTime:Number(avg||0)});
+  if(data.speed.sessions.length>50)data.speed.sessions.shift();
+  awardBadge(data,"speed_ace");checkAndAwardBadges(data);updateStreak(data);saveData(data);
+  renderRecords();renderXPAll();
+}
+
+/* ══════════════════════════════════════════
+   MOCK TEST STATE
+══════════════════════════════════════════ */
+let mockRunning=false,mockTimer=null,mockSecondsLeft=0;
+let mockQs=[],mockCurrent=0,mockScore=0,mockWrong=0,mockSkippedCount=0;
+let mockNegVal=0.5,mockNetScore=0,mockAnswered=0,mockTotalQ=25;
+
+function mockStart(){
+  mockTotalQ=Number($("mockTotal").value);mockNegVal=Number($("mockNeg").value);
+  const mins=Number($("mockTime").value);mockSecondsLeft=mins*60;
+  mockScore=0;mockWrong=0;mockSkippedCount=0;mockNetScore=0;mockAnswered=0;mockCurrent=0;
+  const level=$("mockLevel").value;
+  const modes=["addition","subtraction","multiplication","division","percentage","simplification","table","square"];
+  mockQs=Array.from({length:mockTotalQ},()=>{const m=modes[randInt(0,modes.length-1)];return generateQ(m,level);});
+  $("mockTotalDisp").textContent=mockTotalQ;$("mockScore").textContent="0";$("mockWrong").textContent="0";
+  $("mockNegBadge").textContent=mockNegVal>0?`−${mockNegVal} per wrong`:"No negative";$("mockNegBadge").style.display=mockNegVal>0?"flex":"none";
+  mockRunning=true;$("mockSetup").style.display="none";$("mockResult").style.display="none";$("mockQuiz").style.display="block";
+  updateMockTime();
+  mockTimer=setInterval(()=>{mockSecondsLeft--;updateMockTime();if(mockSecondsLeft<=0)mockStop();},1000);
+  mockShowQ();
+}
+function updateMockTime(){const m=Math.floor(mockSecondsLeft/60),s=mockSecondsLeft%60;$("mockTimeLeft").textContent=`${pad(m)}:${pad(s)}`;}
+function mockShowQ(){
+  if(mockCurrent>=mockTotalQ){mockStop();return;}
+  const q=mockQs[mockCurrent];$("mockQText").textContent=q.text;
+  $("mockQNum").textContent=`Question ${mockCurrent+1} of ${mockTotalQ}`;
+  $("mockAnswered").textContent=mockAnswered;$("mockSkipped").textContent=mockSkippedCount;
+  setMsg("mockMsg","","");
+  buildMcqGrid("mockMcqGrid",q.answer,(chosen,correct,btn)=>{
+    if(!mockRunning)return;
+    $("mockMcqGrid").querySelectorAll(".mcq-opt").forEach(b=>b.disabled=true);
+    mockAnswered++;
+    if(chosen===correct){btn.classList.add("correct");mockScore++;mockNetScore+=1;$("mockScore").textContent=mockScore;setMsg("mockMsg","✅ Correct!","g");}
+    else{btn.classList.add("wrong");$("mockMcqGrid").querySelectorAll(".mcq-opt").forEach(b=>{if(Number(b.textContent)===correct)b.classList.add("show-correct")});mockWrong++;mockNetScore-=mockNegVal;$("mockWrong").textContent=mockWrong;setMsg("mockMsg","❌ Ans: "+correct,"r");}
+  });
+}
+function mockStop(){
+  clearInterval(mockTimer);mockRunning=false;$("mockQuiz").style.display="none";
+  const total=mockScore+mockWrong+mockSkippedCount,acc=total>0?Math.round(mockScore/total*100):0;
+  const emoji=acc>=80?"🏆":acc>=60?"🎯":"📝";
+  $("mockResEmoji").textContent=emoji;$("mockResScore").textContent=`Net Score: ${mockNetScore.toFixed(1)} / ${mockTotalQ}`;$("mockResSub").textContent=`Correct: ${mockScore} · Wrong: ${mockWrong} · Skipped: ${mockSkippedCount}`;
+  const rg=$("mockResGrid");rg.innerHTML=`<div class="mock-stat"><div class="mock-stat-lbl">Accuracy</div><div class="mock-stat-val" style="color:${acc>=60?"var(--green)":"var(--red)"}">${acc}%</div></div><div class="mock-stat"><div class="mock-stat-lbl">Correct</div><div class="mock-stat-val" style="color:var(--green)">${mockScore}</div></div><div class="mock-stat"><div class="mock-stat-lbl">Net Score</div><div class="mock-stat-val" style="color:var(--yellow)">${mockNetScore.toFixed(1)}</div></div>`;
+  $("mockResult").style.display="block";
+  const data=loadData();if(!data.mock)data.mock={sessions:[]};
+  data.mock.sessions.push({date:new Date().toISOString(),total:mockTotalQ,score:mockScore,wrong:mockWrong,skipped:mockSkippedCount,netScore:mockNetScore,accuracy:acc});
+  if(data.mock.sessions.length>20)data.mock.sessions.shift();
+  if(acc>=80)awardBadge(data,"mock_pass");checkAndAwardBadges(data);updateStreak(data);saveData(data);
+  renderRecords();
+}
+
+/* ══════════════════════════════════════════
+   DIAGNOSTIC STATE
+══════════════════════════════════════════ */
+const DIAG_TOPICS=[
+  {mode:"addition",lv:"medium"},{mode:"subtraction",lv:"medium"},{mode:"multiplication",lv:"medium"},
+  {mode:"division",lv:"medium"},{mode:"percentage",lv:"easy"},{mode:"percentage",lv:"medium"},
+  {mode:"simplification",lv:"easy"},{mode:"simplification",lv:"medium"},{mode:"table",lv:"easy"},
+  {mode:"table",lv:"medium"},{mode:"square",lv:"easy"},{mode:"cube",lv:"easy"},
+  {mode:"addition",lv:"hard"},{mode:"multiplication",lv:"hard"},{mode:"division",lv:"hard"},
+  {mode:"percentage",lv:"hard"},{mode:"simplification",lv:"hard"},{mode:"mixed",lv:"medium"},
+  {mode:"mixed",lv:"medium"},{mode:"mixed",lv:"hard"}
+];
+let diagQs=[],diagCurrent=0,diagScores={};
+
+function diagStart(){
+  diagQs=DIAG_TOPICS.map(t=>({...generateQ(t.mode,t.lv),topic:t.mode,level:t.lv}));
+  diagScores={};diagCurrent=0;
+  $("diagIntro").style.display="none";$("diagResult").style.display="none";$("diagQuiz").style.display="block";
+  diagShowQ();
+}
+function diagShowQ(){
+  if(diagCurrent>=diagQs.length){diagFinish();return;}
+  const q=diagQs[diagCurrent];
+  $("diagQText").textContent=q.text;$("diagTopicLbl").textContent=q.topic.toUpperCase()+" · "+q.level.toUpperCase();
+  $("diagQNum").textContent=diagCurrent+1;$("diagProgFill").style.width=`${(diagCurrent/diagQs.length*100).toFixed(0)}%`;
+  setMsg("diagMsg","","");
+  buildMcqGrid("diagMcqGrid",q.answer,(chosen,correct,btn)=>{
+    $("diagMcqGrid").querySelectorAll(".mcq-opt").forEach(b=>b.disabled=true);
+    const key=q.topic;if(!diagScores[key])diagScores[key]={correct:0,total:0};diagScores[key].total++;
+    if(chosen===correct){btn.classList.add("correct");diagScores[key].correct++;setMsg("diagMsg","✅ Correct!","g");}
+    else{btn.classList.add("wrong");$("diagMcqGrid").querySelectorAll(".mcq-opt").forEach(b=>{if(Number(b.textContent)===correct)b.classList.add("show-correct")});setMsg("diagMsg","❌ Ans: "+correct,"r");}
+    diagCurrent++;setTimeout(diagShowQ,700);
+  });
+}
+function diagFinish(){
+  $("diagQuiz").style.display="none";$("diagResult").style.display="block";
+  const total=Object.values(diagScores).reduce((s,v)=>s+v.correct,0);const totalQ=diagQs.length;
+  const pct=Math.round(total/totalQ*100);
+  let level,emoji,desc;
+  if(pct<40){level="Beginner";emoji="🥉";desc="Keep practicing basics! Focus on addition, subtraction, and times tables first.";}
+  else if(pct<65){level="Intermediate";emoji="🥈";desc="Good foundation! Work on percentage and simplification for SSC/Banking.";}
+  else if(pct<85){level="Advanced";emoji="🥇";desc="Strong player! Focus on speed and hard-level mock tests now.";}
+  else{level="Expert";emoji="🏆";desc="Excellent! You're exam-ready. Practice speed drills and full mock tests.";}
+  $("diagLevelEmoji").textContent=emoji;$("diagLevelName").textContent=level;$("diagLevelDesc").textContent=desc;
+  const tsEl=$("diagTopicScores");tsEl.innerHTML="";
+  Object.entries(diagScores).forEach(([topic,s])=>{
+    const p=Math.round(s.correct/s.total*100);const color=p<50?"var(--red)":p<75?"var(--yellow)":"var(--green)";
+    const box=document.createElement("div");box.className="topic-score-box";
+    box.innerHTML=`<div class="ts-name">${topic}</div><div class="ts-bar"><div class="ts-fill" style="width:${p}%;background:${color}"></div></div><div class="ts-val" style="color:${color}">${p}%</div>`;
+    tsEl.appendChild(box);
+  });
+  const weaks=Object.entries(diagScores).filter(([,s])=>s.correct/s.total<0.5).map(([t])=>t);
+  $("diagWeakList").innerHTML=weaks.length?weaks.map(w=>`⚠️ ${w}`).join(" · "):"✅ No major weak areas!";
+  const data=loadData();data.diagResult={level,pct,scores:diagScores,date:todayStr()};
+  awardBadge(data,"diag_done");checkAndAwardBadges(data);saveData(data);
+  renderPrevDiag();
+}
+function renderPrevDiag(){
+  const data=loadData();const dr=data.diagResult;if(!dr){$("diagPrevResult").style.display="none";return;}
+  $("diagPrevResult").style.display="block";
+  $("diagPrevContent").innerHTML=`Level: <b style="color:var(--accent)">${dr.level}</b> · Score: <b style="color:var(--yellow)">${dr.pct}%</b> · Date: ${dr.date}`;
+}
+
+/* ══════════════════════════════════════════
+   EXAM DATE
+══════════════════════════════════════════ */
+$("examDateInput").addEventListener("change",()=>{
+  const data=loadData();data.examDate=$("examDateInput").value;saveData(data);renderTargetTracker(data);
 });
 
-function applyDailyAndStart(){
+/* ══════════════════════════════════════════
+   DAILY / APPLY CHALLENGE
+══════════════════════════════════════════ */
+function applyDailyChallenge(){
   const data=loadData();const ch=getOrCreateDaily(data);
-  E.modeSelect.value=ch.mode;E.levelSelect.value=ch.level;E.minutesInput.value=ch.minutes;
-  toggleExtraSettings();
-  // switch to practice tab
+  $("modeSelect").value=ch.mode;$("levelSelect").value=ch.level;$("minutesInput").value=ch.minutes;
+  toggleExtraSettings();switchTab("practice");
+}
+
+/* ══════════════════════════════════════════
+   TAB SWITCHING
+══════════════════════════════════════════ */
+function switchTab(name){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.querySelector('[data-page="practice"]').classList.add("active");
-  document.getElementById("page-practice").classList.add("active");
+  const tab=document.querySelector(`[data-page="${name}"]`);if(tab)tab.classList.add("active");
+  const page=$(`page-${name}`);if(page)page.classList.add("active");
 }
-E.startDailyBtn.addEventListener("click",applyDailyAndStart);
-E.startDailyBtn2.addEventListener("click",applyDailyAndStart);
-
-/* ══════ TABS ══════ */
 document.querySelectorAll(".tab").forEach(tab=>{
-  tab.addEventListener("click",()=>{
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById("page-"+tab.dataset.page).classList.add("active");
-  });
+  tab.addEventListener("click",()=>switchTab(tab.dataset.page));
 });
 
-/* ══════ INIT ══════ */
-toggleExtraSettings();
-renderRecords();
-renderXP();
-renderComboUI(0);
-renderDailyAll();
-showSection("setup");
+/* ══════════════════════════════════════════
+   EVENT WIRING
+══════════════════════════════════════════ */
+$("modeSelect").addEventListener("change",toggleExtraSettings);
+$("startBtn").addEventListener("click",startPractice);
+$("endBtn").addEventListener("click",()=>stopPractice(false));
+$("submitBtn").addEventListener("click",pSubmitFill);
+$("skipBtn").addEventListener("click",()=>{if(!pRunning)return;setMsg("pMsg","⏭️ Skipped!","r");setTimeout(pNewQ,200);});
+$("skipMcqBtn").addEventListener("click",()=>{if(!pRunning)return;setMsg("pMsg","⏭️ Skipped!","r");setTimeout(pNewQ,200);});
+$("answerInput").addEventListener("keydown",e=>{if(e.key==="Enter")pSubmitFill();});
+$("pBackBtn").addEventListener("click",()=>{showPracticeSection("setup");renderDailyAll();});
+
+$("sdStartBtn").addEventListener("click",sdStart);
+$("sdSubmitBtn").addEventListener("click",sdSubmit);
+$("sdAnswerInput").addEventListener("keydown",e=>{if(e.key==="Enter")sdSubmit();});
+$("sdEndBtn").addEventListener("click",sdStop);
+$("sdBackBtn").addEventListener("click",()=>{$("sdResult").style.display="none";$("sdSetup").style.display="block";});
+
+$("mockStartBtn").addEventListener("click",mockStart);
+$("mockSkipBtn").addEventListener("click",()=>{if(!mockRunning)return;mockSkippedCount++;mockCurrent++;$("mockSkipped").textContent=mockSkippedCount;mockShowQ();});
+$("mockSubmitBtn").addEventListener("click",()=>{if(!mockRunning)return;mockCurrent++;mockShowQ();});
+$("mockBackBtn").addEventListener("click",()=>{$("mockResult").style.display="none";$("mockSetup").style.display="block";renderMockHistory(loadData());});
+
+$("diagStartBtn").addEventListener("click",diagStart);
+$("diagRetakeBtn").addEventListener("click",()=>{$("diagResult").style.display="none";$("diagIntro").style.display="block";});
+
+$("startDailyBtn").addEventListener("click",applyDailyChallenge);
+$("startDailyBtn2").addEventListener("click",applyDailyChallenge);
+
+$("clearDataBtn").addEventListener("click",()=>{
+  if(!confirm("Sure bhai? Saara data delete ho jayega!"))return;
+  clearAllData();location.reload();
+});
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+(function init(){
+  const data=loadData();
+  if(data.examDate)$("examDateInput").value=data.examDate;
+  toggleExtraSettings();renderXPAll();renderComboUI(0);renderDailyAll();renderRecords();renderTricks();renderTrickOfDay();renderPrevDiag();showPracticeSection("setup");
+})();
 </script>
 </body>
 </html>
