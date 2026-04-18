@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Math Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0b0e;
+  --s1:#111115;
+  --s2:#17171c;
+  --s3:#1e1e25;
+  --s4:#26262f;
+  --br:#2c2c38;
+  --br2:#3a3a48;
+  --t1:#eeedf5;
+  --t2:#9a98ad;
+  --t3:#5a5870;
+  --accent:#8b7cf8;
+  --accent-dim:#6c5fe0;
+  --accent-glow:rgba(139,124,248,0.15);
+  --green:#34d399;
+  --green-dim:rgba(52,211,153,0.12);
+  --red:#f87171;
+  --red-dim:rgba(248,113,113,0.12);
+  --yellow:#fbbf24;
+  --r:14px;
+  --r2:10px;
+  --sans:'Outfit',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);display:flex;flex-direction:column}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;background:var(--s1);border-bottom:1px solid var(--br);flex-shrink:0}
+.logo{font-family:var(--mono);font-size:.95rem;color:var(--t1)}
+.logo em{color:var(--accent);font-style:normal}
+.streak-badge{display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--t3);font-weight:500}
+.streak-badge b{color:var(--yellow);font-family:var(--mono)}
+
+/* TABS */
+.tabs{display:flex;gap:4px;padding:10px 20px;background:var(--s1);border-bottom:1px solid var(--br);flex-shrink:0}
+.tab{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:8px;font-size:.83rem;font-weight:500;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--t3);transition:all .15s;font-family:var(--sans)}
+.tab:hover{background:var(--s3);color:var(--t2)}
+.tab.active{background:var(--accent-glow);color:var(--accent);border-color:rgba(139,124,248,.3)}
+.tab-icon{font-size:.95rem}
+
+/* PAGES */
+.page{display:none;flex:1;overflow-y:auto;padding:18px}
+.page.active{display:block}
+.inner{max-width:680px;margin:0 auto}
+
+/* SECTION LABEL */
+.slabel{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:18px;margin-bottom:14px}
+
+/* FIELDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g-full{grid-column:1/-1}
+.field label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.field select,.field input[type=number]{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:var(--r2);color:var(--t1);font-family:var(--sans);font-size:.88rem;padding:9px 12px;outline:none;transition:border .15s;-webkit-appearance:none;appearance:none}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235a5870' d='M5 7L0 2h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.field select:focus,.field input:focus{border-color:var(--accent)}
+
+/* EXTRA SETTINGS */
+.extra{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:14px;margin-bottom:14px;display:none}
+.extra.show{display:block}
+.extra-hint{font-size:.72rem;color:var(--t3);margin-top:8px;font-style:italic}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:var(--r2);border:none;font-family:var(--sans);font-size:.88rem;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:active{transform:scale(.97)}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:#9d8ffb}
+.btn-accent:disabled{background:var(--s4);color:var(--t3);cursor:not-allowed;transform:none}
+.btn-outline{background:transparent;border:1px solid var(--br);color:var(--t3)}
+.btn-outline:hover{border-color:var(--br2);color:var(--t2)}
+.btn-outline:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-end{background:var(--red-dim);border:1px solid rgba(248,113,113,.25);color:var(--red)}
+.btn-end:hover{background:rgba(248,113,113,.2)}
+.strip{display:flex;gap:8px;margin-bottom:14px}
+.strip .btn-accent{flex:1}
+
+/* LIVE CHIPS */
+.live-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.chip{background:var(--s2);border:1px solid var(--br);border-radius:var(--r2);padding:10px 8px;text-align:center}
+.chip-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:3px}
+.chip-val{font-family:var(--mono);font-size:1.05rem;font-weight:600}
+#timeLeft{color:var(--accent)}
+#scoreVal{color:var(--green)}
+#wrongVal{color:var(--red)}
+
+/* QUESTION AREA */
+.q-area{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:20px;margin-bottom:14px;transition:border-color .3s}
+.q-area.live{border-color:rgba(139,124,248,.4)}
+#questionText{font-family:var(--mono);font-size:1.75rem;font-weight:700;text-align:center;color:var(--t1);margin-bottom:16px;min-height:2.4rem;line-height:1.2}
+
+/* FILL MODE */
+.fill-row{display:flex;gap:8px}
+.fill-row input{flex:1;background:var(--s1);border:1px solid var(--br);border-radius:var(--r2);color:var(--t1);font-family:var(--mono);font-size:1rem;padding:10px 14px;outline:none;transition:border .15s}
+.fill-row input:focus{border-color:var(--accent)}
+.fill-row input:disabled{opacity:.35}
+
+/* MCQ */
+.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mcq-opt{padding:14px;border-radius:var(--r2);border:1px solid var(--br);background:var(--s1);color:var(--t1);font-family:var(--mono);font-size:1rem;font-weight:600;cursor:pointer;transition:all .18s;text-align:center;width:100%}
+.mcq-opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-glow);color:var(--accent)}
+.mcq-opt.correct{background:var(--green-dim)!important;border-color:var(--green)!important;color:var(--green)!important;pointer-events:none}
+.mcq-opt.wrong{background:var(--red-dim)!important;border-color:var(--red)!important;color:var(--red)!important;pointer-events:none}
+.mcq-opt.show-correct{background:var(--green-dim)!important;border-color:var(--green)!important;color:var(--green)!important;pointer-events:none}
+.mcq-opt:disabled{pointer-events:none;opacity:.5}
+.skip-row{display:flex;justify-content:flex-end;margin-top:8px}
+
+#message{margin-top:10px;font-size:.85rem;font-weight:500;text-align:center;min-height:1.2rem}
+.msg-g{color:var(--green)}.msg-r{color:var(--red)}
+
+/* BARS */
+.bar-section{margin-bottom:11px}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.bar-left{font-size:.78rem;color:var(--t3)}
+.bar-left b{color:var(--accent);font-family:var(--mono)}
+.bar-right{font-family:var(--mono);font-size:.72rem;color:var(--t3)}
+.bar-bg{height:5px;background:var(--s4);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;transition:width .4s ease}
+.xp-bar{background:var(--accent)}
+.combo-bar{background:linear-gradient(90deg,var(--yellow),#f97316)}
+.bar-hint{font-size:.7rem;color:var(--t3);margin-top:4px}
+.div{height:1px;background:var(--br);margin:12px 0}
+
+/* DAILY PREVIEW */
+.daily-wrap{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:16px}
+.daily-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.daily-lbl{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
+.d-badge{font-size:.68rem;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--s4);color:var(--t3)}
+.d-badge.done{background:var(--green-dim);color:var(--green)}
+.daily-info{font-size:.85rem;color:var(--t2);margin-bottom:10px;line-height:1.5}
+.daily-hint-txt{font-size:.72rem;color:var(--t3);margin-top:8px}
+
+/* RECORDS */
+.records-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rec-box{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:14px}
+.rec-title{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:8px}
+.rec-val{font-size:.78rem;color:var(--t2);line-height:1.8}
+.rec-val b{color:var(--yellow);font-family:var(--mono);font-size:.72rem}
+.rec-val .na{color:var(--t3);font-style:italic}
+.motive-box{grid-column:1/-1;background:var(--accent-glow);border:1px solid rgba(139,124,248,.2);border-radius:var(--r);padding:14px}
+.motive-txt{font-size:.88rem;color:var(--accent);font-weight:500}
+
+/* DAILY PAGE */
+.daily-hero{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:24px;margin-bottom:14px;text-align:center}
+.daily-hero-emoji{font-size:2.8rem;margin-bottom:8px}
+.daily-page-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:14px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
+.pill{display:inline-flex;align-items:center;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:6px 14px;font-size:.85rem;font-family:var(--mono);color:var(--t2)}
+.bonus-txt{font-size:.85rem;color:var(--t2);margin-bottom:16px}
+.bonus-txt b{color:var(--yellow);font-family:var(--mono)}
+
+/* RESULT OVERLAY */
+.result-card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:28px;margin-bottom:14px;text-align:center}
+.result-emoji{font-size:2.5rem;margin-bottom:10px}
+.result-score{font-family:var(--mono);font-size:1.5rem;color:var(--t1);margin-bottom:6px}
+.result-sub{font-size:.85rem;color:var(--t2)}
+
+/* SCROLLBAR */
+.page::-webkit-scrollbar{width:4px}
+.page::-webkit-scrollbar-track{background:transparent}
+.page::-webkit-scrollbar-thumb{background:var(--br);border-radius:99px}
+
+/* FOOTER */
+.foot{text-align:center;font-size:.68rem;color:var(--t3);padding:10px;border-top:1px solid var(--br);flex-shrink:0}
+
+/* MOBILE */
+@media(max-width:600px){
+  .topbar{padding:10px 14px}
+  .tabs{padding:8px 12px;gap:3px}
+  .tab{padding:7px 10px;font-size:.78rem}
+  .tab .tab-txt{display:none}
+  .page{padding:12px}
+  #questionText{font-size:1.35rem}
+  .g2{grid-template-columns:1fr}
+  .mcq-grid{grid-template-columns:1fr 1fr}
+  .rec-grid{grid-template-columns:1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+}
+@media(max-width:360px){
+  .mcq-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="logo">🧠 <em>math</em>practice</div>
+  <div class="streak-badge">🔥 <b id="streakCount">0</b>&nbsp;day streak</div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab active" data-page="practice">
+    <span class="tab-icon">⚡</span><span class="tab-txt">Practice</span>
+  </button>
+  <button class="tab" data-page="records">
+    <span class="tab-icon">📊</span><span class="tab-txt">Records</span>
+  </button>
+  <button class="tab" data-page="daily">
+    <span class="tab-icon">📅</span><span class="tab-txt">Daily</span>
+  </button>
+</nav>
+
+<!-- ═══════════ PRACTICE PAGE ═══════════ -->
+<div class="page active" id="page-practice">
+<div class="inner">
+
+  <!-- SETUP -->
+  <div id="setupSection">
+    <div class="card">
+      <p class="slabel">Quiz Setup</p>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field">
+          <label>Mode</label>
+          <select id="modeSelect">
+            <option value="addition">Addition (+)</option>
+            <option value="subtraction">Subtraction (−)</option>
+            <option value="multiplication">Multiplication (×)</option>
+            <option value="division">Division (÷)</option>
+            <option value="table">Table Practice</option>
+            <option value="square">Squares (n²)</option>
+            <option value="cube">Cubes (n³)</option>
+            <option value="mixed">Mixed 🔥</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Level</label>
+          <select id="levelSelect">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Minutes</label>
+          <input id="minutesInput" type="number" min="1" max="60" value="5"/>
+        </div>
+        <div class="field">
+          <label>Answer Style</label>
+          <select id="answerModeSelect">
+            <option value="fill">✏️ Type answer</option>
+            <option value="mcq">🔘 Choose option</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TABLE SETTINGS -->
+      <div id="tableSettings" class="extra">
+        <p class="slabel">Table Settings</p>
+        <div class="g3">
+          <div class="field"><label>Table No.</label><input id="tableNumber" type="number" min="1" max="200" value="11"/></div>
+          <div class="field"><label>From</label><input id="tableFrom" type="number" min="1" max="100" value="1"/></div>
+          <div class="field"><label>To</label><input id="tableTo" type="number" min="1" max="200" value="20"/></div>
+        </div>
+        <p class="extra-hint">e.g. 11 × 7 = ? (random pick)</p>
+      </div>
+
+      <!-- POWER SETTINGS -->
+      <div id="powerSettings" class="extra">
+        <p class="slabel">Range Settings</p>
+        <div class="g2">
+          <div class="field"><label>From</label><input id="powerFrom" type="number" min="1" max="500" value="1"/></div>
+          <div class="field"><label>To</label><input id="powerTo" type="number" min="1" max="500" value="30"/></div>
+        </div>
+        <p class="extra-hint">e.g. 12² = ? or 5³ = ?</p>
+      </div>
+
+      <div class="strip">
+        <button id="startBtn" class="btn btn-accent">▶&nbsp; Start Quiz</button>
+      </div>
+    </div>
+
+    <!-- IDLE XP -->
+    <div class="card">
+      <div class="bar-section">
+        <div class="bar-top">
+          <div class="bar-left">Level&nbsp;<b id="idleLv">1</b></div>
+          <div class="bar-right"><span id="idleXp">0</span> XP</div>
+        </div>
+        <div class="bar-bg"><div id="idleXpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
+        <div class="bar-hint" id="idleXpHint">Next level in 200 XP</div>
+      </div>
+    </div>
+
+    <!-- DAILY PREVIEW -->
+    <div class="daily-wrap">
+      <div class="daily-top">
+        <div class="daily-lbl">📅 Daily Challenge</div>
+        <div class="d-badge" id="dBadge">Not Done</div>
+      </div>
+      <div class="daily-info" id="dText">Loading...</div>
+      <button id="startDailyBtn" class="btn btn-accent" style="width:100%">Start Challenge</button>
+      <div class="daily-hint-txt" id="dHint">Complete to earn bonus XP 🔥</div>
+    </div>
+  </div><!-- /setupSection -->
+
+  <!-- QUIZ ACTIVE -->
+  <div id="quizSection" style="display:none">
+    <div class="live-row">
+      <div class="chip"><div class="chip-lbl">Time</div><div class="chip-val" id="timeLeft">00:00</div></div>
+      <div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="scoreVal">0</div></div>
+      <div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="wrongVal">0</div></div>
+    </div>
+
+    <div class="q-area live" id="qArea">
+      <div id="questionText">—</div>
+
+      <!-- FILL -->
+      <div id="fillMode">
+        <div class="fill-row">
+          <input id="answerInput" type="number" placeholder="Type your answer…"/>
+          <button id="submitBtn" class="btn btn-accent">Submit</button>
+          <button id="skipBtn" class="btn btn-outline">Skip</button>
+        </div>
+      </div>
+
+      <!-- MCQ -->
+      <div id="mcqMode" style="display:none">
+        <div class="mcq-grid" id="mcqGrid"></div>
+        <div class="skip-row"><button id="skipMcq" class="btn btn-outline">Skip</button></div>
+      </div>
+
+      <div id="message"></div>
+    </div>
+
+    <div class="strip">
+      <button id="endBtn" class="btn btn-end" style="flex:1">■&nbsp; End Quiz</button>
+    </div>
+
+    <div class="card">
+      <div class="bar-section">
+        <div class="bar-top">
+          <div class="bar-left">Level&nbsp;<b id="lv">1</b></div>
+          <div class="bar-right"><span id="xpVal">0</span> XP</div>
+        </div>
+        <div class="bar-bg"><div id="xpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
+        <div class="bar-hint" id="xpHint">Next level in 200 XP</div>
+      </div>
+      <div class="div"></div>
+      <div class="bar-section" style="margin-bottom:0">
+        <div class="bar-top">
+          <div class="bar-left">🔥 Combo</div>
+          <div class="bar-right"><span id="comboVal">0</span>x</div>
+        </div>
+        <div class="bar-bg"><div id="comboFill" class="bar-fill combo-bar" style="width:0%"></div></div>
+        <div class="bar-hint" id="comboHint">Get 3 correct in a row to boost XP!</div>
+      </div>
+    </div>
+  </div><!-- /quizSection -->
+
+  <!-- RESULT -->
+  <div id="resultSection" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji">✅</div>
+      <div class="result-score" id="resultScore">—</div>
+      <div class="result-sub" id="resultSub">—</div>
+      <button id="backBtn" class="btn btn-accent" style="margin-top:18px;width:100%">← Back to Setup</button>
+    </div>
+    <div class="card">
+      <div class="bar-section" style="margin-bottom:0">
+        <div class="bar-top">
+          <div class="bar-left">Level&nbsp;<b id="resLv">1</b></div>
+          <div class="bar-right"><span id="resXp">0</span> XP</div>
+        </div>
+        <div class="bar-bg"><div id="resXpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
+        <div class="bar-hint" id="resXpHint">Next level in 200 XP</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /practice page -->
+
+<!-- ═══════════ RECORDS PAGE ═══════════ -->
+<div class="page" id="page-records">
+<div class="inner">
+  <div class="records-head">
+    <p class="slabel" style="margin:0">All Records</p>
+    <button id="clearDataBtn" class="btn btn-outline" style="padding:7px 14px;font-size:.8rem">🗑 Clear All</button>
+  </div>
+  <div class="rec-grid">
+    <div class="rec-box"><div class="rec-title">➕ Addition</div><div id="addStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
+    <div class="rec-box"><div class="rec-title">➖ Subtraction</div><div id="subStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
+    <div class="rec-box"><div class="rec-title">✖️ Multiplication</div><div id="mulStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
+    <div class="rec-box"><div class="rec-title">➗ Division</div><div id="divStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
+    <div class="rec-box"><div class="rec-title">📌 Tables</div><div id="tableStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
+    <div class="rec-box"><div class="rec-title">🟦 Squares</div><div id="squareStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
+    <div class="rec-box"><div class="rec-title">🟪 Cubes</div><div id="cubeStats" class="rec-val"><span class="na">No sessions yet</span></div></div>
+    <div class="motive-box"><div class="motive-txt" id="streakMsg">Start today bhai 💪 Streak bana!</div></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ DAILY PAGE ═══════════ -->
+<div class="page" id="page-daily">
+<div class="inner">
+  <div class="daily-hero">
+    <div class="daily-hero-emoji" id="dPageEmoji">📅</div>
+    <p class="daily-page-label">Today's Challenge</p>
+    <div class="pills" id="dPagePills">—</div>
+    <p class="bonus-txt">Bonus reward: <b>+50 XP</b></p>
+    <button id="startDailyBtn2" class="btn btn-accent" style="width:100%">Start Challenge</button>
+    <p class="daily-hint-txt" style="margin-top:10px" id="dPageHint">Complete it to earn bonus XP 🔥</p>
+  </div>
+  <div class="card">
+    <p class="slabel">How it works</p>
+    <p style="font-size:.85rem;color:var(--t2);line-height:1.75">
+      Every day a fresh challenge is generated — a specific mode, level, and duration.
+      Finish it to earn <b style="color:var(--yellow)">+50 bonus XP</b> on top of normal XP gains.
+      Resets at midnight. Come back daily to keep your streak alive 🔥
+    </p>
+  </div>
+</div>
+</div>
+
+<footer class="foot">Made with ❤️ by Rohit</footer>
+
+<script>
+/* ══════ UTILS ══════ */
+function pad(n){return n.toString().padStart(2,"0")}
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function todayStr(){const d=new Date();return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
+function ydayStr(){const d=new Date();d.setDate(d.getDate()-1);return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
+
+/* ══════ STORAGE ══════ */
+const KEY="math_app_v2";
+function defaultData(){return{streak:0,lastPracticeDate:null,xp:0,level:1,modeStreaks:{addition:{streak:0,lastDate:null},subtraction:{streak:0,lastDate:null},multiplication:{streak:0,lastDate:null},division:{streak:0,lastDate:null},table:{streak:0,lastDate:null},mixed:{streak:0,lastDate:null},square:{streak:0,lastDate:null},cube:{streak:0,lastDate:null}},daily:{date:null,completed:false,challenge:null},addition:{sessions:[]},subtraction:{sessions:[]},multiplication:{sessions:[]},division:{sessions:[]},table:{sessions:[]},mixed:{sessions:[]},square:{sessions:[]},cube:{sessions:[]}}}
+function loadData(){const r=localStorage.getItem(KEY);if(!r)return defaultData();try{return JSON.parse(r)}catch{return defaultData()}}
+function saveData(d){localStorage.setItem(KEY,JSON.stringify(d))}
+function clearAllData(){localStorage.removeItem(KEY)}
+function updateStreak(data){const t=todayStr(),l=data.lastPracticeDate;if(!l){data.streak=1;data.lastPracticeDate=t;return}if(l===t)return;data.streak=(l===ydayStr())?(data.streak||0)+1:1;data.lastPracticeDate=t}
+function updateModeStreak(data,mode){const t=todayStr();if(!data.modeStreaks)data.modeStreaks={};if(!data.modeStreaks[mode])data.modeStreaks[mode]={streak:0,lastDate:null};const l=data.modeStreaks[mode].lastDate;if(l===t)return;data.modeStreaks[mode].streak=!l?1:(l===ydayStr()?data.modeStreaks[mode].streak+1:1);data.modeStreaks[mode].lastDate=t}
+
+/* ══════ XP ══════ */
+function getLv(xp){let lv=1,tot=0;while(true){const need=200+(lv-1)*100;if(xp<tot+need)break;tot+=need;lv++}return{level:lv,totalRequired:tot}}
+function getProgress(xp){const{level,totalRequired}=getLv(xp);const need=200+(level-1)*100,cur=xp-totalRequired;return{level,pct:Math.min(100,(cur/need)*100),left:Math.max(0,need-cur)}}
+function xpBase(lv){return lv==="easy"?8:lv==="medium"?10:12}
+
+/* ══════ COMBO ══════ */
+function comboMult(c){return c>=10?2.0:c>=5?1.5:c>=3?1.2:1.0}
+function comboPct(c){return(Math.min(10,c)/10)*100}
+function comboMsg(c){const m=comboMult(c);if(c===0)return"Get 3 correct in a row to boost XP!";if(c<3)return`Nice! ${3-c} more for boost 🚀`;if(m===1.2)return"🔥 Combo! XP ×1.2";if(m===1.5)return"🚀 Super Combo! XP ×1.5";return"👑 GOD MODE! XP ×2.0"}
+
+/* ══════ DAILY ══════ */
+function pickChallenge(seed){const modes=["addition","subtraction","multiplication","division","table","mixed"],levels=["easy","medium","hard"],mins=[3,5,7];return{mode:modes[seed%modes.length],level:levels[(seed*7)%levels.length],minutes:mins[(seed*11)%mins.length],bonusXP:50}}
+function getOrCreateDaily(data){const t=todayStr();if(data.daily&&data.daily.date===t&&data.daily.challenge)return data.daily.challenge;const seed=Number(t.replaceAll("-",""));const ch=pickChallenge(seed);data.daily={date:t,completed:false,challenge:ch};return ch}
+function isDailyDone(data){const t=todayStr();return data.daily?.date===t&&data.daily?.completed===true}
+function markDailyDone(data){const t=todayStr();if(!data.daily)data.daily={};data.daily.date=t;data.daily.completed=true}
+
+/* ══════ QUIZ ENGINE ══════ */
+function getRangeLv(lv){return lv==="easy"?{min:1,max:50}:lv==="medium"?{min:10,max:200}:{min:50,max:999}}
+function getDigitsLv(lv){return lv==="easy"?{a:[2,2],b:[1,2]}:lv==="medium"?{a:[2,3],b:[2,2]}:{a:[3,4],b:[2,3]}}
+function nDigit(mn,mx){const d=randInt(mn,mx);return randInt(Math.pow(10,d-1),Math.pow(10,d)-1)}
+function generateQ(mode,level,cfg){
+  if(mode==="mixed"){const p=["addition","subtraction","multiplication","division"];mode=p[randInt(0,p.length-1)]}
+  if(mode==="addition"){const c=level==="easy"?randInt(3,4):randInt(4,5),r=getRangeLv(level),ns=Array.from({length:c},()=>randInt(r.min,r.max));return{text:ns.join(" + ")+" = ?",answer:ns.reduce((a,b)=>a+b,0),actualMode:"addition"}}
+  if(mode==="subtraction"){const c=level==="easy"?2:randInt(2,3),r=getRangeLv(level);let ns=Array.from({length:c},()=>randInt(r.min,r.max));ns.sort((a,b)=>b-a);return{text:ns.join(" − ")+" = ?",answer:ns.reduce((a,b)=>a-b),actualMode:"subtraction"}}
+  if(mode==="multiplication"){const d=getDigitsLv(level),a=nDigit(d.a[0],d.a[1]),b=nDigit(d.b[0],d.b[1]);return{text:`${a} × ${b} = ?`,answer:a*b,actualMode:"multiplication"}}
+  if(mode==="division"){const dv=level==="easy"?randInt(2,12):level==="medium"?randInt(2,25):randInt(2,50),qt=level==="easy"?randInt(2,15):level==="medium"?randInt(2,30):randInt(5,50);return{text:`${dv*qt} ÷ ${dv} = ?`,answer:qt,actualMode:"division"}}
+  if(mode==="table"){const tn=Number(cfg.number||11),fr=Number(cfg.from||1),to=Number(cfg.to||20),k=randInt(Math.min(fr,to),Math.max(fr,to));return{text:`${tn} × ${k} = ?`,answer:tn*k,actualMode:"table"}}
+  if(mode==="square"){const fr=Number(cfg.powerFrom||1),to=Number(cfg.powerTo||30),n=randInt(Math.min(fr,to),Math.max(fr,to));return{text:`${n}² = ?`,answer:n*n,actualMode:"square"}}
+  if(mode==="cube"){const fr=Number(cfg.powerFrom||1),to=Number(cfg.powerTo||20),n=randInt(Math.min(fr,to),Math.max(fr,to));return{text:`${n}³ = ?`,answer:n*n*n,actualMode:"cube"}}
+  return{text:"—",answer:0,actualMode:mode}
+}
+function makeMcqOpts(correct){
+  const opts=new Set([correct]);let tries=0;
+  while(opts.size<4&&tries<60){const off=randInt(1,Math.max(5,Math.abs(Math.round(correct*.3))||10)),sign=Math.random()<.5?1:-1,v=correct+sign*off;if(v!==correct&&v>=0)opts.add(v);tries++}
+  return Array.from(opts).sort(()=>Math.random()-.5)
+}
+
+/* ══════ STATS ══════ */
+function calcSummary(sessions){
+  if(!sessions||!sessions.length)return null;
+  let bs=0,ba=0,bsp=0,ss=0,sa=0,ssp=0;
+  sessions.forEach(s=>{ss+=s.score;sa+=s.accuracy;ssp+=s.speed;bs=Math.max(bs,s.score);ba=Math.max(ba,s.accuracy);bsp=Math.max(bsp,s.speed)});
+  const n=sessions.length,l=sessions[n-1];
+  return{totalSessions:n,bestScore:bs,bestAcc:ba,bestSpeed:bsp,avgAcc:sa/n,avgSpeed:ssp/n,last:l}
+}
+function fmtSummary(s,streak){
+  if(!s)return`<span class="na">No sessions yet</span>`;
+  const l=s.last;
+  return`Sessions: ${s.totalSessions}<br>Last: ${l.score} ✓ | Acc: ${l.accuracy.toFixed(1)}%<br>Speed: ${l.speed.toFixed(2)} Q/min<br>Best: ${s.bestScore} | Best Acc: ${s.bestAcc.toFixed(1)}%<br><b>🔥 Streak: ${streak} days</b>`
+}
+
+/* ══════ DOM ══════ */
+const $=id=>document.getElementById(id);
+const E={
+  modeSelect:$("modeSelect"),levelSelect:$("levelSelect"),minutesInput:$("minutesInput"),
+  answerModeSelect:$("answerModeSelect"),
+  tableSettings:$("tableSettings"),tableNumber:$("tableNumber"),tableFrom:$("tableFrom"),tableTo:$("tableTo"),
+  powerSettings:$("powerSettings"),powerFrom:$("powerFrom"),powerTo:$("powerTo"),
+  startBtn:$("startBtn"),endBtn:$("endBtn"),
+  submitBtn:$("submitBtn"),skipBtn:$("skipBtn"),skipMcq:$("skipMcq"),
+  answerInput:$("answerInput"),
+  questionText:$("questionText"),message:$("message"),
+  timeLeft:$("timeLeft"),scoreVal:$("scoreVal"),wrongVal:$("wrongVal"),
+  streakCount:$("streakCount"),
+  addStats:$("addStats"),subStats:$("subStats"),mulStats:$("mulStats"),
+  divStats:$("divStats"),tableStats:$("tableStats"),squareStats:$("squareStats"),cubeStats:$("cubeStats"),
+  streakMsg:$("streakMsg"),clearDataBtn:$("clearDataBtn"),
+  // XP (quiz active)
+  lv:$("lv"),xpVal:$("xpVal"),xpFill:$("xpFill"),xpHint:$("xpHint"),
+  // XP (idle)
+  idleLv:$("idleLv"),idleXp:$("idleXp"),idleXpFill:$("idleXpFill"),idleXpHint:$("idleXpHint"),
+  // XP (result)
+  resLv:$("resLv"),resXp:$("resXp"),resXpFill:$("resXpFill"),resXpHint:$("resXpHint"),
+  // Combo
+  comboVal:$("comboVal"),comboFill:$("comboFill"),comboHint:$("comboHint"),
+  // Daily (practice tab)
+  dBadge:$("dBadge"),dText:$("dText"),startDailyBtn:$("startDailyBtn"),dHint:$("dHint"),
+  // Daily (daily tab)
+  dPageEmoji:$("dPageEmoji"),dPagePills:$("dPagePills"),startDailyBtn2:$("startDailyBtn2"),dPageHint:$("dPageHint"),
+  // Sections
+  setupSection:$("setupSection"),quizSection:$("quizSection"),resultSection:$("resultSection"),
+  fillMode:$("fillMode"),mcqMode:$("mcqMode"),mcqGrid:$("mcqGrid"),
+  resultEmoji:$("resultEmoji"),resultScore:$("resultScore"),resultSub:$("resultSub"),backBtn:$("backBtn"),
+};
+
+/* ══════ STATE ══════ */
+let timer=null,secondsLeft=0,running=false;
+let currentAnswer=0,currentActualMode="addition";
+let score=0,wrong=0,attempted=0,sessionMinutes=5,combo=0;
+
+/* ══════ RENDER ══════ */
+function setMsg(t,type){E.message.innerHTML=t;E.message.className=type==="g"?"msg-g":type==="r"?"msg-r":""}
+
+function renderXP(){
+  const data=loadData(),p=getProgress(data.xp||0);
+  const xp=data.xp||0;
+  // all three xp displays
+  [[E.lv,E.xpVal,E.xpFill,E.xpHint],[E.idleLv,E.idleXp,E.idleXpFill,E.idleXpHint],[E.resLv,E.resXp,E.resXpFill,E.resXpHint]].forEach(([lv,xpE,fill,hint])=>{
+    lv.textContent=p.level;xpE.textContent=xp;fill.style.width=`${p.pct.toFixed(0)}%`;hint.textContent=`Next level in ${p.left} XP`;
+  });
+}
+function renderComboUI(c){
+  E.comboVal.textContent=c;E.comboFill.style.width=`${comboPct(c).toFixed(0)}%`;
+  E.comboHint.textContent=`${comboMsg(c)} (×${comboMult(c)})`;
+}
+function renderRecords(){
+  const data=loadData();
+  const ms=m=>data.modeStreaks?.[m]?.streak||0;
+  E.streakCount.textContent=data.streak||0;
+  E.addStats.innerHTML=fmtSummary(calcSummary(data.addition?.sessions),ms("addition"));
+  E.subStats.innerHTML=fmtSummary(calcSummary(data.subtraction?.sessions),ms("subtraction"));
+  E.mulStats.innerHTML=fmtSummary(calcSummary(data.multiplication?.sessions),ms("multiplication"));
+  E.divStats.innerHTML=fmtSummary(calcSummary(data.division?.sessions),ms("division"));
+  E.tableStats.innerHTML=fmtSummary(calcSummary(data.table?.sessions),ms("table"));
+  E.squareStats.innerHTML=fmtSummary(calcSummary(data.square?.sessions),ms("square"));
+  E.cubeStats.innerHTML=fmtSummary(calcSummary(data.cube?.sessions),ms("cube"));
+  const st=data.streak||0;
+  E.streakMsg.textContent=st===0?"Start today bhai 💪 Streak bana!":st<3?`${st} days streak ✅ good going!`:st<7?`🔥 ${st} days! mast consistency!`:st<15?`🚀 Legend mode ON! ${st} days streak!`:`👑 Rohit bhai itne din lagatar! 😍🔥`;
+}
+function renderDailyAll(){
+  const data=loadData();const ch=getOrCreateDaily(data);saveData(data);
+  const done=isDailyDone(data);
+  const info=`${ch.mode.toUpperCase()} · ${ch.level.toUpperCase()} · ${ch.minutes} min`;
+  // practice tab
+  E.dText.textContent=info+` · +${ch.bonusXP} XP`;
+  E.dBadge.textContent=done?"✅ Done":"Not Done";E.dBadge.className="d-badge"+(done?" done":"");
+  E.startDailyBtn.disabled=done;E.dHint.textContent=done?"Done ✅ kal naya aayega 😄":"Complete to earn bonus XP 🔥";
+  // daily tab
+  E.dPageEmoji.textContent=done?"✅":"📅";
+  E.dPagePills.innerHTML=`<span class="pill">${ch.mode}</span><span class="pill">${ch.level}</span><span class="pill">${ch.minutes} min</span>`;
+  E.startDailyBtn2.disabled=done;E.dPageHint.textContent=done?"Done for today! Come back tomorrow 😄":"Start and complete it to earn +50 XP 🔥";
+}
+function toggleExtraSettings(){
+  const m=E.modeSelect.value;
+  E.tableSettings.classList.toggle("show",m==="table");
+  E.powerSettings.classList.toggle("show",m==="square"||m==="cube");
+}
+function showSection(name){
+  E.setupSection.style.display=name==="setup"?"block":"none";
+  E.quizSection.style.display=name==="quiz"?"block":"none";
+  E.resultSection.style.display=name==="result"?"block":"none";
+}
+
+/* ══════ QUIZ ══════ */
+function getMode(){return E.answerModeSelect.value}
+
+function newQuestion(){
+  if(!running)return;
+  const cfg={number:E.tableNumber.value,from:E.tableFrom.value,to:E.tableTo.value,powerFrom:E.powerFrom.value,powerTo:E.powerTo.value};
+  const q=generateQ(E.modeSelect.value,E.levelSelect.value,cfg);
+  E.questionText.textContent=q.text;currentAnswer=q.answer;currentActualMode=q.actualMode;
+  setMsg("","");
+  if(getMode()==="fill"){
+    E.fillMode.style.display="block";E.mcqMode.style.display="none";
+    E.answerInput.value="";setTimeout(()=>E.answerInput.focus(),50);
+  }else{
+    E.fillMode.style.display="none";E.mcqMode.style.display="block";
+    buildMcqGrid(q.answer);
+  }
+}
+
+function buildMcqGrid(correct){
+  const opts=makeMcqOpts(correct);
+  E.mcqGrid.innerHTML="";
+  opts.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.className="mcq-opt";btn.textContent=opt;
+    btn.addEventListener("click",()=>{
+      if(!running)return;
+      E.mcqGrid.querySelectorAll(".mcq-opt").forEach(b=>{b.disabled=true});
+      attempted++;
+      if(opt===correct){
+        btn.classList.add("correct");score++;E.scoreVal.textContent=score;
+        combo++;renderComboUI(combo);
+        const mult=comboMult(combo),gained=Math.floor(xpBase(E.levelSelect.value)*mult);
+        const data=loadData();data.xp=(data.xp||0)+gained;data.level=getProgress(data.xp).level;saveData(data);renderXP();
+        setMsg(`✅ Correct! +${gained} XP`,"g");setTimeout(newQuestion,650);
+      }else{
+        btn.classList.add("wrong");
+        E.mcqGrid.querySelectorAll(".mcq-opt").forEach(b=>{if(Number(b.textContent)===correct)b.classList.add("show-correct")});
+        wrong++;E.wrongVal.textContent=wrong;combo=0;renderComboUI(0);
+        setMsg(`❌ Wrong! Correct: ${correct}`,"r");setTimeout(newQuestion,950);
+      }
+    });
+    E.mcqGrid.appendChild(btn);
+  });
+}
+
+function submitFill(){
+  if(!running)return;
+  const val=E.answerInput.value.trim();
+  if(!val){setMsg("⚠️ Answer likho bhai!","r");return}
+  attempted++;
+  const num=Number(val);
+  if(num===currentAnswer){
+    score++;E.scoreVal.textContent=score;combo++;renderComboUI(combo);
+    const mult=comboMult(combo),gained=Math.floor(xpBase(E.levelSelect.value)*mult);
+    const data=loadData();data.xp=(data.xp||0)+gained;data.level=getProgress(data.xp).level;saveData(data);renderXP();
+    setMsg(`✅ Correct! +${gained} XP`,"g");setTimeout(newQuestion,250);
+  }else{
+    wrong++;E.wrongVal.textContent=wrong;combo=0;renderComboUI(0);
+    setMsg(`❌ Wrong! Correct: ${currentAnswer}`,"r");setTimeout(newQuestion,450);
+  }
+  E.answerInput.focus();
+}
+
+function startQuiz(){
+  if(running)return;
+  score=0;wrong=0;attempted=0;combo=0;
+  E.scoreVal.textContent=0;E.wrongVal.textContent=0;
+  renderComboUI(0);renderXP();
+  sessionMinutes=Number(E.minutesInput.value||5);
+  secondsLeft=sessionMinutes*60;updateTimeUI();
+  running=true;
+  showSection("quiz");
+  newQuestion();
+  timer=setInterval(()=>{secondsLeft--;updateTimeUI();if(secondsLeft<=0)stopQuiz(true)},1000);
+}
+
+function stopQuiz(auto=false){
+  if(!running)return;
+  clearInterval(timer);timer=null;running=false;
+  const total=score+wrong,accuracy=total>0?(score/total)*100:0,speed=sessionMinutes>0?attempted/sessionMinutes:0;
+  const data=loadData();
+  const ch=getOrCreateDaily(data);
+  if(!isDailyDone(data)&&E.modeSelect.value===ch.mode&&E.levelSelect.value===ch.level&&sessionMinutes===ch.minutes){
+    markDailyDone(data);data.xp=(data.xp||0)+ch.bonusXP;data.level=getProgress(data.xp).level;
+  }
+  const bucket=E.modeSelect.value==="mixed"?"mixed":currentActualMode;
+  if(!data[bucket])data[bucket]={sessions:[]};
+  data[bucket].sessions.push({date:new Date().toISOString(),mode:E.modeSelect.value,level:E.levelSelect.value,minutes:sessionMinutes,score,wrong,attempted,accuracy,speed});
+  if(data[bucket].sessions.length>100)data[bucket].sessions.shift();
+  updateModeStreak(data,bucket);updateStreak(data);saveData(data);
+  renderRecords();renderXP();renderDailyAll();
+  // show result
+  E.resultEmoji.textContent=auto?"⏰":"✅";
+  E.resultScore.textContent=`${score} correct, ${wrong} wrong`;
+  E.resultSub.textContent=`Speed: ${speed.toFixed(2)} Q/min · Accuracy: ${accuracy.toFixed(1)}%`;
+  showSection("result");
+}
+
+function updateTimeUI(){const m=Math.floor(secondsLeft/60),s=secondsLeft%60;E.timeLeft.textContent=`${pad(m)}:${pad(s)}`}
+
+/* ══════ EVENTS ══════ */
+E.modeSelect.addEventListener("change",toggleExtraSettings);
+E.startBtn.addEventListener("click",startQuiz);
+E.endBtn.addEventListener("click",()=>stopQuiz(false));
+E.submitBtn.addEventListener("click",submitFill);
+E.answerInput.addEventListener("keydown",e=>{if(e.key==="Enter")submitFill()});
+E.skipBtn.addEventListener("click",()=>{if(!running)return;setMsg("⏭️ Skipped!","r");setTimeout(newQuestion,200)});
+E.skipMcq.addEventListener("click",()=>{if(!running)return;setMsg("⏭️ Skipped!","r");setTimeout(newQuestion,200)});
+E.backBtn.addEventListener("click",()=>{showSection("setup")});
+E.clearDataBtn.addEventListener("click",()=>{
+  if(!confirm("Sure bhai? Saara record reset ho jayega!"))return;
+  clearAllData();renderRecords();renderXP();renderDailyAll();
+});
+
+function applyDailyAndStart(){
+  const data=loadData();const ch=getOrCreateDaily(data);
+  E.modeSelect.value=ch.mode;E.levelSelect.value=ch.level;E.minutesInput.value=ch.minutes;
+  toggleExtraSettings();
+  // switch to practice tab
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelector('[data-page="practice"]').classList.add("active");
+  document.getElementById("page-practice").classList.add("active");
+}
+E.startDailyBtn.addEventListener("click",applyDailyAndStart);
+E.startDailyBtn2.addEventListener("click",applyDailyAndStart);
+
+/* ══════ TABS ══════ */
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById("page-"+tab.dataset.page).classList.add("active");
+  });
+});
+
+/* ══════ INIT ══════ */
+toggleExtraSettings();
+renderRecords();
+renderXP();
+renderComboUI(0);
+renderDailyAll();
+showSection("setup");
+</script>
+</body>
+</html>
