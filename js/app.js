@@ -84,7 +84,14 @@ let pTimer = null, pSecs = 0, pRunning = false;
 let pAnswer = 0, pActualMode = "addition", pScore = 0, pWrong = 0, pAttempted = 0, pMinutes = 5, pCombo = 0;
 
 function pCfg() {
-  return { number: $("tableNumber")?.value, from: $("tableFrom")?.value, to: $("tableTo")?.value, powerFrom: $("powerFrom")?.value, powerTo: $("powerTo")?.value };
+  return {
+    tableNumFrom: $("tableNumFrom")?.value,
+    tableNumTo:   $("tableNumTo")?.value,
+    from:         $("tableFrom")?.value,
+    to:           $("tableTo")?.value,
+    powerFrom:    $("powerFrom")?.value,
+    powerTo:      $("powerTo")?.value,
+  };
 }
 
 function pNewQ() {
