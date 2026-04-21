@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -27,6 +27,7 @@
   <button class="tab active" data-page="practice"><span>⚡</span><span class="tab-txt">Practice</span></button>
   <button class="tab" data-page="speed"><span>⏱️</span><span class="tab-txt">Speed Drill</span></button>
   <button class="tab" data-page="mock"><span>📝</span><span class="tab-txt">Mock Test</span></button>
+  <button class="tab" data-page="chapters"><span>📖</span><span class="tab-txt">Chapters</span></button>
   <button class="tab" data-page="diag"><span>🎯</span><span class="tab-txt">Diagnostic</span></button>
   <button class="tab" data-page="tricks"><span>💡</span><span class="tab-txt">Tricks</span></button>
   <button class="tab" data-page="records"><span>📊</span><span class="tab-txt">Records</span></button>
@@ -76,10 +77,22 @@
       </div>
       <div id="tableSettings" class="extra">
         <p class="slabel">Table Settings</p>
-        <div class="g3">
-          <div class="field"><label>Table No.</label><input id="tableNumber" type="number" min="1" max="200" value="11"/></div>
-          <div class="field"><label>From</label><input id="tableFrom" type="number" min="1" max="100" value="1"/></div>
-          <div class="field"><label>To</label><input id="tableTo" type="number" min="1" max="200" value="20"/></div>
+
+        <div style="font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Which tables to practice</div>
+        <div class="g2" style="margin-bottom:8px">
+          <div class="field"><label>Table From</label><input id="tableNumFrom" type="number" min="1" max="200" value="11" oninput="updateTablePreview()"/></div>
+          <div class="field"><label>Table To</label><input id="tableNumTo" type="number" min="1" max="200" value="11" oninput="updateTablePreview()"/></div>
+        </div>
+        <div style="font-size:.68rem;color:var(--t3);margin-bottom:10px;font-style:italic">Same value = single table &nbsp;|&nbsp; Range = random table picked each question</div>
+
+        <div style="font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Multiplier range</div>
+        <div class="g2" style="margin-bottom:8px">
+          <div class="field"><label>Multiply From</label><input id="tableFrom" type="number" min="1" max="200" value="1" oninput="updateTablePreview()"/></div>
+          <div class="field"><label>Multiply To</label><input id="tableTo" type="number" min="1" max="200" value="20" oninput="updateTablePreview()"/></div>
+        </div>
+
+        <div id="tablePreview" style="background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:8px 12px;font-size:.8rem;color:var(--accent);font-family:var(--mono);text-align:center">
+          Questions like: <b>11 × 7 = ?</b>
         </div>
       </div>
       <div id="powerSettings" class="extra">
@@ -352,6 +365,57 @@
 </div>
 
 <!-- ════════════════════════════════════════════════════════
+     CHAPTER QUIZ PAGE
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-chapters">
+<div class="inner">
+
+  <!-- Chapter selection -->
+  <div id="cq-select">
+    <div class="card" style="padding-bottom:10px">
+      <p class="slabel">Chapter-wise Quiz</p>
+      <p style="font-size:.78rem;color:var(--t2);margin-bottom:12px;line-height:1.6">
+        Pick a chapter → attempt questions mentally → get full step-by-step review with tricks at the end.
+      </p>
+      <div class="cq-chapter-grid" id="cqChapterGrid"></div>
+    </div>
+    <div id="cqConfigPanel" style="display:none"></div>
+  </div>
+
+  <!-- Active quiz -->
+  <div id="cq-quiz" style="display:none">
+    <div class="cq-prog-wrap">
+      <div class="cq-prog-bar"><div id="cqQProgFill" class="cq-prog-fill" style="width:0%"></div></div>
+      <div class="cq-prog-txt"><span id="cqQProgress">1/10</span></div>
+    </div>
+    <div class="q-area" style="border-color:rgba(139,124,248,.3)">
+      <div class="cq-chapter-lbl" id="cqChapterLabel">Chapter</div>
+      <div class="q-text" id="cqQText">—</div>
+      <div class="mcq-grid" id="cqOptGrid"></div>
+      <div class="msg" id="cqQMsg"></div>
+    </div>
+    <div class="strip">
+      <button id="cqBackFromQuiz" class="btn btn-red" style="flex:1">■ End Chapter Quiz</button>
+    </div>
+  </div>
+
+  <!-- Review screen -->
+  <div id="cq-review" style="display:none">
+    <div class="card">
+      <div id="cqRevSummary"></div>
+      <div style="display:flex;gap:8px">
+        <button id="cqRetryBtn" class="btn btn-accent" style="flex:1">🔁 Retry Chapter</button>
+        <button id="cqBackFromReview" class="btn btn-outline" style="flex:1">← All Chapters</button>
+      </div>
+    </div>
+    <p class="slabel" style="margin:14px 0 8px">Question-wise Review with Tricks</p>
+    <div id="cqRevList"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
      TRICKS LIBRARY PAGE
 ════════════════════════════════════════════════════════ -->
 <div class="page" id="page-tricks">
@@ -455,6 +519,29 @@
 <footer class="foot">CalcSpeed — SSC/Banking Prep · Made with ❤️ by Rohit</footer>
 
 <script>
+// Live preview for table settings
+function updateTablePreview() {
+  const numFrom = parseInt(document.getElementById("tableNumFrom")?.value) || 11;
+  const numTo   = parseInt(document.getElementById("tableNumTo")?.value)   || 11;
+  const mulFrom = parseInt(document.getElementById("tableFrom")?.value)    || 1;
+  const mulTo   = parseInt(document.getElementById("tableTo")?.value)      || 20;
+
+  const tn = numFrom === numTo
+    ? `${numFrom}`
+    : `${Math.min(numFrom,numTo)}–${Math.max(numFrom,numTo)} (random)`;
+
+  const mul = mulFrom === mulTo
+    ? `${mulFrom}`
+    : `${Math.min(mulFrom,mulTo)}–${Math.max(mulFrom,mulTo)} (random)`;
+
+  const preview = document.getElementById("tablePreview");
+  if (preview) {
+    const exTn  = numFrom === numTo ? numFrom : Math.min(numFrom,numTo);
+    const exMul = mulFrom === mulTo ? mulFrom : Math.min(mulFrom,mulTo)+3;
+    preview.innerHTML = `Table: <b>${tn}</b> &nbsp;×&nbsp; Multiplier: <b>${mul}</b><br><span style="opacity:.6">e.g. ${exTn} × ${exMul} = ${exTn * exMul}</span>`;
+  }
+}
+
 // Register Service Worker for PWA offline support
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -466,6 +553,11 @@ if ("serviceWorker" in navigator) {
 </script>
 
 <!-- All app logic via ES modules -->
-<script type="module" src="./js/app.js"></script>
+<script type="module">
+  import { initChapterQuiz, bindChapterQuizEvents } from "./js/chapter-quiz.js";
+  import "./js/app.js";
+  // Init chapter quiz after app boots
+  setTimeout(() => { initChapterQuiz(); bindChapterQuizEvents(); }, 100);
+</script>
 </body>
 </html>
