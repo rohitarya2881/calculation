@@ -67,10 +67,16 @@ function genDivision(lv) {
 }
 
 function genTable(cfg) {
-  const tn   = Number(cfg?.number || 11);
-  const from = Number(cfg?.from || 1);
-  const to   = Number(cfg?.to || 20);
-  const k    = randInt(Math.min(from, to), Math.max(from, to));
+  // Table number range: pick a random table between tableNumFrom and tableNumTo
+  const numFrom = Number(cfg?.tableNumFrom || cfg?.number || 11);
+  const numTo   = Number(cfg?.tableNumTo   || cfg?.number || 11);
+  const tn      = randInt(Math.min(numFrom, numTo), Math.max(numFrom, numTo));
+
+  // Multiplier range: e.g. 1 to 20
+  const mulFrom = Number(cfg?.from || 1);
+  const mulTo   = Number(cfg?.to   || 20);
+  const k       = randInt(Math.min(mulFrom, mulTo), Math.max(mulFrom, mulTo));
+
   return { text: `${tn} × ${k} = ?`, answer: tn * k };
 }
 
