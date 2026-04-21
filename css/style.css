@@ -245,3 +245,46 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);display:flex;f
 @media(max-width:360px){
   .mcq-grid{grid-template-columns:1fr}.badges-grid{grid-template-columns:1fr 1fr}
 }
+
+/* ── Chapter Quiz ─────────────────────────────────────────────── */
+.cq-chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.cq-chapter-card{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.cq-chapter-card::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--ch-color,var(--accent))}
+.cq-chapter-card:hover{border-color:var(--br2);background:var(--s3);transform:translateY(-1px)}
+.cq-ch-icon{font-size:1.5rem;margin-bottom:6px}
+.cq-ch-title{font-size:.85rem;font-weight:600;color:var(--t1);margin-bottom:4px}
+.cq-ch-desc{font-size:.72rem;color:var(--t3);line-height:1.5;margin-bottom:8px}
+.cq-ch-meta{display:flex;justify-content:space-between;align-items:center}
+.cq-ch-count{font-size:.65rem;background:var(--s3);border:1px solid var(--br);border-radius:6px;padding:2px 7px;color:var(--t3)}
+.cq-ch-acc{font-size:.68rem;font-weight:600;font-family:var(--mono)}
+.cq-config-card{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:16px}
+
+/* Quiz screen */
+.cq-prog-wrap{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cq-prog-bar{flex:1;height:6px;background:var(--s4);border-radius:99px;overflow:hidden}
+.cq-prog-fill{height:100%;border-radius:99px;background:var(--accent);transition:width .4s ease}
+.cq-prog-txt{font-size:.72rem;font-family:var(--mono);color:var(--t3);white-space:nowrap}
+.cq-chapter-lbl{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;text-align:center;margin-bottom:10px}
+
+/* Review screen */
+.cq-rev-item{background:var(--s2);border:1px solid var(--br);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.cq-rev-item.cq-rev-correct{border-left:3px solid var(--green)}
+.cq-rev-item.cq-rev-wrong{border-left:3px solid var(--red)}
+.cq-rev-qnum{font-size:.72rem;color:var(--t3);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.cq-badge-correct{background:var(--green-dim);color:var(--green);border-radius:6px;padding:2px 8px;font-size:.65rem;font-weight:600}
+.cq-badge-wrong{background:var(--red-dim);color:var(--red);border-radius:6px;padding:2px 8px;font-size:.65rem;font-weight:600}
+.cq-rev-qtxt{font-size:.88rem;color:var(--t1);font-weight:500;margin-bottom:8px;line-height:1.5}
+.cq-rev-ans-row{display:flex;gap:14px;margin-bottom:10px;font-size:.78rem}
+.cq-rev-correct-lbl{color:var(--green)}.cq-rev-correct-lbl b{font-family:var(--mono)}
+.cq-rev-given-lbl{color:var(--red)}.cq-rev-given-lbl b{font-family:var(--mono)}
+.cq-trick-box{background:rgba(139,124,248,.08);border:1px solid rgba(139,124,248,.2);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.cq-trick-label{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:4px}
+.cq-trick-text{font-family:var(--mono);font-size:.8rem;color:var(--accent);line-height:1.6}
+.cq-steps-box{background:var(--s3);border-radius:8px;padding:10px 12px}
+.cq-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;font-size:.78rem;color:var(--t2);line-height:1.5}
+.cq-step:last-child{margin-bottom:0}
+.cq-step-num{background:var(--s4);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--t3);flex-shrink:0;margin-top:1px}
+
+@media(max-width:600px){
+  .cq-chapter-grid{grid-template-columns:1fr}
+}
