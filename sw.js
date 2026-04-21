@@ -17,6 +17,8 @@ const STATIC_FILES = [
   "./js/daily.js",
   "./js/stats.js",
   "./js/tricks.js",
+  "./js/chapters.js",
+  "./js/chapter-quiz.js",
   "./js/ui.js",
   "./manifest.json",
   // Google Fonts are cached on first load
