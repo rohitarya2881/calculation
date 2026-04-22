@@ -288,3 +288,67 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);display:flex;f
 @media(max-width:600px){
   .cq-chapter-grid{grid-template-columns:1fr}
 }
+
+/* ── Hamburger button ─────────────────────────────────────── */
+.hamburger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:transparent;border:none;cursor:pointer;padding:4px;border-radius:8px;flex-shrink:0}
+.hamburger span{display:block;height:2px;background:var(--t2);border-radius:2px;transition:all .25s}
+.hamburger:hover span{background:var(--t1)}
+
+/* ── Drawer overlay ───────────────────────────────────────── */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
+.drawer-overlay.open{opacity:1;pointer-events:all}
+
+/* ── Side drawer ──────────────────────────────────────────── */
+.drawer{
+  position:fixed;top:0;left:0;height:100%;width:280px;
+  background:var(--s1);border-right:1px solid var(--br);
+  z-index:201;transform:translateX(-100%);transition:transform .25s ease;
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.drawer.open{transform:translateX(0)}
+.drawer::-webkit-scrollbar{width:0}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--br);flex-shrink:0}
+.drawer-logo{font-family:var(--mono);font-size:.95rem;color:var(--t1)}.drawer-logo em{color:var(--accent);font-style:normal}
+.drawer-close{background:transparent;border:none;color:var(--t3);font-size:1rem;cursor:pointer;padding:4px 8px;border-radius:6px}.drawer-close:hover{color:var(--t1);background:var(--s3)}
+.drawer-section-label{font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);padding:12px 18px 5px}
+.drawer-item{display:grid;grid-template-columns:36px 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:10px 18px;background:transparent;border:none;cursor:pointer;font-family:var(--sans);text-align:left;transition:background .15s;width:100%}
+.drawer-item:hover{background:var(--s3)}
+.drawer-item.active{background:var(--accent-glow)}
+.di-icon{grid-row:1/3;font-size:1.2rem;display:flex;align-items:center;justify-content:center}
+.di-label{font-size:.85rem;font-weight:500;color:var(--t2);transition:color .15s}
+.drawer-item.active .di-label{color:var(--accent)}
+.drawer-item:hover .di-label{color:var(--t1)}
+.di-sub{font-size:.68rem;color:var(--t3);margin-top:1px}
+.drawer-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--br);flex-shrink:0}
+.drawer-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ds-box{background:var(--s2);border-radius:8px;padding:8px;text-align:center}
+.ds-val{font-family:var(--mono);font-size:.95rem;font-weight:600;color:var(--accent)}
+.ds-lbl{font-size:.6rem;color:var(--t3);margin-top:2px}
+
+/* ── Bottom nav (mobile only) ─────────────────────────────── */
+.bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--s1);border-top:1px solid var(--br);
+  z-index:100;padding:0;
+}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 4px;background:transparent;border:none;cursor:pointer;font-family:var(--sans);color:var(--t3);font-size:.6rem;font-weight:500;transition:color .15s}
+.bn-item span:first-child{font-size:1.1rem}
+.bn-item.active{color:var(--accent)}
+.bn-item:hover{color:var(--t2)}
+
+/* ── Responsive layout overrides ─────────────────────────── */
+/* Desktop: no bottom nav, topbar tabs hidden since we use drawer */
+@media(min-width:601px){
+  .bottom-nav{display:none!important}
+  body{padding-bottom:0}
+}
+@media(max-width:600px){
+  .bottom-nav{display:flex}
+  body{padding-bottom:58px}
+  .page{padding:12px}
+  .topbar{padding:8px 12px}
+}
+
+/* Hide old horizontal tabs (replaced by drawer everywhere) */
+.tabs{display:none}
