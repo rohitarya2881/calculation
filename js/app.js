@@ -18,11 +18,20 @@ import {
 
 const $ = id => document.getElementById(id);
 
-// ── Tab router (delegates to global switchTab in index.html) ─────
+// ── Tab router ────────────────────────────────────────────────────
 
 export function switchTab(name) {
-  if (typeof window.switchTab === "function") window.switchTab(name);
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  const tab  = document.querySelector(`[data-page="${name}"]`);
+  const page = $(`page-${name}`);
+  if (tab)  tab.classList.add("active");
+  if (page) page.classList.add("active");
 }
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => switchTab(tab.dataset.page));
+});
 
 // ── Shared helpers ────────────────────────────────────────────────
 
