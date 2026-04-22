@@ -14,6 +14,9 @@
 
 <!-- ── TOPBAR ──────────────────────────────────────────────── -->
 <header class="topbar">
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
   <div class="logo">⚡ <em>calc</em>speed</div>
   <div class="topbar-right">
     <div class="badge-pill level-pill">Lv <b id="topLevel">1</b></div>
@@ -22,17 +25,47 @@
   </div>
 </header>
 
-<!-- ── TABS ────────────────────────────────────────────────── -->
-<nav class="tabs">
-  <button class="tab active" data-page="practice"><span>⚡</span><span class="tab-txt">Practice</span></button>
-  <button class="tab" data-page="speed"><span>⏱️</span><span class="tab-txt">Speed Drill</span></button>
-  <button class="tab" data-page="mock"><span>📝</span><span class="tab-txt">Mock Test</span></button>
-  <button class="tab" data-page="chapters"><span>📖</span><span class="tab-txt">Chapters</span></button>
-  <button class="tab" data-page="diag"><span>🎯</span><span class="tab-txt">Diagnostic</span></button>
-  <button class="tab" data-page="tricks"><span>💡</span><span class="tab-txt">Tricks</span></button>
-  <button class="tab" data-page="records"><span>📊</span><span class="tab-txt">Records</span></button>
-  <button class="tab" data-page="history"><span>📋</span><span class="tab-txt">History</span></button>
-  <button class="tab" data-page="daily"><span>📅</span><span class="tab-txt">Daily</span></button>
+<!-- ── DRAWER OVERLAY ──────────────────────────────────────── -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- ── SIDE DRAWER ─────────────────────────────────────────── -->
+<nav class="drawer" id="sideDrawer">
+  <div class="drawer-header">
+    <div class="drawer-logo">⚡ <em>calc</em>speed</div>
+    <button class="drawer-close" id="drawerClose">✕</button>
+  </div>
+
+  <div class="drawer-section-label">Practice</div>
+  <button class="drawer-item active" data-page="practice"><span class="di-icon">⚡</span><span class="di-label">Practice Mode</span><span class="di-sub">Timer quiz, MCQ & fill</span></button>
+  <button class="drawer-item" data-page="speed"><span class="di-icon">⏱️</span><span class="di-label">Speed Drill</span><span class="di-sub">Per-question countdown</span></button>
+  <button class="drawer-item" data-page="mock"><span class="di-icon">📝</span><span class="di-label">Mock Test</span><span class="di-sub">SSC/IBPS pattern, -ve marks</span></button>
+  <button class="drawer-item" data-page="chapters"><span class="di-icon">📖</span><span class="di-label">Chapter Quiz</span><span class="di-sub">Topic-wise with tricks</span></button>
+
+  <div class="drawer-section-label">Analysis</div>
+  <button class="drawer-item" data-page="diag"><span class="di-icon">🎯</span><span class="di-label">Diagnostic Test</span><span class="di-sub">Auto-detect your level</span></button>
+  <button class="drawer-item" data-page="records"><span class="di-icon">📊</span><span class="di-label">Records & Heatmap</span><span class="di-sub">Progress, badges, target</span></button>
+  <button class="drawer-item" data-page="history"><span class="di-icon">📋</span><span class="di-label">Wrong History</span><span class="di-sub">Review your mistakes</span></button>
+
+  <div class="drawer-section-label">Learn</div>
+  <button class="drawer-item" data-page="tricks"><span class="di-icon">💡</span><span class="di-label">Tricks Library</span><span class="di-sub">Vedic math shortcuts</span></button>
+  <button class="drawer-item" data-page="daily"><span class="di-icon">📅</span><span class="di-label">Daily Challenge</span><span class="di-sub">+50 XP bonus daily</span></button>
+
+  <div class="drawer-footer">
+    <div class="drawer-stats">
+      <div class="ds-box"><div class="ds-val" id="dLv">1</div><div class="ds-lbl">Level</div></div>
+      <div class="ds-box"><div class="ds-val" id="dStreak">0</div><div class="ds-lbl">Streak</div></div>
+      <div class="ds-box"><div class="ds-val" id="dXp">0</div><div class="ds-lbl">XP</div></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── BOTTOM NAV (mobile) ─────────────────────────────────── -->
+<nav class="bottom-nav">
+  <button class="bn-item active" data-page="practice"><span>⚡</span><span>Practice</span></button>
+  <button class="bn-item" data-page="speed"><span>⏱️</span><span>Drill</span></button>
+  <button class="bn-item" data-page="mock"><span>📝</span><span>Mock</span></button>
+  <button class="bn-item" data-page="chapters"><span>📖</span><span>Chapters</span></button>
+  <button class="bn-item" data-page="records"><span>📊</span><span>Records</span></button>
 </nav>
 
 <!-- ════════════════════════════════════════════════════════
@@ -519,6 +552,67 @@
 <footer class="foot">CalcSpeed — SSC/Banking Prep · Made with ❤️ by Rohit</footer>
 
 <script>
+// ── Navigation (drawer + bottom nav) ────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  const page = document.getElementById("page-" + name);
+  if (page) page.classList.add("active");
+
+  // Drawer items
+  document.querySelectorAll(".drawer-item").forEach(i => {
+    i.classList.toggle("active", i.dataset.page === name);
+  });
+  // Bottom nav
+  document.querySelectorAll(".bn-item").forEach(i => {
+    i.classList.toggle("active", i.dataset.page === name);
+  });
+
+  closeDrawer();
+
+  // Expose for JS modules
+  window.__activePage = name;
+}
+
+function openDrawer() {
+  document.getElementById("sideDrawer").classList.add("open");
+  document.getElementById("drawerOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeDrawer() {
+  document.getElementById("sideDrawer").classList.remove("open");
+  document.getElementById("drawerOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("hamburgerBtn").addEventListener("click", openDrawer);
+document.getElementById("drawerClose").addEventListener("click", closeDrawer);
+document.getElementById("drawerOverlay").addEventListener("click", closeDrawer);
+
+document.querySelectorAll(".drawer-item, .bn-item").forEach(btn => {
+  btn.addEventListener("click", () => switchTab(btn.dataset.page));
+});
+
+// Keep drawer stats in sync
+function syncDrawerStats() {
+  try {
+    const raw  = localStorage.getItem("calcspeed_v1");
+    const data = raw ? JSON.parse(raw) : {};
+    const xp   = data.xp || 0;
+    let lv = 1, tot = 0;
+    while (true) { const n = 200+(lv-1)*100; if (xp < tot+n) break; tot+=n; lv++; }
+    document.getElementById("dLv").textContent     = lv;
+    document.getElementById("dStreak").textContent = data.streak || 0;
+    document.getElementById("dXp").textContent     = xp;
+  } catch(e) {}
+}
+syncDrawerStats();
+setInterval(syncDrawerStats, 3000);
+
+// Expose switchTab for JS modules
+window.switchTab = switchTab;
+</script>
+
+<script>
 // Live preview for table settings
 function updateTablePreview() {
   const numFrom = parseInt(document.getElementById("tableNumFrom")?.value) || 11;
@@ -556,8 +650,11 @@ if ("serviceWorker" in navigator) {
 <script type="module">
   import { initChapterQuiz, bindChapterQuizEvents } from "./js/chapter-quiz.js";
   import "./js/app.js";
-  // Init chapter quiz after app boots
-  setTimeout(() => { initChapterQuiz(); bindChapterQuizEvents(); }, 100);
+  setTimeout(() => {
+    initChapterQuiz();
+    bindChapterQuizEvents();
+    syncDrawerStats();
+  }, 150);
 </script>
 </body>
 </html>
