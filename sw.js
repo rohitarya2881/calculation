@@ -2,7 +2,7 @@
 // Caches all app files for full offline use.
 // Bump CACHE_VERSION when you update any file — old cache auto-clears.
 
-const CACHE_VERSION = "calcspeed-v3";
+const CACHE_VERSION = "calcspeed-v4";
 
 const STATIC_FILES = [
   "./",
