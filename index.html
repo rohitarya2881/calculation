@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#8b7cf8"/>
-<meta name="description" content="Fast math practice for SSC, IBPS & Banking exams"/>
 <title>CalcSpeed — SSC/Banking Prep</title>
 <link rel="manifest" href="./manifest.json"/>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -12,7 +11,6 @@
 </head>
 <body>
 
-<!-- ── TOPBAR ──────────────────────────────────────────────── -->
 <header class="topbar">
   <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -21,35 +19,29 @@
   <div class="topbar-right">
     <div class="badge-pill level-pill">Lv <b id="topLevel">1</b></div>
     <div class="badge-pill streak-pill">🔥 <b id="streakCount">0</b>d</div>
-    <div class="badge-pill exam-pill">📅 <b id="daysLeft">—</b>d left</div>
+    <div class="badge-pill exam-pill">📅 <b id="daysLeft">—</b>d</div>
   </div>
 </header>
 
-<!-- ── DRAWER OVERLAY ──────────────────────────────────────── -->
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<!-- ── SIDE DRAWER ─────────────────────────────────────────── -->
 <nav class="drawer" id="sideDrawer">
   <div class="drawer-header">
     <div class="drawer-logo">⚡ <em>calc</em>speed</div>
     <button class="drawer-close" id="drawerClose">✕</button>
   </div>
-
   <div class="drawer-section-label">Practice</div>
-  <button class="drawer-item active" data-page="practice"><span class="di-icon">⚡</span><span class="di-label">Practice Mode</span><span class="di-sub">Timer quiz, MCQ & fill</span></button>
+  <button class="drawer-item active" data-page="practice"><span class="di-icon">⚡</span><span class="di-label">Practice Mode</span><span class="di-sub">Timer quiz · MCQ &amp; fill-in</span></button>
   <button class="drawer-item" data-page="speed"><span class="di-icon">⏱️</span><span class="di-label">Speed Drill</span><span class="di-sub">Per-question countdown</span></button>
-  <button class="drawer-item" data-page="mock"><span class="di-icon">📝</span><span class="di-label">Mock Test</span><span class="di-sub">SSC/IBPS pattern, -ve marks</span></button>
-  <button class="drawer-item" data-page="chapters"><span class="di-icon">📖</span><span class="di-label">Chapter Quiz</span><span class="di-sub">Topic-wise with tricks</span></button>
-
-  <div class="drawer-section-label">Analysis</div>
+  <button class="drawer-item" data-page="mock"><span class="di-icon">📝</span><span class="di-label">Mock Test</span><span class="di-sub">SSC/IBPS · negative marks</span></button>
+  <button class="drawer-item" data-page="chapters"><span class="di-icon">📖</span><span class="di-label">Chapter Quiz</span><span class="di-sub">Topic-wise · tricks after quiz</span></button>
+  <div class="drawer-section-label">Analyse</div>
   <button class="drawer-item" data-page="diag"><span class="di-icon">🎯</span><span class="di-label">Diagnostic Test</span><span class="di-sub">Auto-detect your level</span></button>
-  <button class="drawer-item" data-page="records"><span class="di-icon">📊</span><span class="di-label">Records & Heatmap</span><span class="di-sub">Progress, badges, target</span></button>
+  <button class="drawer-item" data-page="records"><span class="di-icon">📊</span><span class="di-label">Records &amp; Heatmap</span><span class="di-sub">Progress · badges · target</span></button>
   <button class="drawer-item" data-page="history"><span class="di-icon">📋</span><span class="di-label">Wrong History</span><span class="di-sub">Review your mistakes</span></button>
-
   <div class="drawer-section-label">Learn</div>
   <button class="drawer-item" data-page="tricks"><span class="di-icon">💡</span><span class="di-label">Tricks Library</span><span class="di-sub">Vedic math shortcuts</span></button>
-  <button class="drawer-item" data-page="daily"><span class="di-icon">📅</span><span class="di-label">Daily Challenge</span><span class="di-sub">+50 XP bonus daily</span></button>
-
+  <button class="drawer-item" data-page="daily"><span class="di-icon">📅</span><span class="di-label">Daily Challenge</span><span class="di-sub">+50 XP bonus every day</span></button>
   <div class="drawer-footer">
     <div class="drawer-stats">
       <div class="ds-box"><div class="ds-val" id="dLv">1</div><div class="ds-lbl">Level</div></div>
@@ -59,7 +51,6 @@
   </div>
 </nav>
 
-<!-- ── BOTTOM NAV (mobile) ─────────────────────────────────── -->
 <nav class="bottom-nav">
   <button class="bn-item active" data-page="practice"><span>⚡</span><span>Practice</span></button>
   <button class="bn-item" data-page="speed"><span>⏱️</span><span>Drill</span></button>
@@ -68,13 +59,8 @@
   <button class="bn-item" data-page="records"><span>📊</span><span>Records</span></button>
 </nav>
 
-<!-- ════════════════════════════════════════════════════════
-     PRACTICE PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page active" id="page-practice">
-<div class="inner">
-
-  <!-- Setup -->
+<!-- PRACTICE PAGE -->
+<div class="page active" id="page-practice"><div class="inner">
   <div id="practiceSetup">
     <div class="card">
       <p class="slabel">Quiz Setup</p>
@@ -94,39 +80,26 @@
           </select>
         </div>
         <div class="field"><label>Level</label>
-          <select id="levelSelect">
-            <option value="easy">Easy</option>
-            <option value="medium" selected>Medium</option>
-            <option value="hard">Hard</option>
-          </select>
+          <select id="levelSelect"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select>
         </div>
         <div class="field"><label>Minutes</label><input id="minutesInput" type="number" min="1" max="60" value="5"/></div>
         <div class="field"><label>Answer Style</label>
-          <select id="answerModeSelect">
-            <option value="fill">✏️ Type answer</option>
-            <option value="mcq">🔘 Choose option</option>
-          </select>
+          <select id="answerModeSelect"><option value="fill">✏️ Type answer</option><option value="mcq">🔘 Choose option</option></select>
         </div>
       </div>
       <div id="tableSettings" class="extra">
         <p class="slabel">Table Settings</p>
-
-        <div style="font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Which tables to practice</div>
+        <div style="font-size:.68rem;color:var(--t3);margin-bottom:6px">Which tables</div>
         <div class="g2" style="margin-bottom:8px">
           <div class="field"><label>Table From</label><input id="tableNumFrom" type="number" min="1" max="200" value="11" oninput="updateTablePreview()"/></div>
           <div class="field"><label>Table To</label><input id="tableNumTo" type="number" min="1" max="200" value="11" oninput="updateTablePreview()"/></div>
         </div>
-        <div style="font-size:.68rem;color:var(--t3);margin-bottom:10px;font-style:italic">Same value = single table &nbsp;|&nbsp; Range = random table picked each question</div>
-
-        <div style="font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Multiplier range</div>
+        <div style="font-size:.68rem;color:var(--t3);margin-bottom:6px">Multiplier range</div>
         <div class="g2" style="margin-bottom:8px">
-          <div class="field"><label>Multiply From</label><input id="tableFrom" type="number" min="1" max="200" value="1" oninput="updateTablePreview()"/></div>
-          <div class="field"><label>Multiply To</label><input id="tableTo" type="number" min="1" max="200" value="20" oninput="updateTablePreview()"/></div>
+          <div class="field"><label>From</label><input id="tableFrom" type="number" min="1" max="200" value="1" oninput="updateTablePreview()"/></div>
+          <div class="field"><label>To</label><input id="tableTo" type="number" min="1" max="200" value="20" oninput="updateTablePreview()"/></div>
         </div>
-
-        <div id="tablePreview" style="background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:8px 12px;font-size:.8rem;color:var(--accent);font-family:var(--mono);text-align:center">
-          Questions like: <b>11 × 7 = ?</b>
-        </div>
+        <div id="tablePreview" style="background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:8px 12px;font-size:.8rem;color:var(--accent);font-family:var(--mono);text-align:center">e.g. 11 × 7 = ?</div>
       </div>
       <div id="powerSettings" class="extra">
         <p class="slabel">Range</p>
@@ -137,7 +110,6 @@
       </div>
       <div class="strip"><button id="startBtn" class="btn btn-accent">▶ Start Quiz</button></div>
     </div>
-    <!-- Idle XP -->
     <div class="card">
       <div class="bar-sec">
         <div class="bar-top"><div class="bar-left">Level <b id="idleLv">1</b></div><div class="bar-right"><span id="idleXp">0</span> XP</div></div>
@@ -145,19 +117,13 @@
         <div class="bar-hint" id="idleXpHint">Next level in 200 XP</div>
       </div>
     </div>
-    <!-- Daily preview -->
     <div class="daily-wrap">
-      <div class="row-sb" style="margin-bottom:8px">
-        <span class="slabel" style="margin:0">📅 Daily Challenge</span>
-        <div class="d-badge" id="dBadge">Not Done</div>
-      </div>
+      <div class="row-sb" style="margin-bottom:8px"><span class="slabel" style="margin:0">📅 Daily Challenge</span><div class="d-badge" id="dBadge">Not Done</div></div>
       <div style="font-size:.82rem;color:var(--t2);margin-bottom:10px" id="dText">Loading...</div>
       <button id="startDailyBtn" class="btn btn-accent" style="width:100%">Start Challenge</button>
       <div class="d-hint" id="dHint">Complete to earn bonus XP 🔥</div>
     </div>
   </div>
-
-  <!-- Active quiz -->
   <div id="practiceQuiz" style="display:none">
     <div class="chips3">
       <div class="chip"><div class="chip-lbl">Time</div><div class="chip-val" id="timeLeft">00:00</div></div>
@@ -172,489 +138,207 @@
     </div>
     <div class="strip"><button id="endBtn" class="btn btn-red" style="flex:1">■ End Quiz</button></div>
     <div class="card">
-      <div class="bar-sec">
-        <div class="bar-top"><div class="bar-left">Level <b id="qLv">1</b></div><div class="bar-right"><span id="qXp">0</span> XP</div></div>
-        <div class="bar-bg"><div id="qXpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
-        <div class="bar-hint" id="qXpHint">Next level in 200 XP</div>
-      </div>
+      <div class="bar-sec"><div class="bar-top"><div class="bar-left">Level <b id="qLv">1</b></div><div class="bar-right"><span id="qXp">0</span> XP</div></div><div class="bar-bg"><div id="qXpFill" class="bar-fill xp-bar" style="width:0%"></div></div><div class="bar-hint" id="qXpHint">Next level in 200 XP</div></div>
       <div class="div"></div>
-      <div class="bar-sec" style="margin:0">
-        <div class="bar-top"><div class="bar-left">🔥 Combo</div><div class="bar-right"><span id="comboVal">0</span>x</div></div>
-        <div class="bar-bg"><div id="comboFill" class="bar-fill combo-bar" style="width:0%"></div></div>
-        <div class="bar-hint" id="comboHint">Get 3 correct to boost XP!</div>
-      </div>
+      <div class="bar-sec" style="margin:0"><div class="bar-top"><div class="bar-left">🔥 Combo</div><div class="bar-right"><span id="comboVal">0</span>x</div></div><div class="bar-bg"><div id="comboFill" class="bar-fill combo-bar" style="width:0%"></div></div><div class="bar-hint" id="comboHint">Get 3 correct to boost XP!</div></div>
     </div>
   </div>
-
-  <!-- Result -->
   <div id="practiceResult" style="display:none">
-    <div class="result-card">
-      <div class="result-emoji" id="pResEmoji">✅</div>
-      <div class="result-score-big" id="pResScore">—</div>
-      <div class="result-sub-txt" id="pResSub">—</div>
-      <button id="pBackBtn" class="btn btn-accent" style="margin-top:16px;width:100%">← Back to Setup</button>
-    </div>
-    <div class="card">
-      <div class="bar-sec" style="margin:0">
-        <div class="bar-top"><div class="bar-left">Level <b id="resLv">1</b></div><div class="bar-right"><span id="resXp">0</span> XP</div></div>
-        <div class="bar-bg"><div id="resXpFill" class="bar-fill xp-bar" style="width:0%"></div></div>
-        <div class="bar-hint" id="resXpHint">—</div>
-      </div>
-    </div>
+    <div class="result-card"><div class="result-emoji" id="pResEmoji">✅</div><div class="result-score-big" id="pResScore">—</div><div class="result-sub-txt" id="pResSub">—</div><button id="pBackBtn" class="btn btn-accent" style="margin-top:16px;width:100%">← Back to Setup</button></div>
+    <div class="card"><div class="bar-sec" style="margin:0"><div class="bar-top"><div class="bar-left">Level <b id="resLv">1</b></div><div class="bar-right"><span id="resXp">0</span> XP</div></div><div class="bar-bg"><div id="resXpFill" class="bar-fill xp-bar" style="width:0%"></div></div><div class="bar-hint" id="resXpHint">—</div></div></div>
   </div>
+</div></div>
 
-</div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     SPEED DRILL PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-speed">
-<div class="inner">
+<!-- SPEED DRILL PAGE -->
+<div class="page" id="page-speed"><div class="inner">
   <div id="sdSetup">
     <div class="card">
       <p class="slabel">Speed Drill Setup</p>
-      <p style="font-size:.8rem;color:var(--t2);margin-bottom:12px;line-height:1.6">Each question has a countdown timer. If time runs out — marked wrong. Train for exam speed! 🧠⚡</p>
+      <p style="font-size:.8rem;color:var(--t2);margin-bottom:12px;line-height:1.6">Each question has a countdown. Time runs out = marked wrong. Train for exam speed! ⚡</p>
       <div class="g2" style="margin-bottom:10px">
-        <div class="field"><label>Mode</label>
-          <select id="sdMode">
-            <option value="multiplication">Multiplication (×)</option>
-            <option value="addition">Addition (+)</option>
-            <option value="division">Division (÷)</option>
-            <option value="table">Table Practice</option>
-            <option value="percentage">Percentage (%)</option>
-            <option value="mixed">Mixed 🔥</option>
-          </select>
-        </div>
-        <div class="field"><label>Level</label>
-          <select id="sdLevel"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select>
-        </div>
-        <div class="field"><label>Seconds per Q</label>
-          <select id="sdTimerSec">
-            <option value="5">5 sec (hard)</option>
-            <option value="8">8 seconds</option>
-            <option value="10" selected>10 seconds</option>
-            <option value="15">15 sec (easy)</option>
-          </select>
-        </div>
-        <div class="field"><label>Total Questions</label>
-          <select id="sdTotal">
-            <option value="10">10 questions</option>
-            <option value="20" selected>20 questions</option>
-            <option value="30">30 questions</option>
-            <option value="50">50 questions</option>
-          </select>
-        </div>
+        <div class="field"><label>Mode</label><select id="sdMode"><option value="multiplication">Multiplication (×)</option><option value="addition">Addition (+)</option><option value="division">Division (÷)</option><option value="table">Table Practice</option><option value="percentage">Percentage (%)</option><option value="mixed">Mixed 🔥</option></select></div>
+        <div class="field"><label>Level</label><select id="sdLevel"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></div>
+        <div class="field"><label>Seconds per Q</label><select id="sdTimerSec"><option value="5">5 sec (hard)</option><option value="8">8 seconds</option><option value="10" selected>10 seconds</option><option value="15">15 sec (easy)</option></select></div>
+        <div class="field"><label>Total Questions</label><select id="sdTotal"><option value="10">10 questions</option><option value="20" selected>20 questions</option><option value="30">30 questions</option><option value="50">50 questions</option></select></div>
       </div>
       <div class="strip"><button id="sdStartBtn" class="btn btn-yellow" style="flex:1">⚡ Start Speed Drill</button></div>
     </div>
     <div class="card-sm"><p class="slabel">Best sessions</p><div id="sdBestTimes" style="font-size:.78rem;color:var(--t2);line-height:2">No drill completed yet.</div></div>
   </div>
-
   <div id="sdQuiz" style="display:none">
-    <div class="chips3">
-      <div class="chip"><div class="chip-lbl">Question</div><div class="chip-val" id="sdQNum">1/20</div></div>
-      <div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="sdScore">0</div></div>
-      <div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="sdWrong">0</div></div>
-    </div>
-    <div class="qtimer-wrap">
-      <div class="qtimer-bar-bg"><div id="sdTimerFill" class="qtimer-bar-fill" style="width:100%;background:var(--green)"></div></div>
-      <div class="qtimer-label"><span id="sdTimerNum">10</span>s remaining</div>
-    </div>
+    <div class="chips3"><div class="chip"><div class="chip-lbl">Question</div><div class="chip-val" id="sdQNum">1/20</div></div><div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="sdScore">0</div></div><div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="sdWrong">0</div></div></div>
+    <div class="qtimer-wrap"><div class="qtimer-bar-bg"><div id="sdTimerFill" class="qtimer-bar-fill" style="width:100%;background:var(--green)"></div></div><div class="qtimer-label"><span id="sdTimerNum">10</span>s remaining</div></div>
     <div class="q-area live-speed">
       <div class="q-text" id="sdQText">—</div>
-      <div class="sd-avg">Avg time this session: <span id="sdAvgTime">—</span></div>
-      <div class="fill-row">
-        <input id="sdAnswerInput" type="number" placeholder="Type answer fast!"/>
-        <button id="sdSubmitBtn" class="btn btn-yellow">Submit</button>
-      </div>
+      <div class="sd-avg">Avg time: <span id="sdAvgTime">—</span></div>
+      <div class="fill-row"><input id="sdAnswerInput" type="number" placeholder="Type answer fast!"/><button id="sdSubmitBtn" class="btn btn-yellow">Submit</button></div>
       <div class="msg" id="sdMsg"></div>
     </div>
     <div class="strip"><button id="sdEndBtn" class="btn btn-red" style="flex:1">■ End Drill</button></div>
   </div>
-
   <div id="sdResult" style="display:none">
-    <div class="result-card">
-      <div class="result-emoji">⚡</div>
-      <div class="result-score-big" id="sdResScore">—</div>
-      <div class="result-sub-txt" id="sdResSub">—</div>
-      <div style="margin-top:8px;font-family:var(--mono);font-size:.85rem;color:var(--yellow)" id="sdResAvg">—</div>
-      <button id="sdBackBtn" class="btn btn-accent" style="margin-top:16px;width:100%">← Back to Setup</button>
-    </div>
+    <div class="result-card"><div class="result-emoji">⚡</div><div class="result-score-big" id="sdResScore">—</div><div class="result-sub-txt" id="sdResSub">—</div><div style="margin-top:8px;font-family:var(--mono);font-size:.85rem;color:var(--yellow)" id="sdResAvg">—</div><button id="sdBackBtn" class="btn btn-accent" style="margin-top:16px;width:100%">← Back to Setup</button></div>
   </div>
-</div>
-</div>
+</div></div>
 
-<!-- ════════════════════════════════════════════════════════
-     MOCK TEST PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-mock">
-<div class="inner">
+<!-- MOCK TEST PAGE -->
+<div class="page" id="page-mock"><div class="inner">
   <div id="mockSetup">
     <div class="card">
       <p class="slabel">Mock Test — SSC / IBPS Pattern</p>
       <p style="font-size:.8rem;color:var(--t2);margin-bottom:12px;line-height:1.6">Timed exam with optional negative marking. Questions from all topics.</p>
       <div class="g2" style="margin-bottom:10px">
-        <div class="field"><label>Questions</label>
-          <select id="mockTotal"><option value="10">10 Q (quick)</option><option value="25" selected>25 Q (standard)</option><option value="50">50 Q (full)</option></select>
-        </div>
-        <div class="field"><label>Time Limit</label>
-          <select id="mockTime"><option value="10">10 min</option><option value="20" selected>20 min</option><option value="30">30 min</option><option value="45">45 min</option></select>
-        </div>
-        <div class="field"><label>Level</label>
-          <select id="mockLevel"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select>
-        </div>
-        <div class="field"><label>Negative Marking</label>
-          <select id="mockNeg"><option value="0">None</option><option value="0.25">−0.25</option><option value="0.5" selected>−0.5</option><option value="1">−1</option></select>
-        </div>
+        <div class="field"><label>Questions</label><select id="mockTotal"><option value="10">10 Q (quick)</option><option value="25" selected>25 Q</option><option value="50">50 Q (full)</option></select></div>
+        <div class="field"><label>Time Limit</label><select id="mockTime"><option value="10">10 min</option><option value="20" selected>20 min</option><option value="30">30 min</option><option value="45">45 min</option></select></div>
+        <div class="field"><label>Level</label><select id="mockLevel"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></div>
+        <div class="field"><label>Negative Marking</label><select id="mockNeg"><option value="0">None</option><option value="0.25">−0.25</option><option value="0.5" selected>−0.5</option><option value="1">−1</option></select></div>
       </div>
       <div class="strip"><button id="mockStartBtn" class="btn btn-accent" style="background:var(--blue);flex:1">📝 Start Mock Test</button></div>
     </div>
-    <div class="card-sm"><p class="slabel">Previous results</p><div id="mockHistory" style="font-size:.78rem;color:var(--t2);line-height:2">No mocks completed yet.</div></div>
+    <div class="card-sm"><p class="slabel">Previous results</p><div id="mockHistory" style="font-size:.78rem;color:var(--t2);line-height:2">No mocks yet.</div></div>
   </div>
-
   <div id="mockQuiz" style="display:none">
-    <div class="chips3">
-      <div class="chip"><div class="chip-lbl">Time Left</div><div class="chip-val" id="mockTimeLeft">20:00</div></div>
-      <div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="mockScore">0</div></div>
-      <div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="mockWrong">0</div></div>
-    </div>
-    <div class="row-sb" style="margin-bottom:10px">
-      <div class="mock-q-num" id="mockQNum">Question 1 of 25</div>
-      <div class="neg-badge" id="mockNegBadge">−0.5 per wrong</div>
-    </div>
-    <div class="q-area live-mock">
-      <div class="q-text" id="mockQText">—</div>
-      <div class="mcq-grid" id="mockMcqGrid"></div>
-      <div class="msg" id="mockMsg"></div>
-    </div>
-    <div class="strip">
-      <button id="mockSkipBtn" class="btn btn-outline">Skip</button>
-      <button id="mockSubmitBtn" class="btn btn-accent" style="flex:1;background:var(--blue)">Next →</button>
-    </div>
+    <div class="chips3"><div class="chip"><div class="chip-lbl">Time Left</div><div class="chip-val" id="mockTimeLeft">20:00</div></div><div class="chip"><div class="chip-lbl">Score</div><div class="chip-val" id="mockScore">0</div></div><div class="chip"><div class="chip-lbl">Wrong</div><div class="chip-val" id="mockWrong">0</div></div></div>
+    <div class="row-sb" style="margin-bottom:10px"><div class="mock-q-num" id="mockQNum">Question 1 of 25</div><div class="neg-badge" id="mockNegBadge">−0.5 per wrong</div></div>
+    <div class="q-area live-mock"><div class="q-text" id="mockQText">—</div><div class="mcq-grid" id="mockMcqGrid"></div><div class="msg" id="mockMsg"></div></div>
+    <div class="strip"><button id="mockSkipBtn" class="btn btn-outline">Skip</button><button id="mockSubmitBtn" class="btn btn-accent" style="flex:1;background:var(--blue)">Next →</button></div>
     <div style="font-size:.72rem;color:var(--t3);text-align:center">Answered: <span id="mockAnswered">0</span> / <span id="mockTotalDisp">25</span> · Skipped: <span id="mockSkipped">0</span></div>
   </div>
-
   <div id="mockResult" style="display:none">
-    <div class="result-card">
-      <div class="result-emoji" id="mockResEmoji">📝</div>
-      <div class="result-score-big" id="mockResScore">—</div>
-      <div class="result-sub-txt" id="mockResSub">—</div>
-    </div>
+    <div class="result-card"><div class="result-emoji" id="mockResEmoji">📝</div><div class="result-score-big" id="mockResScore">—</div><div class="result-sub-txt" id="mockResSub">—</div></div>
     <div class="mock-result-grid" id="mockResGrid"></div>
     <button id="mockBackBtn" class="btn btn-accent" style="width:100%">← New Mock Test</button>
   </div>
-</div>
-</div>
+</div></div>
 
-<!-- ════════════════════════════════════════════════════════
-     DIAGNOSTIC PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-diag">
-<div class="inner">
-  <div id="diagIntro">
-    <div class="card">
-      <div class="diag-intro">
-        <div class="diag-big">🎯</div>
-        <div class="diag-title">Diagnostic Test</div>
-        <div class="diag-sub">20 questions across all topics. Auto-detects your level and weak areas. Takes ~5 minutes.</div>
-        <button id="diagStartBtn" class="btn btn-accent" style="width:100%">Start Diagnostic Test</button>
-      </div>
-    </div>
-    <div class="card-sm" id="diagPrevResult" style="display:none">
-      <p class="slabel">Last result</p>
-      <div id="diagPrevContent" style="font-size:.8rem;color:var(--t2);line-height:1.8"></div>
-    </div>
-  </div>
-
-  <div id="diagQuiz" style="display:none">
-    <div class="diag-progress">
-      <div class="diag-prog-bar"><div id="diagProgFill" class="diag-prog-fill" style="width:0%"></div></div>
-      <div class="diag-prog-txt"><span id="diagQNum">1</span>/20</div>
-    </div>
-    <div class="q-area" style="border-color:rgba(96,165,250,.3)">
-      <div style="font-size:.65rem;color:var(--blue);text-align:center;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em" id="diagTopicLbl">Topic</div>
-      <div class="q-text" id="diagQText">—</div>
-      <div class="mcq-grid" id="diagMcqGrid"></div>
-      <div class="msg" id="diagMsg"></div>
-    </div>
-  </div>
-
-  <div id="diagResult" style="display:none">
-    <div class="card">
-      <div class="level-result">
-        <div class="level-badge-big" id="diagLevelEmoji">🥈</div>
-        <div class="level-name" id="diagLevelName">Intermediate</div>
-        <div class="level-desc" id="diagLevelDesc">—</div>
-      </div>
-      <div class="topic-scores" id="diagTopicScores"></div>
-      <div class="div"></div>
-      <p class="slabel">Weak areas</p>
-      <div id="diagWeakList" style="font-size:.8rem;color:var(--red);line-height:2"></div>
-      <button id="diagRetakeBtn" class="btn btn-outline" style="width:100%;margin-top:12px">Retake Diagnostic</button>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     CHAPTER QUIZ PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-chapters">
-<div class="inner">
-
-  <!-- Chapter selection -->
+<!-- CHAPTER QUIZ PAGE -->
+<div class="page" id="page-chapters"><div class="inner">
   <div id="cq-select">
     <div class="card" style="padding-bottom:10px">
       <p class="slabel">Chapter-wise Quiz</p>
-      <p style="font-size:.78rem;color:var(--t2);margin-bottom:12px;line-height:1.6">
-        Pick a chapter → attempt questions mentally → get full step-by-step review with tricks at the end.
-      </p>
+      <p style="font-size:.78rem;color:var(--t2);margin-bottom:12px;line-height:1.6">Pick a chapter → solve mentally → full tricks + steps review at the end.</p>
       <div class="cq-chapter-grid" id="cqChapterGrid"></div>
     </div>
     <div id="cqConfigPanel" style="display:none"></div>
   </div>
-
-  <!-- Active quiz -->
   <div id="cq-quiz" style="display:none">
-    <div class="cq-prog-wrap">
-      <div class="cq-prog-bar"><div id="cqQProgFill" class="cq-prog-fill" style="width:0%"></div></div>
-      <div class="cq-prog-txt"><span id="cqQProgress">1/10</span></div>
-    </div>
+    <div class="cq-prog-wrap"><div class="cq-prog-bar"><div id="cqQProgFill" class="cq-prog-fill" style="width:0%"></div></div><div class="cq-prog-txt"><span id="cqQProgress">1/10</span></div></div>
     <div class="q-area" style="border-color:rgba(139,124,248,.3)">
       <div class="cq-chapter-lbl" id="cqChapterLabel">Chapter</div>
       <div class="q-text" id="cqQText">—</div>
       <div class="mcq-grid" id="cqOptGrid"></div>
       <div class="msg" id="cqQMsg"></div>
     </div>
-    <div class="strip">
-      <button id="cqBackFromQuiz" class="btn btn-red" style="flex:1">■ End Chapter Quiz</button>
-    </div>
+    <div class="strip"><button id="cqBackFromQuiz" class="btn btn-red" style="flex:1">■ End Chapter Quiz</button></div>
   </div>
-
-  <!-- Review screen -->
   <div id="cq-review" style="display:none">
-    <div class="card">
-      <div id="cqRevSummary"></div>
-      <div style="display:flex;gap:8px">
-        <button id="cqRetryBtn" class="btn btn-accent" style="flex:1">🔁 Retry Chapter</button>
-        <button id="cqBackFromReview" class="btn btn-outline" style="flex:1">← All Chapters</button>
-      </div>
-    </div>
-    <p class="slabel" style="margin:14px 0 8px">Question-wise Review with Tricks</p>
+    <div class="card"><div id="cqRevSummary"></div><div style="display:flex;gap:8px"><button id="cqRetryBtn" class="btn btn-accent" style="flex:1">🔁 Retry</button><button id="cqBackFromReview" class="btn btn-outline" style="flex:1">← Chapters</button></div></div>
+    <p class="slabel" style="margin:14px 0 8px">Review — Tricks &amp; Steps</p>
     <div id="cqRevList"></div>
   </div>
+</div></div>
 
-</div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     TRICKS LIBRARY PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-tricks">
-<div class="inner">
-  <div class="card" style="padding-bottom:10px">
-    <p class="slabel">Shortcut Library — SSC/Banking</p>
-    <div class="tricks-cats" id="tricksCats"></div>
+<!-- DIAGNOSTIC PAGE -->
+<div class="page" id="page-diag"><div class="inner">
+  <div id="diagIntro">
+    <div class="card"><div class="diag-intro"><div class="diag-big">🎯</div><div class="diag-title">Diagnostic Test</div><div class="diag-sub">20 questions across all topics. Auto-detects your level and weak areas. Takes ~5 min.</div><button id="diagStartBtn" class="btn btn-accent" style="width:100%">Start Diagnostic Test</button></div></div>
+    <div class="card-sm" id="diagPrevResult" style="display:none"><p class="slabel">Last result</p><div id="diagPrevContent" style="font-size:.8rem;color:var(--t2);line-height:1.8"></div></div>
   </div>
+  <div id="diagQuiz" style="display:none">
+    <div class="diag-progress"><div class="diag-prog-bar"><div id="diagProgFill" class="diag-prog-fill" style="width:0%"></div></div><div class="diag-prog-txt"><span id="diagQNum">1</span>/20</div></div>
+    <div class="q-area" style="border-color:rgba(96,165,250,.3)"><div style="font-size:.65rem;color:var(--blue);text-align:center;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em" id="diagTopicLbl">Topic</div><div class="q-text" id="diagQText">—</div><div class="mcq-grid" id="diagMcqGrid"></div><div class="msg" id="diagMsg"></div></div>
+  </div>
+  <div id="diagResult" style="display:none">
+    <div class="card"><div class="level-result"><div class="level-badge-big" id="diagLevelEmoji">🥈</div><div class="level-name" id="diagLevelName">Intermediate</div><div class="level-desc" id="diagLevelDesc">—</div></div><div class="topic-scores" id="diagTopicScores"></div><div class="div"></div><p class="slabel">Weak areas</p><div id="diagWeakList" style="font-size:.8rem;color:var(--red);line-height:2"></div><button id="diagRetakeBtn" class="btn btn-outline" style="width:100%;margin-top:12px">Retake Diagnostic</button></div>
+  </div>
+</div></div>
+
+<!-- TRICKS PAGE -->
+<div class="page" id="page-tricks"><div class="inner">
+  <div class="card" style="padding-bottom:10px"><p class="slabel">Shortcut Library — SSC/Banking</p><div class="tricks-cats" id="tricksCats"></div></div>
   <div id="tricksContent"></div>
-</div>
-</div>
+</div></div>
 
-<!-- ════════════════════════════════════════════════════════
-     RECORDS PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-records">
-<div class="inner">
-  <!-- Target tracker -->
+<!-- RECORDS PAGE -->
+<div class="page" id="page-records"><div class="inner">
   <div class="target-card">
-    <div class="row-sb" style="margin-bottom:10px">
-      <div>
-        <div class="target-days" id="targetDays">—</div>
-        <div class="target-sub" id="targetSub">Set your exam date →</div>
-      </div>
-      <div class="field" style="width:auto">
-        <label>Exam Date</label>
-        <input type="date" id="examDateInput"/>
-      </div>
-    </div>
-    <div class="target-progress-row">
-      <div class="tprog-box"><div class="tprog-val" id="tpTotalQ">0</div><div class="tprog-lbl">Total Qs</div></div>
-      <div class="tprog-box"><div class="tprog-val" id="tpAvgAcc">—</div><div class="tprog-lbl">Avg Accuracy</div></div>
-      <div class="tprog-box"><div class="tprog-val" id="tpBestSpeed">—</div><div class="tprog-lbl">Best Speed</div></div>
-    </div>
+    <div class="row-sb" style="margin-bottom:10px"><div><div class="target-days" id="targetDays">—</div><div class="target-sub" id="targetSub">Set your exam date →</div></div><div class="field" style="width:auto"><label>Exam Date</label><input type="date" id="examDateInput"/></div></div>
+    <div class="target-progress-row"><div class="tprog-box"><div class="tprog-val" id="tpTotalQ">0</div><div class="tprog-lbl">Total Qs</div></div><div class="tprog-box"><div class="tprog-val" id="tpAvgAcc">—</div><div class="tprog-lbl">Avg Accuracy</div></div><div class="tprog-box"><div class="tprog-val" id="tpBestSpeed">—</div><div class="tprog-lbl">Best Speed</div></div></div>
   </div>
-  <!-- Heatmap -->
-  <div class="card">
-    <div class="row-sb" style="margin-bottom:10px">
-      <p class="slabel" style="margin:0">Weakness Heatmap</p>
-      <span style="font-size:.68rem;color:var(--t3)">tap to drill that topic</span>
-    </div>
-    <div class="heatmap-grid" id="heatmapGrid"></div>
-    <div style="display:flex;gap:12px;font-size:.65rem;color:var(--t3);margin-top:4px">
-      <span>🔴 &lt;50% weak</span><span>🟡 50–75%</span><span>🟢 75%+ strong</span>
-    </div>
-  </div>
-  <!-- Records grid -->
-  <div class="row-sb" style="margin-bottom:10px">
-    <p class="slabel" style="margin:0">Mode Records</p>
-    <button id="clearDataBtn" class="btn btn-outline" style="padding:5px 12px;font-size:.75rem">🗑 Clear All</button>
-  </div>
+  <div class="card"><div class="row-sb" style="margin-bottom:10px"><p class="slabel" style="margin:0">Weakness Heatmap</p><span style="font-size:.68rem;color:var(--t3)">tap to drill</span></div><div class="heatmap-grid" id="heatmapGrid"></div><div style="display:flex;gap:12px;font-size:.65rem;color:var(--t3);margin-top:4px"><span>🔴 &lt;50%</span><span>🟡 50–75%</span><span>🟢 75%+</span></div></div>
+  <div class="row-sb" style="margin-bottom:10px"><p class="slabel" style="margin:0">Mode Records</p><button id="clearDataBtn" class="btn btn-outline" style="padding:5px 12px;font-size:.75rem">🗑 Clear All</button></div>
   <div class="rec-grid" id="recordGrid"></div>
   <div class="motive-box"><div class="motive-txt" id="streakMsg">Start today bhai 💪 Streak bana!</div></div>
-  <!-- Badges -->
   <p class="slabel" style="margin-bottom:10px">Achievements</p>
   <div class="badges-grid" id="badgesGrid"></div>
-</div>
-</div>
+</div></div>
 
-<!-- ════════════════════════════════════════════════════════
-     HISTORY PAGE (wrong answers)
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-history">
-<div class="inner">
-  <div class="card">
-    <div class="row-sb" style="margin-bottom:12px">
-      <p class="slabel" style="margin:0">Wrong Answers Review</p>
-      <span style="font-size:.72rem;color:var(--t3)">Last 200 stored</span>
-    </div>
-    <div id="wrongHistoryList"></div>
-  </div>
-</div>
-</div>
+<!-- HISTORY PAGE -->
+<div class="page" id="page-history"><div class="inner">
+  <div class="card"><div class="row-sb" style="margin-bottom:12px"><p class="slabel" style="margin:0">Wrong Answers Review</p><span style="font-size:.72rem;color:var(--t3)">Last 200 stored</span></div><div id="wrongHistoryList"></div></div>
+</div></div>
 
-<!-- ════════════════════════════════════════════════════════
-     DAILY PAGE
-════════════════════════════════════════════════════════ -->
-<div class="page" id="page-daily">
-<div class="inner">
-  <div class="card">
-    <div class="daily-hero">
-      <div class="daily-hero-emoji" id="dPageEmoji">📅</div>
-      <p style="font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:10px">Today's Challenge</p>
-      <div class="d-pills" id="dPagePills">—</div>
-      <p style="font-size:.82rem;color:var(--t2);margin-bottom:14px">Bonus: <b style="color:var(--yellow);font-family:var(--mono)">+50 XP</b></p>
-      <button id="startDailyBtn2" class="btn btn-accent" style="width:100%">Start Challenge</button>
-      <p class="d-hint" style="text-align:center;margin-top:10px" id="dPageHint">Complete it to get bonus XP 🔥</p>
-    </div>
-  </div>
-  <div class="card">
-    <p class="slabel">💡 Trick of the Day</p>
-    <div id="trickOfDay"></div>
-  </div>
-  <div class="card">
-    <p class="slabel">How it works</p>
-    <p style="font-size:.82rem;color:var(--t2);line-height:1.75">Every day a fresh challenge is generated — a specific mode, level, and duration. Finish it to earn <b style="color:var(--yellow)">+50 bonus XP</b>. Resets at midnight 🔥</p>
-  </div>
-</div>
-</div>
+<!-- DAILY PAGE -->
+<div class="page" id="page-daily"><div class="inner">
+  <div class="card"><div class="daily-hero"><div class="daily-hero-emoji" id="dPageEmoji">📅</div><p style="font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:10px">Today's Challenge</p><div class="d-pills" id="dPagePills">—</div><p style="font-size:.82rem;color:var(--t2);margin-bottom:14px">Bonus: <b style="color:var(--yellow);font-family:var(--mono)">+50 XP</b></p><button id="startDailyBtn2" class="btn btn-accent" style="width:100%">Start Challenge</button><p class="d-hint" style="text-align:center;margin-top:10px" id="dPageHint">Complete to get bonus XP 🔥</p></div></div>
+  <div class="card"><p class="slabel">💡 Trick of the Day</p><div id="trickOfDay"></div></div>
+  <div class="card"><p class="slabel">How it works</p><p style="font-size:.82rem;color:var(--t2);line-height:1.75">Every day a fresh challenge — finish it to earn <b style="color:var(--yellow)">+50 bonus XP</b>. Resets at midnight 🔥</p></div>
+</div></div>
 
 <footer class="foot">CalcSpeed — SSC/Banking Prep · Made with ❤️ by Rohit</footer>
 
+<!-- INLINE SCRIPTS — must run before ES modules -->
 <script>
-// ── Navigation (drawer + bottom nav) ────────────────────────────
-function switchTab(name) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const page = document.getElementById("page-" + name);
-  if (page) page.classList.add("active");
-
-  // Drawer items
-  document.querySelectorAll(".drawer-item").forEach(i => {
-    i.classList.toggle("active", i.dataset.page === name);
-  });
-  // Bottom nav
-  document.querySelectorAll(".bn-item").forEach(i => {
-    i.classList.toggle("active", i.dataset.page === name);
-  });
-
-  closeDrawer();
-
-  // Expose for JS modules
-  window.__activePage = name;
+function updateTablePreview(){
+  var nf=parseInt(document.getElementById('tableNumFrom')?.value)||11,nt=parseInt(document.getElementById('tableNumTo')?.value)||11;
+  var mf=parseInt(document.getElementById('tableFrom')?.value)||1,mt=parseInt(document.getElementById('tableTo')?.value)||20;
+  var tn=nf===nt?String(nf):Math.min(nf,nt)+'–'+Math.max(nf,nt)+' (random)';
+  var mul=mf===mt?String(mf):Math.min(mf,mt)+'–'+Math.max(mf,mt)+' (random)';
+  var ex=nf===nt?nf:Math.min(nf,nt), exm=mf===mt?mf:Math.min(mf,mt)+3;
+  var el=document.getElementById('tablePreview');
+  if(el) el.innerHTML='Table: <b>'+tn+'</b> × Multiplier: <b>'+mul+'</b><br><span style="opacity:.6">e.g. '+ex+' × '+exm+' = '+ex*exm+'</span>';
 }
 
-function openDrawer() {
-  document.getElementById("sideDrawer").classList.add("open");
-  document.getElementById("drawerOverlay").classList.add("open");
-  document.body.style.overflow = "hidden";
+// Navigation — uses _switchPage internally, exposes as window.appSwitchTab for modules
+function _switchPage(name){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  var pg=document.getElementById('page-'+name); if(pg) pg.classList.add('active');
+  document.querySelectorAll('.drawer-item').forEach(function(i){i.classList.toggle('active',i.dataset.page===name);});
+  document.querySelectorAll('.bn-item').forEach(function(i){i.classList.toggle('active',i.dataset.page===name);});
+  _closeDrawer();
 }
-function closeDrawer() {
-  document.getElementById("sideDrawer").classList.remove("open");
-  document.getElementById("drawerOverlay").classList.remove("open");
-  document.body.style.overflow = "";
+function _openDrawer(){document.getElementById('sideDrawer').classList.add('open');document.getElementById('drawerOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function _closeDrawer(){document.getElementById('sideDrawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.body.style.overflow='';}
+
+window.appSwitchTab = _switchPage;
+
+document.getElementById('hamburgerBtn').addEventListener('click',_openDrawer);
+document.getElementById('drawerClose').addEventListener('click',_closeDrawer);
+document.getElementById('drawerOverlay').addEventListener('click',_closeDrawer);
+document.querySelectorAll('.drawer-item,.bn-item').forEach(function(b){b.addEventListener('click',function(){_switchPage(b.dataset.page);});});
+
+function _syncDrawer(){
+  try{
+    var d=JSON.parse(localStorage.getItem('calcspeed_v1')||'{}');
+    var xp=d.xp||0,lv=1,tot=0;
+    while(true){var n=200+(lv-1)*100;if(xp<tot+n)break;tot+=n;lv++;}
+    var e;
+    e=document.getElementById('dLv');if(e)e.textContent=lv;
+    e=document.getElementById('dStreak');if(e)e.textContent=d.streak||0;
+    e=document.getElementById('dXp');if(e)e.textContent=xp;
+  }catch(ex){}
 }
+_syncDrawer();
+setInterval(_syncDrawer,2000);
 
-document.getElementById("hamburgerBtn").addEventListener("click", openDrawer);
-document.getElementById("drawerClose").addEventListener("click", closeDrawer);
-document.getElementById("drawerOverlay").addEventListener("click", closeDrawer);
-
-document.querySelectorAll(".drawer-item, .bn-item").forEach(btn => {
-  btn.addEventListener("click", () => switchTab(btn.dataset.page));
-});
-
-// Keep drawer stats in sync
-function syncDrawerStats() {
-  try {
-    const raw  = localStorage.getItem("calcspeed_v1");
-    const data = raw ? JSON.parse(raw) : {};
-    const xp   = data.xp || 0;
-    let lv = 1, tot = 0;
-    while (true) { const n = 200+(lv-1)*100; if (xp < tot+n) break; tot+=n; lv++; }
-    document.getElementById("dLv").textContent     = lv;
-    document.getElementById("dStreak").textContent = data.streak || 0;
-    document.getElementById("dXp").textContent     = xp;
-  } catch(e) {}
-}
-syncDrawerStats();
-setInterval(syncDrawerStats, 3000);
-
-// Expose switchTab for JS modules
-window.switchTab = switchTab;
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});}
 </script>
 
-<script>
-// Live preview for table settings
-function updateTablePreview() {
-  const numFrom = parseInt(document.getElementById("tableNumFrom")?.value) || 11;
-  const numTo   = parseInt(document.getElementById("tableNumTo")?.value)   || 11;
-  const mulFrom = parseInt(document.getElementById("tableFrom")?.value)    || 1;
-  const mulTo   = parseInt(document.getElementById("tableTo")?.value)      || 20;
-
-  const tn = numFrom === numTo
-    ? `${numFrom}`
-    : `${Math.min(numFrom,numTo)}–${Math.max(numFrom,numTo)} (random)`;
-
-  const mul = mulFrom === mulTo
-    ? `${mulFrom}`
-    : `${Math.min(mulFrom,mulTo)}–${Math.max(mulFrom,mulTo)} (random)`;
-
-  const preview = document.getElementById("tablePreview");
-  if (preview) {
-    const exTn  = numFrom === numTo ? numFrom : Math.min(numFrom,numTo);
-    const exMul = mulFrom === mulTo ? mulFrom : Math.min(mulFrom,mulTo)+3;
-    preview.innerHTML = `Table: <b>${tn}</b> &nbsp;×&nbsp; Multiplier: <b>${mul}</b><br><span style="opacity:.6">e.g. ${exTn} × ${exMul} = ${exTn * exMul}</span>`;
-  }
-}
-
-// Register Service Worker for PWA offline support
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .then(r => console.log("SW registered:", r.scope))
-      .catch(e => console.warn("SW failed:", e));
-  });
-}
-</script>
-
-<!-- All app logic via ES modules -->
+<!-- ES MODULES -->
 <script type="module">
-  import { initChapterQuiz, bindChapterQuizEvents } from "./js/chapter-quiz.js";
-  import "./js/app.js";
-  setTimeout(() => {
-    initChapterQuiz();
-    bindChapterQuizEvents();
-    syncDrawerStats();
-  }, 150);
+import { initChapterQuiz, bindChapterQuizEvents } from './js/chapter-quiz.js';
+import './js/app.js';
+setTimeout(function(){ initChapterQuiz(); bindChapterQuizEvents(); }, 50);
 </script>
 </body>
 </html>
