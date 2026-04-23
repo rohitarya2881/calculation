@@ -2,7 +2,7 @@
 // Caches all app files for full offline use.
 // Bump CACHE_VERSION when you update any file — old cache auto-clears.
 
-const CACHE_VERSION = "calcspeed-v4";
+const CACHE_VERSION = "calcspeed-v1";
 
 const STATIC_FILES = [
   "./",
@@ -19,15 +19,6 @@ const STATIC_FILES = [
   "./js/tricks.js",
   "./js/chapters.js",
   "./js/chapter-quiz.js",
-  "./js/data/chapters/_helpers.js",
-  "./js/data/chapters/time-speed-distance.js",
-  "./js/data/chapters/time-work.js",
-  "./js/data/chapters/ratio-proportion.js",
-  "./js/data/chapters/average.js",
-  "./js/data/chapters/mixture-alligation.js",
-  "./js/data/chapters/algebra.js",
-  "./js/data/chapters/geometry.js",
-  "./js/data/chapters/data-interpretation.js",
   "./js/ui.js",
   "./manifest.json",
   // Google Fonts are cached on first load
