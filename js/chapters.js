@@ -1,16 +1,13 @@
 // ─── js/chapters.js ──────────────────────────────────────────────
 //
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  CHAPTER REGISTRY — the ONLY file you edit to add chapters  ║
-// ╚══════════════════════════════════════════════════════════════╝
+// CHAPTER REGISTRY — ONLY file to edit when adding chapters.
 //
 // TO ADD A NEW CHAPTER:
-//   Step 1: Create  js/data/chapters/your-chapter.js
+//   Step 1: Create js/data/chapters/your-chapter.js
 //           (copy TEMPLATE.js, fill in questions)
-//   Step 2: Add ONE import line below
-//   Step 3: Add the imported variable to CHAPTERS array
-//   Done ✅ — shows up automatically in the app
-//
+//   Step 2: Add import line below (uncomment or add new)
+//   Step 3: Add to CHAPTERS array below
+//   Done ✅
 // ─────────────────────────────────────────────────────────────────
 
 import TSD      from "./data/chapters/time-speed-distance.js";
@@ -21,15 +18,29 @@ import MIXTURE  from "./data/chapters/mixture-alligation.js";
 import ALGEBRA  from "./data/chapters/algebra.js";
 import GEOMETRY from "./data/chapters/geometry.js";
 import DI       from "./data/chapters/data-interpretation.js";
-// import PROFIT  from "./data/chapters/profit-loss.js";
+
+// ── ADD NEW CHAPTERS HERE (import + add to array) ────────────────
+// import PROFIT from "./data/chapters/profit-loss.js";
 // import SI_CI  from "./data/chapters/simple-compound-interest.js";
-// import NUMBER  from "./data/chapters/number-system.js";
-// import PERCENT from "./data/chapters/percentage.js";
+// import NUMBER from "./data/chapters/number-system.js";
 
 const CHAPTERS = [
-  TSD, TW, RATIO, AVG, MIXTURE, ALGEBRA, GEOMETRY, DI,
-  // PROFIT, SI_CI, NUMBER, PERCENT,
+  TSD,
+  TW,
+  RATIO,
+  AVG,
+  MIXTURE,
+  ALGEBRA,
+  GEOMETRY,
+  DI,
+  // PROFIT,
+  // SI_CI,
+  // NUMBER,
 ];
+
+// ─────────────────────────────────────────────────────────────────
+// PUBLIC API — do not change below
+// ─────────────────────────────────────────────────────────────────
 
 export function resolveQuestion(q) {
   if (typeof q.gen === "function") return { ...q.gen(), id: q.id };
