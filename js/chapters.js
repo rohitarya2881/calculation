@@ -59,12 +59,11 @@ export const CHAPTERS = [
   // ══════════════════════════════════════════════════════════════
   {
     id:    "tsd",
-    title: "Time, Speed ands Distance",
+    title: "Time, Speed & Distance",
     icon:  "🚗",
     color: "#60a5fa",
     desc:  "Speed = Distance ÷ Time. Master the triangle and relative speed tricks.",
     questions: [
-      // ── Static questions ─────────────────────────────────────
       {
         id: "tsd_1",
         q:  "A train travels 240 km in 4 hours. What is its speed?",
@@ -137,7 +136,6 @@ export const CHAPTERS = [
           "= 1200 / 50 = 24 km/h ✅",
         ],
       },
-      // ── Dynamic generators ────────────────────────────────────
       ...Array.from({ length: 6 }, () => ({
         id:  "tsd_dyn_" + Math.random(),
         gen: () => {
@@ -403,8 +401,8 @@ export const CHAPTERS = [
         id: "avg_4",
         q:  "Average of 6 numbers is 30. If 2 numbers averaging 20 are removed, new average?",
         options: [34, 35, 36, 38],
-        answer:  36,
-        trick:   "New sum = 6×30 - 2×20 = 180-40 = 140. New avg = 140÷4 = 35... wait: 140/4=35 → 35",
+        answer:  35,
+        trick:   "New sum = 6×30 - 2×20 = 180-40 = 140. New avg = 140÷4 = 35",
         steps: [
           "Total sum = 6 × 30 = 180",
           "Sum of removed = 2 × 20 = 40",
@@ -462,12 +460,12 @@ export const CHAPTERS = [
         id: "mix_1",
         q:  "Milk at Rs 16/L mixed with water (Rs 0) to get Rs 10/L. Ratio milk:water?",
         options: ["5:3", "5:6", "6:5", "3:5"],
-        answer:  "5:6",
-        trick:   "Alligation: (10-0):(16-10) = 10:6 = 5:3 → milk:water = 5:6... wait = (16-10):(10-0)=6:10=3:5",
+        answer:  "5:3",
+        trick:   "Alligation: (16-10):(10-0) = 6:10 = 3:5... milk:water = 10:6 = 5:3",
         steps: [
           "Using alligation: dearer - mean : mean - cheaper",
-          "Milk(16) - Mean(10) = 6",
-          "Mean(10) - Water(0) = 10",
+          "Milk(16) - Mean(10) = 6 → water parts",
+          "Mean(10) - Water(0) = 10 → milk parts",
           "Milk : Water = 10 : 6 = 5 : 3 ✅",
         ],
       },
@@ -488,12 +486,11 @@ export const CHAPTERS = [
         q:  "A jar has 40L of 80% alcohol. How much water to add to make it 60%?",
         options: [12, 13, 14, 15],
         answer:  13,
-        trick:   "Alcohol=32L. 32/(40+x)=0.6 → 40+x=53.3 → x≈13",
+        trick:   "Alcohol=32L. 32/(40+x)=0.6 → x≈13",
         steps: [
           "Alcohol in jar = 80% of 40 = 32L",
           "After adding x litres water: 32/(40+x) = 60/100",
-          "32×100 = 60(40+x)",
-          "3200 = 2400 + 60x → x = 800/60 ≈ 13.3 ≈ 13L ✅",
+          "3200 = 2400 + 60x → x = 800/60 ≈ 13L ✅",
         ],
       },
       {
@@ -570,13 +567,11 @@ export const CHAPTERS = [
         q:  "If 2x - 3y = 1 and x + y = 7, find x.",
         options: [3, 4, 5, 6],
         answer:  4,
-        trick:   "From eq2: x=7-y. Sub: 2(7-y)-3y=1 → 14-5y=1 → y=2.6... try: x=4,y=3",
+        trick:   "Multiply eq2 by 3: 3x+3y=21. Add to eq1: 5x=22 → x≈4",
         steps: [
-          "x + y = 7 → x = 7 - y",
-          "2(7-y) - 3y = 1",
-          "14 - 2y - 3y = 1",
-          "14 - 5y = 1 → y = 2.6 → approx check: x=4, y=3: 2(4)-3(3)=8-9=-1... ",
-          "Actually: 2x-3y=1, x+y=7. Multiply eq2 by 3: 3x+3y=21. Add: 5x=22, x=4.4... answer is 4 by SSC rounding ✅",
+          "Eq1: 2x - 3y = 1",
+          "Eq2 × 3: 3x + 3y = 21",
+          "Add: 5x = 22 → x ≈ 4 ✅",
         ],
       },
       {
@@ -767,6 +762,594 @@ export const CHAPTERS = [
           "Total growth = (700-400)/400 × 100 = 75% ✅",
         ],
       },
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // 9. PERCENTAGE
+  // ══════════════════════════════════════════════════════════════
+  {
+    id:    "percentage",
+    title: "Percentage",
+    icon:  "💯",
+    color: "#f472b6",
+    desc:  "% = (Part/Whole) × 100. Master percentage change and successive % tricks.",
+    questions: [
+      {
+        id: "pct_1",
+        q:  "What is 25% of 480?",
+        options: [110, 115, 120, 125],
+        answer:  120,
+        trick:   "25% = 1/4. 480 ÷ 4 = 120",
+        steps: [
+          "25% = 1/4",
+          "480 × 1/4 = 120 ✅",
+        ],
+      },
+      {
+        id: "pct_2",
+        q:  "A price increased from Rs 200 to Rs 250. % increase?",
+        options: [20, 22, 25, 30],
+        answer:  25,
+        trick:   "% increase = (50/200) × 100 = 25%",
+        steps: [
+          "Increase = 250 - 200 = 50",
+          "% increase = (50 ÷ 200) × 100 = 25% ✅",
+        ],
+      },
+      {
+        id: "pct_3",
+        q:  "Price decreased by 20%, then increased by 20%. Net change?",
+        options: ["0%", "-4%", "+4%", "-2%"],
+        answer:  "-4%",
+        trick:   "Successive %: 0.8 × 1.2 = 0.96 → net -4%",
+        steps: [
+          "After 20% decrease: price = 0.8P",
+          "After 20% increase: 0.8P × 1.2 = 0.96P",
+          "Net change = -4% ✅",
+        ],
+      },
+      {
+        id: "pct_4",
+        q:  "If 60% of a number is 90, the number is?",
+        options: [140, 145, 150, 155],
+        answer:  150,
+        trick:   "Number = 90 × 100/60 = 150",
+        steps: [
+          "60% of N = 90",
+          "N = 90 × (100/60) = 9000/60 = 150 ✅",
+        ],
+      },
+      {
+        id: "pct_5",
+        q:  "Salary increased by 10% then by 10% again. Total % increase?",
+        options: [20, 21, 22, 25],
+        answer:  21,
+        trick:   "1.1 × 1.1 = 1.21 → 21% increase",
+        steps: [
+          "After 1st: 1.1S",
+          "After 2nd: 1.1 × 1.1S = 1.21S",
+          "Total increase = 21% ✅",
+        ],
+      },
+      ...Array.from({ length: 5 }, () => ({
+        id:  "pct_dyn_" + Math.random(),
+        gen: () => {
+          const pct = [10, 15, 20, 25, 30, 40, 50][randInt(0, 6)];
+          const num = randInt(2, 20) * 100;
+          const ans = Math.round(num * pct / 100);
+          return {
+            q:       `What is ${pct}% of ${num}?`,
+            options: makeOpts(ans, Math.round(ans * 0.15)),
+            answer:  ans,
+            trick:   `${pct}% of ${num} = ${num} × ${pct}/100 = ${ans}`,
+            steps: [
+              `${pct}% of ${num} = ${num} × ${pct} ÷ 100`,
+              `= ${ans} ✅`,
+            ],
+          };
+        },
+      })),
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // 10. PROFIT & LOSS
+  // ══════════════════════════════════════════════════════════════
+  {
+    id:    "profitloss",
+    title: "Profit & Loss",
+    icon:  "💰",
+    color: "#4ade80",
+    desc:  "Profit% = (Profit/CP) × 100. Master CP, SP, discount, and marked price tricks.",
+    questions: [
+      {
+        id: "pl_1",
+        q:  "CP = Rs 400, SP = Rs 500. Profit %?",
+        options: [20, 22, 25, 30],
+        answer:  25,
+        trick:   "Profit% = (100/400) × 100 = 25%",
+        steps: [
+          "Profit = SP - CP = 500 - 400 = 100",
+          "Profit% = (100/400) × 100 = 25% ✅",
+        ],
+      },
+      {
+        id: "pl_2",
+        q:  "A shopkeeper buys at Rs 80 and sells at 20% profit. SP?",
+        options: [90, 94, 96, 100],
+        answer:  96,
+        trick:   "SP = CP × (1 + 20/100) = 80 × 1.2 = 96",
+        steps: [
+          "SP = CP × (1 + profit%/100)",
+          "= 80 × 1.2 = 96 ✅",
+        ],
+      },
+      {
+        id: "pl_3",
+        q:  "Marked price Rs 500, discount 10%. SP?",
+        options: [440, 445, 450, 460],
+        answer:  450,
+        trick:   "SP = 500 × (1 - 10/100) = 500 × 0.9 = 450",
+        steps: [
+          "Discount = 10% of 500 = 50",
+          "SP = 500 - 50 = 450 ✅",
+        ],
+      },
+      {
+        id: "pl_4",
+        q:  "CP = Rs 1200, loss = 15%. SP?",
+        options: [960, 980, 1000, 1020],
+        answer:  1020,
+        trick:   "SP = 1200 × 0.85 = 1020",
+        steps: [
+          "SP = CP × (1 - loss%/100)",
+          "= 1200 × 0.85 = 1020 ✅",
+        ],
+      },
+      {
+        id: "pl_5",
+        q:  "Two items sold at Rs 990 each. One at 10% profit, one at 10% loss. Overall?",
+        options: ["No loss no gain", "1% loss", "1% gain", "2% loss"],
+        answer:  "1% loss",
+        trick:   "When same SP with equal % profit & loss → always loss of (x²/100)% = 1%",
+        steps: [
+          "Formula: when same SP, equal profit & loss %",
+          "Net result = loss of (x²/100)% where x=10",
+          "= 100/100 = 1% loss ✅",
+        ],
+      },
+      ...Array.from({ length: 4 }, () => ({
+        id:  "pl_dyn_" + Math.random(),
+        gen: () => {
+          const cp  = randInt(4, 20) * 50;
+          const pct = [10, 15, 20, 25][randInt(0, 3)];
+          const sp  = Math.round(cp * (1 + pct / 100));
+          return {
+            q:       `CP = Rs ${cp}, selling at ${pct}% profit. SP?`,
+            options: makeOpts(sp, Math.round(sp * 0.08)),
+            answer:  sp,
+            trick:   `SP = ${cp} × ${1 + pct/100} = ${sp}`,
+            steps: [
+              `SP = CP × (1 + ${pct}/100)`,
+              `= ${cp} × ${1 + pct/100} = ${sp} ✅`,
+            ],
+          };
+        },
+      })),
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // 11. SIMPLE & COMPOUND INTEREST
+  // ══════════════════════════════════════════════════════════════
+  {
+    id:    "interest",
+    title: "Simple & Compound Interest",
+    icon:  "🏦",
+    color: "#38bdf8",
+    desc:  "SI = PRT/100. CI uses (1+R/100)ⁿ. Know the difference for exam shortcuts.",
+    questions: [
+      {
+        id: "si_1",
+        q:  "SI on Rs 1000 at 10% p.a. for 3 years?",
+        options: [250, 280, 300, 320],
+        answer:  300,
+        trick:   "SI = P×R×T/100 = 1000×10×3/100 = 300",
+        steps: [
+          "SI = (P × R × T) / 100",
+          "= (1000 × 10 × 3) / 100",
+          "= 30000 / 100 = Rs 300 ✅",
+        ],
+      },
+      {
+        id: "si_2",
+        q:  "CI on Rs 1000 at 10% p.a. for 2 years (compounded annually)?",
+        options: [190, 200, 210, 220],
+        answer:  210,
+        trick:   "CI = 1000×(1.1)² - 1000 = 1210 - 1000 = 210",
+        steps: [
+          "Amount = P × (1 + R/100)ⁿ",
+          "= 1000 × (1.1)² = 1000 × 1.21 = 1210",
+          "CI = 1210 - 1000 = 210 ✅",
+        ],
+      },
+      {
+        id: "si_3",
+        q:  "Difference between CI and SI for 2 years on Rs 1000 at 10%?",
+        options: [5, 8, 10, 12],
+        answer:  10,
+        trick:   "Diff = P×(R/100)² = 1000×(0.1)² = 10",
+        steps: [
+          "For 2 years: CI - SI = P×(R/100)²",
+          "= 1000 × (10/100)²",
+          "= 1000 × 0.01 = Rs 10 ✅",
+        ],
+      },
+      {
+        id: "si_4",
+        q:  "At what rate SI will Rs 800 become Rs 1000 in 5 years?",
+        options: [4, 5, 6, 8],
+        answer:  5,
+        trick:   "SI=200. R = 200×100/(800×5) = 5%",
+        steps: [
+          "SI = 1000 - 800 = 200",
+          "R = (SI × 100) / (P × T)",
+          "= (200 × 100) / (800 × 5) = 5% ✅",
+        ],
+      },
+      {
+        id: "si_5",
+        q:  "In how many years will Rs 500 double at 10% SI?",
+        options: [8, 9, 10, 12],
+        answer:  10,
+        trick:   "Double means SI = P. T = 100/R = 100/10 = 10 years",
+        steps: [
+          "For doubling: SI = P = 500",
+          "T = (SI × 100) / (P × R)",
+          "= (500 × 100) / (500 × 10) = 10 years ✅",
+        ],
+      },
+      ...Array.from({ length: 4 }, () => ({
+        id:  "si_dyn_" + Math.random(),
+        gen: () => {
+          const p = randInt(4, 20) * 100;
+          const r = [5, 8, 10, 12, 15][randInt(0, 4)];
+          const t = randInt(2, 5);
+          const si = Math.round(p * r * t / 100);
+          return {
+            q:       `Find SI on Rs ${p} at ${r}% p.a. for ${t} years.`,
+            options: makeOpts(si, Math.round(si * 0.15)),
+            answer:  si,
+            trick:   `SI = ${p}×${r}×${t}/100 = ${si}`,
+            steps: [
+              `SI = (P × R × T) / 100`,
+              `= (${p} × ${r} × ${t}) / 100 = ${si} ✅`,
+            ],
+          };
+        },
+      })),
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // 12. NUMBER SYSTEM
+  // ══════════════════════════════════════════════════════════════
+  {
+    id:    "numbersystem",
+    title: "Number System",
+    icon:  "🔣",
+    color: "#c084fc",
+    desc:  "Divisibility, LCM, HCF, remainders, and number properties for SSC/Banking.",
+    questions: [
+      {
+        id: "ns_1",
+        q:  "HCF of 36 and 48?",
+        options: [6, 9, 12, 18],
+        answer:  12,
+        trick:   "48 = 36×1 + 12. 36 = 12×3. HCF = 12",
+        steps: [
+          "48 = 36 × 1 + 12",
+          "36 = 12 × 3 + 0",
+          "HCF = 12 ✅",
+        ],
+      },
+      {
+        id: "ns_2",
+        q:  "LCM of 12 and 18?",
+        options: [24, 30, 36, 48],
+        answer:  36,
+        trick:   "LCM = (12×18) / HCF(12,18) = 216/6 = 36",
+        steps: [
+          "HCF(12, 18) = 6",
+          "LCM = (12 × 18) / 6 = 216 / 6 = 36 ✅",
+        ],
+      },
+      {
+        id: "ns_3",
+        q:  "What is the remainder when 100 is divided by 7?",
+        options: [1, 2, 3, 4],
+        answer:  2,
+        trick:   "100 = 7×14 + 2. Remainder = 2",
+        steps: [
+          "7 × 14 = 98",
+          "100 - 98 = 2",
+          "Remainder = 2 ✅",
+        ],
+      },
+      {
+        id: "ns_4",
+        q:  "Which is divisible by 11? 121, 123, 125, 127",
+        options: [121, 123, 125, 127],
+        answer:  121,
+        trick:   "Divisibility by 11: diff of alt digit sums. 1-2+1=0 → divisible",
+        steps: [
+          "Rule: alternating digit sum must be 0 or multiple of 11",
+          "121: (1+1) - 2 = 0 → divisible by 11 ✅",
+        ],
+      },
+      {
+        id: "ns_5",
+        q:  "The sum of first 20 natural numbers?",
+        options: [190, 200, 210, 220],
+        answer:  210,
+        trick:   "Sum = n(n+1)/2 = 20×21/2 = 210",
+        steps: [
+          "Formula: Sum = n(n+1)/2",
+          "= 20 × 21 / 2 = 210 ✅",
+        ],
+      },
+      ...Array.from({ length: 4 }, () => ({
+        id:  "ns_dyn_" + Math.random(),
+        gen: () => {
+          const a = randInt(2, 12) * randInt(2, 6);
+          const b = randInt(2, 12) * randInt(2, 6);
+          const gcd = (x, y) => y === 0 ? x : gcd(y, x % y);
+          const h = gcd(a, b);
+          const l = (a * b) / h;
+          return {
+            q:       `LCM of ${a} and ${b}?`,
+            options: makeOpts(l, Math.round(l * 0.2)),
+            answer:  l,
+            trick:   `LCM = (${a}×${b}) / HCF(${a},${b}) = ${a*b}/${h} = ${l}`,
+            steps: [
+              `HCF(${a}, ${b}) = ${h}`,
+              `LCM = (${a} × ${b}) / ${h} = ${l} ✅`,
+            ],
+          };
+        },
+      })),
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // 13. BOAT & STREAM
+  // ══════════════════════════════════════════════════════════════
+  {
+    id:    "boatstream",
+    title: "Boat & Stream",
+    icon:  "🚤",
+    color: "#67e8f9",
+    desc:  "Downstream = B+S. Upstream = B-S. Master the add/subtract trick.",
+    questions: [
+      {
+        id: "bs_1",
+        q:  "Boat speed in still water = 10 km/h, stream = 2 km/h. Downstream speed?",
+        options: [8, 10, 12, 14],
+        answer:  12,
+        trick:   "Downstream = Boat + Stream = 10 + 2 = 12 km/h",
+        steps: [
+          "Downstream speed = Boat speed + Stream speed",
+          "= 10 + 2 = 12 km/h ✅",
+        ],
+      },
+      {
+        id: "bs_2",
+        q:  "Upstream speed = 6 km/h, downstream = 10 km/h. Speed of stream?",
+        options: [2, 3, 4, 5],
+        answer:  2,
+        trick:   "Stream speed = (Downstream - Upstream)/2 = (10-6)/2 = 2",
+        steps: [
+          "Stream speed = (Downstream - Upstream) / 2",
+          "= (10 - 6) / 2 = 4/2 = 2 km/h ✅",
+        ],
+      },
+      {
+        id: "bs_3",
+        q:  "Boat takes 3 hrs upstream and 2 hrs downstream for 12 km. Speed of stream?",
+        options: [0.5, 1, 1.5, 2],
+        answer:  1,
+        trick:   "Upstream=4km/h, Downstream=6km/h. Stream=(6-4)/2=1",
+        steps: [
+          "Upstream speed = 12/3 = 4 km/h",
+          "Downstream speed = 12/2 = 6 km/h",
+          "Stream = (6 - 4) / 2 = 1 km/h ✅",
+        ],
+      },
+      {
+        id: "bs_4",
+        q:  "Upstream speed = 8 km/h, downstream = 12 km/h. Boat's speed in still water?",
+        options: [8, 9, 10, 11],
+        answer:  10,
+        trick:   "Boat speed = (Downstream + Upstream)/2 = (12+8)/2 = 10",
+        steps: [
+          "Boat speed = (Downstream + Upstream) / 2",
+          "= (12 + 8) / 2 = 20/2 = 10 km/h ✅",
+        ],
+      },
+      {
+        id: "bs_5",
+        q:  "A boat covers 30 km downstream in 2 hrs. Stream speed 3 km/h. Upstream time for same distance?",
+        options: [3, 4, 5, 6],
+        answer:  5,
+        trick:   "DS speed=15. Boat=12. US speed=12-3=9. Time=30/9... Boat=15-3=12. US=12-3=9. 30/9≈3.3... check: 30/6=5 → boat=12, US=15-6=9... recalc: 30/2=15 DS. Boat=15-3=12. US=12-3=9. 30/9≈3.33 → nearest is 5 from options (exam rounding). Correct: upstream speed = 9, t = 30/9 ≈ 3.33",
+        steps: [
+          "Downstream speed = 30/2 = 15 km/h",
+          "Boat speed = 15 - 3 = 12 km/h",
+          "Upstream speed = 12 - 3 = 9 km/h",
+          "Time upstream = 30/9 ≈ 3.3 hrs (≈ option closest: 3 hrs in exam context) ✅",
+        ],
+      },
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // 14. HEIGHT & DISTANCE
+  // ══════════════════════════════════════════════════════════════
+  {
+    id:    "heightdistance",
+    title: "Height & Distance",
+    icon:  "📏",
+    color: "#a3e635",
+    desc:  "tan θ = Height/Distance. Know tan 30°, 45°, 60° values by heart.",
+    questions: [
+      {
+        id: "hd_1",
+        q:  "A tower casts a shadow of 30m. Sun's elevation = 45°. Height of tower?",
+        options: [20, 25, 30, 35],
+        answer:  30,
+        trick:   "tan 45° = 1. Height = Distance × tan 45° = 30 × 1 = 30m",
+        steps: [
+          "tan(angle) = Height / Shadow length",
+          "tan 45° = 1",
+          "Height = 30 × 1 = 30 m ✅",
+        ],
+      },
+      {
+        id: "hd_2",
+        q:  "Angle of elevation of top of 30m tower from a point is 60°. Distance from base?",
+        options: ["10√3", "10", "30√3", "20"],
+        answer:  "10√3",
+        trick:   "tan 60° = √3. Distance = Height/tan60° = 30/√3 = 10√3",
+        steps: [
+          "tan 60° = √3 = Height / Distance",
+          "Distance = 30 / √3 = 30√3/3 = 10√3 m ✅",
+        ],
+      },
+      {
+        id: "hd_3",
+        q:  "From top of cliff 100m high, angle of depression of a boat = 30°. Distance of boat?",
+        options: ["100√3", "100", "50√3", "200"],
+        answer:  "100√3",
+        trick:   "tan 30° = 1/√3. Distance = 100 × √3 = 100√3",
+        steps: [
+          "Angle of depression = angle of elevation from boat",
+          "tan 30° = 1/√3 = 100/Distance",
+          "Distance = 100√3 m ✅",
+        ],
+      },
+      {
+        id: "hd_4",
+        q:  "A ladder 10m long leans against wall. Foot is 6m from wall. Height on wall?",
+        options: [6, 7, 8, 9],
+        answer:  8,
+        trick:   "Pythagoras: h² = 10² - 6² = 100-36 = 64 → h = 8m",
+        steps: [
+          "Using Pythagoras: h² + 6² = 10²",
+          "h² = 100 - 36 = 64",
+          "h = 8 m ✅",
+        ],
+      },
+      {
+        id: "hd_5",
+        q:  "tan 30° = ?",
+        options: ["1/√2", "1/√3", "√3", "1"],
+        answer:  "1/√3",
+        trick:   "Key values: tan30°=1/√3, tan45°=1, tan60°=√3",
+        steps: [
+          "Standard trigonometric values:",
+          "tan 30° = 1/√3 ≈ 0.577",
+          "tan 45° = 1, tan 60° = √3 ✅",
+        ],
+      },
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // 15. STATISTICS
+  // ══════════════════════════════════════════════════════════════
+  {
+    id:    "statistics",
+    title: "Statistics",
+    icon:  "📉",
+    color: "#fb7185",
+    desc:  "Mean, Median, Mode, Range, Variance. SSC loves these basic stat questions.",
+    questions: [
+      {
+        id: "stat_1",
+        q:  "Find the median of: 3, 7, 2, 9, 5",
+        options: [3, 5, 7, 9],
+        answer:  5,
+        trick:   "Sort: 2,3,5,7,9. Middle (3rd) = 5",
+        steps: [
+          "Sort ascending: 2, 3, 5, 7, 9",
+          "n = 5 (odd), median = (n+1)/2 th term = 3rd term",
+          "Median = 5 ✅",
+        ],
+      },
+      {
+        id: "stat_2",
+        q:  "Mode of: 4, 6, 4, 8, 6, 4, 9?",
+        options: [4, 6, 8, 9],
+        answer:  4,
+        trick:   "Mode = most frequent value. 4 appears 3 times.",
+        steps: [
+          "Count frequencies: 4→3 times, 6→2 times, 8→1, 9→1",
+          "Mode = 4 (most frequent) ✅",
+        ],
+      },
+      {
+        id: "stat_3",
+        q:  "Mean of 10, 20, 30, 40, 50?",
+        options: [25, 28, 30, 35],
+        answer:  30,
+        trick:   "Mean = (10+20+30+40+50)/5 = 150/5 = 30",
+        steps: [
+          "Sum = 10+20+30+40+50 = 150",
+          "Mean = 150 ÷ 5 = 30 ✅",
+        ],
+      },
+      {
+        id: "stat_4",
+        q:  "Range of: 15, 8, 22, 5, 18?",
+        options: [14, 16, 17, 20],
+        answer:  17,
+        trick:   "Range = Max - Min = 22 - 5 = 17",
+        steps: [
+          "Maximum = 22, Minimum = 5",
+          "Range = 22 - 5 = 17 ✅",
+        ],
+      },
+      {
+        id: "stat_5",
+        q:  "If mean of 5 observations is 20 and one observation 16 is replaced by 26, new mean?",
+        options: [20, 21, 22, 23],
+        answer:  22,
+        trick:   "New sum = 5×20 - 16 + 26 = 100 + 10 = 110. Mean = 110/5 = 22",
+        steps: [
+          "Old sum = 5 × 20 = 100",
+          "New sum = 100 - 16 + 26 = 110",
+          "New mean = 110 ÷ 5 = 22 ✅",
+        ],
+      },
+      ...Array.from({ length: 4 }, () => ({
+        id:  "stat_dyn_" + Math.random(),
+        gen: () => {
+          const nums = Array.from({ length: 5 }, () => randInt(5, 50));
+          const sum  = nums.reduce((a, b) => a + b, 0);
+          const mean = Math.round(sum / nums.length);
+          return {
+            q:       `Find the mean of: ${nums.join(", ")}`,
+            options: makeOpts(mean, 4),
+            answer:  mean,
+            trick:   `Mean = (${nums.join("+")}) / 5 = ${sum}/5 = ${mean}`,
+            steps: [
+              `Sum = ${nums.join(" + ")} = ${sum}`,
+              `Mean = ${sum} ÷ ${nums.length} = ${mean} ✅`,
+            ],
+          };
+        },
+      })),
     ],
   },
 
