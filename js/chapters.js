@@ -59,7 +59,7 @@ export const CHAPTERS = [
   // ══════════════════════════════════════════════════════════════
   {
     id:    "tsd",
-    title: "Time, Speed & Distance",
+    title: "Time, Speed ands Distance",
     icon:  "🚗",
     color: "#60a5fa",
     desc:  "Speed = Distance ÷ Time. Master the triangle and relative speed tricks.",
