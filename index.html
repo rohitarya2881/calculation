@@ -18,11 +18,7 @@
 
   <div class="logo">⚡ <em>calc</em>speed</div>
 
-  <a href="https://quizmasterapps.vercel.app/index.html"
-     class="quiz-btn"
-     title="Back to Quiz Master">
-    🧠 Quiz Master
-  </a>
+
 
   <div class="topbar-right">
     <div class="badge-pill level-pill">Lv <b id="topLevel">1</b></div>
@@ -39,6 +35,12 @@
     <button class="drawer-close" id="drawerClose">✕</button>
   </div>
   <div class="drawer-section-label">Practice</div>
+  <button class="drawer-item"
+        onclick="window.location.href='https://quizmasterapps.vercel.app/index.html'">
+    <span class="di-icon">🧠</span>
+    <span class="di-label">Quiz Master</span>
+    <span class="di-sub">Back to quiz app</span>
+</button>
   <button class="drawer-item active" data-page="practice"><span class="di-icon">⚡</span><span class="di-label">Practice Mode</span><span class="di-sub">Timer quiz · MCQ &amp; fill-in</span></button>
   <button class="drawer-item" data-page="speed"><span class="di-icon">⏱️</span><span class="di-label">Speed Drill</span><span class="di-sub">Per-question countdown</span></button>
   <button class="drawer-item" data-page="mock"><span class="di-icon">📝</span><span class="di-label">Mock Test</span><span class="di-sub">SSC/IBPS · negative marks</span></button>
