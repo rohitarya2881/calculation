@@ -63,6 +63,25 @@ body {
 /* ════════════════════════════════════════════════════════════════
    TOPBAR
    ════════════════════════════════════════════════════════════════ */
+.quiz-btn {
+    text-decoration: none;
+    color: var(--t1);
+    background: var(--s2);
+    border: 1px solid var(--br);
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: 12px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.quiz-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+}
 .topbar {
   display: flex;
   align-items: center;
